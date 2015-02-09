@@ -1,2 +1,2 @@
 # Reliability
-# The project is to study relationship between reliability and predictability
+The project is to study relationship between reliability and predictability
