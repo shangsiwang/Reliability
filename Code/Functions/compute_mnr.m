@@ -1,0 +1,21 @@
+function [ MNR ] = compute_mnr(D,ID)
+n=length(ID);
+ranks=0;
+count=0;
+for i=1:n    
+    ind=find(ID==ID(i));
+    s=length(ind);
+    for j=ind
+    di=D(i,:);
+    d=D(i,j);
+    di(s)=Inf;
+    if i~=j
+        ranks=(sum(di<d) + 0.5*sum(di==d)-0.5)/(n-s)+ranks;
+        count=count+1;
+    end
+    end   
+end
+MNR=ranks/count;
+end
+
+
