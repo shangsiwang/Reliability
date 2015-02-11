@@ -12,9 +12,9 @@ for i=1:n
     for j=ind
     di=D(i,:);
     d=D(i,j);
-    di(s)=Inf;
+    di(ind)=Inf;
     if i~=j
-        ranks=(sum(di<d) + 0.5*sum(di==d)-0.5)/(n-s)+ranks;
+        ranks=(sum(di<d) + 0.5*sum(di==d))/(n-s)+ranks;
         count=count+1;
     end
     end   
