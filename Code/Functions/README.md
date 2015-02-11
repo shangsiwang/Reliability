@@ -1,1 +1,2 @@
-ddd
+compute_mnr
+compute_i2c2
