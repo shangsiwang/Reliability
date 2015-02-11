@@ -1,1 +1,11 @@
-ddd
+HCPd contains MNR, classification error and mean squared error, in which mrs is MNR, knnerr is classification error, knnmse is mean squared error
+
+HCPdData is raw data. C is d*d*1844 which contain pairwise correlation between regions of each scan. D01 is 1844*1844*51 records pariwise distance of scans under different threshold.
+
+HCPdemoinfo contains ID of 1844 scans. Also, it includes gender age, and neo infomation of each subject. 
+
+NKId contains similar info as HCPd
+
+NKIdD contains a D01 352*352*51 which records pairwise distance between scans under different threshold
+
+NKIdemoinfo contains similar infomation as HCPdemoinfo
