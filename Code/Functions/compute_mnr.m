@@ -1,3 +1,7 @@
+%The function computes mnr for data
+%D should be an n*n matrix recording pairwise distance
+%ID should be a vector of length n representing subject id
+%of each row of D
 function [ MNR ] = compute_mnr(D,ID)
 n=length(ID);
 ranks=0;

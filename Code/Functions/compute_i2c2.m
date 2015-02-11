@@ -1,3 +1,6 @@
+%The function computes i2c2 for data
+%DATA should be an n*p matrix where each row correspond to a sample
+%ID should be a vector of length n representing subject of samples
 function [ I2C2 ] = compute_i2c2(DATA,ID)
 [n,p]=size(DATA);
 kw=zeros(1,p);
