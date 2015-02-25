@@ -19,5 +19,8 @@ for i=id
         end           
 end
 I2C2=1-sum(ku/(n-count))/sum(kw/(n-1));
+if isnan(I2C2)
+    I2C2=0;
+end
 end
 
