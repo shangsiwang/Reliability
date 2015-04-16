@@ -1,0 +1,5 @@
+simu_fig1 runs experiment of comparing MNR and I2C2, the corresponding plot is done by plot_simu_fig1
+
+simu_fig2_2sub runs experiment of projecting 2-d to 1-d, the corresponding plot is done by plot_simu_fig2_2sub. simu_fig2 runs the multisubject version of the experiment.
+
+simu_fig3 runs experiment of showing mnr converges, the corresponding plot is done by plot_simu_fig3

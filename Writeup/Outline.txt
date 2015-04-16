@@ -1,0 +1,32 @@
+i see.  so, we currently have the following:
+
+0) a clear & important motivating story: lots of people are gathering & processing big data, we want a way to assess how to do so to improve inferential quality
+
+1) a useful definition of reliability (R)
+2) proof that increasing reliability decreases the upper bound on error for any subsequent inference task (in a gaussian model)
+
+3) an estimator of R, called Rhat
+4) proof that our estimator is unbiased (in a model free setting), E(Rhat)=R.
+5) proof that our estimator asymptotically converges to truth (in a model free setting), Rhat_n --> R
+
+6) some simulations (see discussion below).
+
+7) experimental results demonstrating:
+(a) we can find the optimal threshold for subsequent inference well, whereas I2C2 does not
+(b) we can choose a more reliable resolution (and predictive accuracy agrees)
+(c) we can decipher which dataset is more reliable (and predictive accuracy agrees)
+
+
+given our new understanding that we have an estimator of true Reliability,
+and that we can numerically compute it (at least in certain situations).
+i wonder whether shaojie can compute reliability for the 4 conditions we simulated before? 
+and if so, can you make it so that reliability is consistent across all 4, and then compute the 4 metrics?
+and if so, can you numerically compute reliability in higher dimensions?
+
+i'll be offline this week, i think we have everything we need to starting writing this paper.  we still need to figure out a few simulation figs: 
+
+(a) showing that we get reliability accurately as n--> infty, probably in several different settings, maybe including both low & high dimensional, if we can compute it numerically for high-D.
+(b) showing that the other measures do not (because they yield different answers for different settings with the same reliability)
+(c) showing that loss decreases as reliability increases
+
+it would be super great if (2) above (theory relating reliability to predictive accuracy) could be generalized either to (i) fewer model assumptions, or (ii) working in some RKHS like thing, eg, just requiring distances between distributions, "regardless" of the space the data live in.
