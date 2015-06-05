@@ -1,0 +1,8 @@
+*.pdf
+*.aux
+*.bbl
+*.fdb_*
+*.log
+*.out
+*.sync*
+*.blg

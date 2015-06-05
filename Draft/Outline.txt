@@ -19,13 +19,13 @@ i see.  so, we currently have the following:
 
 given our new understanding that we have an estimator of true Reliability,
 and that we can numerically compute it (at least in certain situations).
-i wonder whether shaojie can compute reliability for the 4 conditions we simulated before? 
+i wonder whether shangsi can compute reliability for the 4 conditions we simulated before? 
 and if so, can you make it so that reliability is consistent across all 4, and then compute the 4 metrics?
 and if so, can you numerically compute reliability in higher dimensions?
 
 i'll be offline this week, i think we have everything we need to starting writing this paper.  we still need to figure out a few simulation figs: 
 
-(a) showing that we get reliability accurately as n--> infty, probably in several different settings, maybe including both low & high dimensional, if we can compute it numerically for high-D.
+(a) showing that we get reliability accurately as n-->infty, probably in several different settings, maybe including both low & high dimensional, if we can compute it numerically for high-D.
 (b) showing that the other measures do not (because they yield different answers for different settings with the same reliability)
 (c) showing that loss decreases as reliability increases
 
