@@ -8,7 +8,9 @@ wgraphs=build_graph(TimeSeries);
 graphs=double(wgraphs>0.1);
 
 % Compute pairwise distance
-D=graph_todist(graphs);
+D1=graph_todist(graphs,'semipar');
+D2=graph_todist(graphs);
 
 % Compute reliability
-mnr=compute_mnr(D, [1:50 1:50]);
+mnr=compute_mnr(D1, [1:50 1:50]);
+
