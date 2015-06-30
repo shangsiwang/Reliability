@@ -1,21 +1,19 @@
 % Script to demonstrate how to use those functions
-TimeSeries=randn(50,180,100); % roi*T*nsubect
+% TimeSeries=randn(50,180,100); % roi*T*nsubect
 
 % Convert Time series to weighted graphs
-wgraphs=build_graph(TimeSeries);
+% wgraphs=build_graph(TimeSeries);
 
 % Threshold at 0.1
-graphs=double(wgraphs>0.1);
+% graphs=double(wgraphs>0.1);
 
 % Compute pairwise distance
-<<<<<<< HEAD
-D1=graph_todist(graphs,'semipar');
-D2=graph_todist(graphs);
+% D1=graph_todist(graphs,'semipar');
+% D2=graph_todist(graphs);
 
 % Compute reliability
-mnr=compute_mnr(D1, [1:50 1:50]);
+% mnr=compute_mnr(D1, [1:50 1:50]);
 
-=======
 % D=graph_todist(graphs);
 % id=[1:50 1:50];
 
@@ -96,4 +94,3 @@ end
 pval = sum(hperm >= H) ./ length(hperm)
 
 %}
->>>>>>> 0af1aee0da9239947d9532ded2a3cc5a0914ae44
