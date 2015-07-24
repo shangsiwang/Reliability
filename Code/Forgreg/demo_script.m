@@ -1,17 +1,23 @@
 % Script to demonstrate how to use those functions
-TimeSeries=randn(50,180,100); % roi*T*nsubect
+% TimeSeries=randn(50,180,100); % roi*T*nsubect
 
 % Convert Time series to weighted graphs
-wgraphs=build_graph(TimeSeries);
+% wgraphs=build_graph(TimeSeries);
 
 % Threshold at 0.1
-graphs=double(wgraphs>0.1);
+% graphs=double(wgraphs>0.1);
 
 % Compute pairwise distance
+% D1=graph_todist(graphs,'semipar');
+% D2=graph_todist(graphs);
+
+% Compute reliability
+% mnr=compute_mnr(D1, [1:50 1:50]);
+
 % D=graph_todist(graphs);
 % id=[1:50 1:50];
 
-
+smg = loadkki('/Users/gkiar/code/scratch/safekeeping/bc1/run2/');
 D = graph_todist(smg);
 id = ceil(0.5:0.5:21);
 figure (1); %subplot(121);
@@ -48,8 +54,8 @@ xrange = lims(1):range(lims)/300:lims(2);
 
 H = norm(sqrt(f_intra)- sqrt(f_inter),2)/sqrt(2);
 
-purp= [150, 89, 152]/255;
-fill(xrange, f_intra, col(1,:), xrange, f_inter, col(end,:))
+f_over = min(f_intra, f_inter);
+fill(xrange, f_intra, col(1,:), xrange, f_inter, col(end,:), xrange, f_over, col(end/2,:))
 legend('Intra Subject Kernel Estimate', 'Inter Subject Kernel Estimate', 'Location', 'NorthWest');
 title(strcat('Hellinger Distance=', num2str(H), '; p < 10^-^5'));
 ylabel('probability'), xlabel('graph difference')
@@ -79,6 +85,8 @@ for ii = 1:10000
     
     [nf_intra] = ksdensity(n_intra, nxrange);
     [nf_inter] = ksdensity(n_inter, nxrange);
+    plot(nxrange, nf_intra, nxrange, nf_inter)
+    pause;
     
     hperm = [hperm, norm(sqrt(nf_intra)- sqrt(nf_inter),2)/sqrt(2)];
 end

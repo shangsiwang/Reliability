@@ -1,7 +1,7 @@
 %Perform simulation experiment 2 but only 2 subject
 %Observations in 2-d are generated and projected to 1-d space
 %% %%%%% Experiment number
-Experiment=3; %can only be 1,2 or 3
+Experiment=2; %can only be 1,2 or 3
 %% %%%%%
 %% %%%%% Generate data
 n=400; % n/2 scans for each subject
@@ -29,6 +29,7 @@ for i=1:20
     weights(:,i)=[cos((i-1)*pi/20);sin((i-1)*pi/20)];
 end
 
+BERR=zeros(1,length(weights));
 MNR=zeros(1,length(weights));
 VAR=zeros(1,length(weights));
 I2C2=zeros(1,length(weights));
@@ -51,6 +52,12 @@ I2C2=zeros(1,length(weights));
     MNR(w)=compute_mnr(D,ID);
     VAR(w)=var(O_1d);
     I2C2(w)=compute_i2c2(O_1d,ID);
+    if Experiment==1
+    BERR(w)=normcdf(abs(weights(1,w))/sqrt(4*weights(1,w)^2+weights(2,w)^2));
+    end
+    if Experiment==2
+    BERR(w)=normcdf(abs(weights(1,w))/sqrt(weights(1,w)^2+4*weights(2,w)^2));
+    end
     end
 
     
@@ -77,6 +84,6 @@ currentdir=pwd;
 lastSlashPosition = find(currentdir == '\', 1, 'last');
 parentdir = currentdir(1:lastSlashPosition-1);
 savedir=strcat(parentdir,strcat('\Plots\simu_fig2_2sub_data',num2str(Experiment)));
-save(savedir,'O','wBERR','wMNR','wVAR','wI2C2','n');
+save(savedir,'O','wBERR','wMNR','wVAR','wI2C2','n','BERR','MNR');
 
 
