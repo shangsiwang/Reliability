@@ -6,3 +6,5 @@
 *.out
 *.sync*
 *.blg
+*.m~
+*.mat
