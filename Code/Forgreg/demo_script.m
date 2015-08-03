@@ -47,7 +47,7 @@ col=winter;
 colormap(col);colorbar;
 
 % Compute reliability
-mnr=1-compute_mnr(D, id);
+mnr=compute_mnr(D, id);
 
 xlabel('scan'), ylabel('scan'), title(strcat('Test-ReTest Reliability; MNR= ', num2str(mnr)));
 
