@@ -17,10 +17,31 @@
 % D=graph_todist(graphs);
 % id=[1:50 1:50];
 
-smg = loadkki('/Users/gkiar/code/scratch/safekeeping/bc1/run2/');
-D = graph_todist(smg);
+smg = loadkki('/Users/gkiar/code/scratch/temp/mat/');
 id = ceil(0.5:0.5:21);
-figure (1); %subplot(121);
+% smg = loadsgs('/Users/gkiar/code/scratch/smg/mat/');
+% smg = smg>3.1;
+
+smg_ranks = matrix_tiedrank(smg);
+
+% smg = smg./max(max(max(smg)));
+c=1;
+mnrs = [];
+for i=0.005:0.005:1
+    temp_smg = smg>i;
+    temp_D = graph_todist(double(temp_smg));
+    mnrs(c)=compute_mnr(temp_D, id);
+    c=c+1;
+end
+is = 0.005:0.005:1;
+figure(2);plot(is,mnrs);
+thresh = is(find(mnrs==min(mnrs)));
+thresh(1)
+smg = smg > thresh(1);
+D = graph_todist(double(smg));
+
+id = ceil(0.5:0.5:(length(D)/2));
+figure (1); subplot(121);
 imagesc(D);
 col=winter;
 colormap(col);colorbar;
@@ -32,8 +53,12 @@ xlabel('scan'), ylabel('scan'), title(strcat('Test-ReTest Reliability; MNR= ', n
 
 
 %% hellinger distance
-intra=[]; inter = [];
+intra=[]; inter = []; count=0;matches=0;
 for i=1:length(id)
+    temp = sort(D(i,:));
+    q = i-1+2*mod(i,2);
+    matches = matches + (temp(2)==D(i,q));
+    count=count+1;
     for j=i+1:length(id)
         if id(i) == id(j)
             intra = [intra, D(i,j)];
@@ -42,8 +67,9 @@ for i=1:length(id)
         end
     end
 end
+fprintf('TRT score: %d / %d\n', matches,count)
 
-figure(2); %subplot(122);
+figure(1); subplot(122);
 [~, x_intra] = ksdensity(intra);
 [~, x_inter] = ksdensity(inter);
 lims = [min([x_intra,x_inter]), max([x_intra, x_inter])]; %innefficient but works...
@@ -57,7 +83,7 @@ H = norm(sqrt(f_intra)- sqrt(f_inter),2)/sqrt(2);
 f_over = min(f_intra, f_inter);
 fill(xrange, f_intra, col(1,:), xrange, f_inter, col(end,:), xrange, f_over, col(end/2,:))
 legend('Intra Subject Kernel Estimate', 'Inter Subject Kernel Estimate', 'Location', 'NorthWest');
-title(strcat('Hellinger Distance=', num2str(H), '; p < 10^-^5'));
+title(strcat('Hellinger Distance=', num2str(H))); %, '; p < 10^-^5'));
 ylabel('probability'), xlabel('graph difference')
 %% Compute Null Distribution and Hellinger
 %{
