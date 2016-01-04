@@ -20,7 +20,8 @@ numExp<-ncol(data)
 
 ###all 64*numexp points plot 
 ###Reorder the pipelines
-plotorder<-c((0:15)*4+2,(0:15)*4+3,(0:15)*4+1,(0:15)*4+4)
+v<-c(c(57,49,41,33,25,17,9,1),c(57,49,41,33,25,17,9,1)+4)
+plotorder<-c(v+1,v+2,v,v+3)
 ###Generate Plots
 par(mar=c(7,4,4,2))
 plot(NULL, xlim=c(0,65), ylim=c(0.6,1), ylab="Reliability", xlab="",axes=F,main='Reliability of 64 Pipelines')
@@ -44,20 +45,21 @@ for(i in 1:64){
   ithmark<-pipelines[i]
   ithmark<-gsub('ANT', 'A', ithmark)
   ithmark<-gsub('FSL', 'F', ithmark)
-  ithmark<-gsub('scr', 's', ithmark)
-  ithmark<-gsub('nsc', 'n', ithmark)
-  ithmark<-gsub('gsr', 'g', ithmark)
-  ithmark<-gsub('ngs', 'n', ithmark)
-  ithmark<-gsub('frf', 'f', ithmark)
-  ithmark<-gsub('nff', 'n', ithmark)
-  ithmark<-gsub('cc2', 'c', ithmark)
-  ithmark<-gsub('hox', 'h', ithmark)
-  ithmark<-gsub('aal', 'a', ithmark)
-  ithmark<-gsub('des', 'd', ithmark)
+  ithmark<-gsub('scr', 'S', ithmark)
+  ithmark<-gsub('nsc', 'X', ithmark)
+  ithmark<-gsub('gsr', 'G', ithmark)
+  ithmark<-gsub('ngs', 'X', ithmark)
+  ithmark<-gsub('frf', 'F', ithmark)
+  ithmark<-gsub('nff', 'X', ithmark)
+  ithmark<-gsub('cc2', '', ithmark)
+  ithmark<-gsub('hox', '', ithmark)
+  ithmark<-gsub('aal', '', ithmark)
+  ithmark<-gsub('des', '', ithmark)
+  ithmark<-gsub('_', '', ithmark)
   xmarks[i]<-ithmark
 }
 axis(1,at=1:64,labels=xmarks[plotorder],las=2)
-
+legend(x=59,y=1,legend=c('CC2', 'HOX', 'AAL','DES'), pch = c(19,19,19,19),col = 101:104, cex = c(0.7))
 # dev.off()
 # 
 # jitterf<-function(t){runif(1,t-0.25,t+0.25)}
