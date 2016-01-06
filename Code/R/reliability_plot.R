@@ -3,7 +3,7 @@
 # datapath<-'C:/Users/shang/Desktop/Desktop/shangsi/reliability'
 # routput <- list.files(datapath, pattern="\\.RData", full.names=TRUE)
 # data<-c()
-# for (i in 1:12) {
+# for (i in 1:11) {
 # load(routput[i])
 #   data<-cbind(data,mnr)
 # }
@@ -60,107 +60,26 @@ for(i in 1:64){
 }
 axis(1,at=1:64,labels=xmarks[plotorder],las=2)
 legend(x=59,y=1,legend=c('CC2', 'HOX', 'AAL','DES'), pch = c(19,19,19,19),col = 101:104, cex = c(0.7))
-# dev.off()
-# 
-# jitterf<-function(t){runif(1,t-0.25,t+0.25)}
-# 
-# 
-# ###
-# plot(NULL, xlim=c(0,5), ylim=c(0.5,1), ylab="Reliability", xlab="",axes=F,main='Reliability of 4 Atlas')
-# for(i in 1:numMethod){
-# for(j in 1:numExp) {
-#   if(grepl( 'aal',pipelines[i])){
-#   points(jitterf(1),data[i,j],col=101,pch = 19,cex=0.5)
-#   }
-#   if(grepl('cc2',pipelines[i])){
-#     points(jitterf(2),data[i,j],col=102,pch = 19,cex=0.5)
-#   }
-#   if(grepl( 'hox',pipelines[i])){
-#     points(jitterf(3),data[i,j],col=101,pch = 19,cex=0.5)
-#   }
-#   if(grepl('des',pipelines[i])){
-#     points(jitterf(4),data[i,j],col=101,pch = 19,cex=0.5)
-#   }
-# }
-# }
-# 
-# axis(2)
-# axis(1,at=1:4,labels=c('aal','cc2','hox','des'),las=2)
-# 
-# 
-# ###
-# plot(NULL, xlim=c(0,3), ylim=c(0.5,1), ylab="Reliability", xlab="",axes=F,main='Reliability of nff vs frf')
-# for(i in 1:numMethod){
-#   for(j in 1:numExp) {
-#     if(grepl( 'nff',pipelines[i])){
-#       points(jitterf(1),data[i,j],col=102,pch = 19,cex=0.5)
-#     }
-#     if(grepl('frf',pipelines[i])){
-#       points(jitterf(2),data[i,j],col=101,pch = 19,cex=0.5)
-#     }
-#   }
-# }
-# 
-# axis(2)
-# axis(1,at=1:2,labels=c('nff','frf'),las=2)
-# 
-# 
-# ###
-# value1<-0
-# value2<-0
-# plot(NULL, xlim=c(0,3), ylim=c(0.5,1), ylab="Reliability", xlab="",axes=F,main='Reliability of scr vs nsc')
-# for(i in 1:numMethod){
-#   for(j in 1:numExp) {
-#     if(grepl( 'scr',pipelines[i])){
-#       points(jitterf(1),data[i,j],col=101,pch = 19,cex=0.5)
-#       value1<-value1+data[i,j]
-#     }
-#     if(grepl('nsc',pipelines[i])){
-#       points(jitterf(2),data[i,j],col=102,pch = 19,cex=0.5)
-#       value2<-value2+data[i,j]
-#     }
-#   }
-# }
-# 
-# axis(2)
-# axis(1,at=1:2,labels=c('scr','nsc'),las=2)
-# 
-# ###
-# value1<-0
-# value2<-0
-# plot(NULL, xlim=c(0,3), ylim=c(0.5,1), ylab="Reliability", xlab="",axes=F,main='Reliability of gsr vs ngs')
-# for(i in 1:numMethod){
-#   for(j in 1:numExp) {
-#     if(grepl( 'gsr',pipelines[i])){
-#       points(jitterf(1),data[i,j],col=102,pch = 19,cex=0.5)
-#       value1<-value1+data[i,j]
-#     }
-#     if(grepl('ngs',pipelines[i])){
-#       points(jitterf(2),data[i,j],col=101,pch = 19,cex=0.5)
-#       value2<-value2+data[i,j]
-#     }
-#   }
-# }
-# 
-# axis(2)
-# axis(1,at=1:2,labels=c('gsr','ngs'),las=2)
-# 
-# ###
-# value1<-0
-# value2<-0
-# plot(NULL, xlim=c(0,3), ylim=c(0.5,1), ylab="Reliability", xlab="",axes=F,main='Reliability of ANT vs FSL')
-# for(i in 1:numMethod){
-#   for(j in 1:numExp) {
-#     if(grepl( 'ANT',pipelines[i])){
-#       points(jitterf(1),data[i,j],col=101,pch = 19,cex=0.5)
-#       value1<-value1+data[i,j]
-#     }
-#     if(grepl('FSL',pipelines[i])){
-#       points(jitterf(2),data[i,j],col=102,pch = 19,cex=0.5)
-#       value2<-value2+data[i,j]
-#     }
-#   }
-# }
-# 
-# axis(2)
-# axis(1,at=1:2,labels=c('ANT', 'FSL'),las=2)
+dev.off()
+#################################
+#####using ggplot
+df<-c()
+for(j in 1:64) {
+  df<-rbind(df,cbind(data[plotorder[j],],rep(j,numExp),rep(ceiling(j/16),numExp)))
+  #df<-rbind(df,c(mean(data[plotorder[j],]),j,5))
+}
+
+df<-as.data.frame(df)
+colnames(df)<-c('rel','x','cg')
+df$cg<-factor(df$cg)
+
+library(ggplot2)
+p<-ggplot(data=df, aes(x=x, y=rel, color=cg)) +geom_point(size=2)+
+  labs(title="Reliability of 64 pipelines",x='', y = "Reliability")+
+  scale_color_discrete(name="Atlases",
+                       breaks=c("1", "2", "3",'4'),
+                       labels=c('CC2', 'HOX','AAL','DES'))+
+  scale_x_discrete(breaks=1:64,labels=xmarks[plotorder])+ 
+  theme(axis.text.x=element_text(angle=90,size = rel(1.5)))
+p
+  
