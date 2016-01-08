@@ -23,23 +23,23 @@ numExp<-ncol(data)
 v<-c(c(57,49,41,33,25,17,9,1),c(57,49,41,33,25,17,9,1)+4)
 plotorder<-c(v+1,v+2,v,v+3)
 ###Generate Plots
-par(mar=c(7,4,4,2))
-plot(NULL, xlim=c(0,65), ylim=c(0.6,1), ylab="Reliability", xlab="",axes=F,main='Reliability of 64 Pipelines')
-
-for(j in 1:16) {
-points(rep(j,numExp),data[plotorder[j],],col=101,pch = 19,cex=0.6)
- }
-for(j in 17:32) {
-  points(rep(j,numExp),data[plotorder[j],],col=102,pch = 19,cex=0.6)
-}
-for(j in 33:48) {
-  points(rep(j,numExp),data[plotorder[j],],col=103,pch = 19,cex=0.6)
-}
-for(j in 49:64) {
-  points(rep(j,numExp),data[plotorder[j],],col=104,pch = 19,cex=0.6)
-}
-
-axis(2)
+# par(mar=c(7,4,4,2))
+# plot(NULL, xlim=c(0,65), ylim=c(0.6,1), ylab="Reliability", xlab="",axes=F,main='Reliability of 64 Pipelines')
+# 
+# for(j in 1:16) {
+# points(rep(j,numExp),data[plotorder[j],],col=101,pch = 19,cex=0.6)
+#  }
+# for(j in 17:32) {
+#   points(rep(j,numExp),data[plotorder[j],],col=102,pch = 19,cex=0.6)
+# }
+# for(j in 33:48) {
+#   points(rep(j,numExp),data[plotorder[j],],col=103,pch = 19,cex=0.6)
+# }
+# for(j in 49:64) {
+#   points(rep(j,numExp),data[plotorder[j],],col=104,pch = 19,cex=0.6)
+# }
+# 
+# axis(2)
 xmarks<-c()
 for(i in 1:64){
   ithmark<-pipelines[i]
@@ -51,35 +51,46 @@ for(i in 1:64){
   ithmark<-gsub('ngs', 'X', ithmark)
   ithmark<-gsub('frf', 'F', ithmark)
   ithmark<-gsub('nff', 'X', ithmark)
+  if(grepl('cc2',ithmark)) {ithmark<-paste('C',ithmark,sep='')}
   ithmark<-gsub('cc2', '', ithmark)
+  if(grepl('hox',ithmark)) {ithmark<-paste('H',ithmark,sep='')}
   ithmark<-gsub('hox', '', ithmark)
+  if(grepl('aal',ithmark)) {ithmark<-paste('A',ithmark,sep='')}
   ithmark<-gsub('aal', '', ithmark)
+  if(grepl('des',ithmark)) {ithmark<-paste('D',ithmark,sep='')}
   ithmark<-gsub('des', '', ithmark)
   ithmark<-gsub('_', '', ithmark)
   xmarks[i]<-ithmark
 }
-axis(1,at=1:64,labels=xmarks[plotorder],las=2)
-legend(x=59,y=1,legend=c('CC2', 'HOX', 'AAL','DES'), pch = c(19,19,19,19),col = 101:104, cex = c(0.7))
-dev.off()
+# axis(1,at=1:64,labels=xmarks[plotorder],las=2)
+# legend(x=59,y=1,legend=c('CC2', 'HOX', 'AAL','DES'), pch = c(19,19,19,19),col = 101:104, cex = c(0.7))
+# dev.off()
 #################################
 #####using ggplot
 df<-c()
+dfm<-c()
 for(j in 1:64) {
   df<-rbind(df,cbind(data[plotorder[j],],rep(j,numExp),rep(ceiling(j/16),numExp)))
   #df<-rbind(df,c(mean(data[plotorder[j],]),j,5))
+  dfm<-rbind(dfm,cbind(mean(data[plotorder[j],]),j,ceiling(j/16)))
 }
 
 df<-as.data.frame(df)
 colnames(df)<-c('rel','x','cg')
 df$cg<-factor(df$cg)
 
+
+dfm<-as.data.frame(dfm)
+colnames(dfm)<-c('rel','x','cg')
+dfm$cg<-factor(dfm$cg)
+
 library(ggplot2)
-p<-ggplot(data=df, aes(x=x, y=rel, color=cg)) +geom_point(size=2)+
-  labs(title="Reliability of 64 pipelines",x='', y = "Reliability")+
-  scale_color_discrete(name="Atlases",
-                       breaks=c("1", "2", "3",'4'),
-                       labels=c('CC2', 'HOX','AAL','DES'))+
+p<-ggplot(data=df, aes(x=x, y=rel, color=cg)) +geom_point(size=2,shape=19)+
+  labs(title="Reliability of 64 Pipelines",x='', y = "Reliability")+
   scale_x_discrete(breaks=1:64,labels=xmarks[plotorder])+ 
-  theme(axis.text.x=element_text(angle=90,size = rel(1.5)))
+  theme(axis.text.x=element_text(angle=90,size = rel(1.5),vjust=0,family = "mono"))+
+  scale_color_discrete(name="Atlases",breaks=c("1", "2", "3",'4'),labels=c('CC2', 'HOX','AAL','DES'))+
+  theme(legend.position="none")+
+  geom_point(data=dfm, aes(x=x, y=rel, color="#000000"),shape=18, size=3.5)
 p
   
