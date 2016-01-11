@@ -39,8 +39,14 @@ colnames(df)<-c('df','ndf','dec','cg')
 df$dec<-as.factor(df$dec)
 df$cg<-as.factor(df$cg)
 
-p<-ggplot(data=df,aes(x=dec, y=df,colour=cg))+
+p<-ggplot(data=df,aes(x=dec, y=df,fill=cg))+
   geom_violin(trim=T)+ 
-  geom_violin(aes(y = ndf,colour="grey"),trim=T)+
-  labs(title="Plot of Diffenrence in Reliability",x="Decisions Compared", y = "Difference")
+  scale_fill_discrete(name="Decisions",
+                    breaks = c("1", "2", "3",'4'), 
+                    #values=c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"),
+                    labels=c('nff - frf', 'fsl - ant','nsc - scr','gsr - ngs'))+
+  geom_violin(aes(y = ndf,fill=cg),trim=T)+
+  labs(title="Plot of Diffenrence in Reliability",x="Decisions Compared", y = "Difference")+
+  scale_x_discrete(breaks=c("1", "2", "3",'4'),
+                   labels=c('nff - frf', 'fsl - ant','nsc - scr','gsr - ngs'))
 p 
