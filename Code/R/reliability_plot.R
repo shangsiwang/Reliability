@@ -11,6 +11,7 @@
 rm(list=ls())
 load('Reliability_11_datasets.RData')
 ###############################################
+datascans<-c(100,100,244,50,156,42,48,48,48,50,120)
 colMax<-apply(data,2,max)
 rowMean<-apply(data,1,mean)
 srm<-sort(rowMean,index=T,decreasing = T)
@@ -67,30 +68,27 @@ for(i in 1:64){
 # dev.off()
 #################################
 #####using ggplot
+library(ggplot2)
+
+
 df<-c()
-dfm<-c()
+dotsize<-datascans/max(datascans)/2
 for(j in 1:64) {
-  df<-rbind(df,cbind(data[plotorder[j],],rep(j,numExp),rep(ceiling(j/16),numExp)))
-  #df<-rbind(df,c(mean(data[plotorder[j],]),j,5))
-  dfm<-rbind(dfm,cbind(mean(data[plotorder[j],]),j,ceiling(j/16)))
+  df<-rbind(df,cbind(data[plotorder[j],],rep(j,numExp),rep(ceiling(j/16),numExp),dotsize))
 }
 
 df<-as.data.frame(df)
-colnames(df)<-c('rel','x','cg')
+colnames(df)<-c('rel','x','cg','sz')
 df$cg<-factor(df$cg)
 
 
-dfm<-as.data.frame(dfm)
-colnames(dfm)<-c('rel','x','cg')
-dfm$cg<-factor(dfm$cg)
 
-library(ggplot2)
-p<-ggplot(data=df, aes(x=x, y=rel, color=cg)) +geom_point(size=2,shape=19)+
+p<-ggplot(data=df, aes(x=x, y=rel, color=cg,size=sz)) +geom_point(shape=19)+
   labs(title="Reliability of 64 Pipelines",x='', y = "Reliability")+
   scale_x_discrete(breaks=1:64,labels=xmarks[plotorder])+ 
   theme(axis.text.x=element_text(angle=90,size = rel(1.5),vjust=0,family = "mono"))+
   scale_color_discrete(name="Atlases",breaks=c("1", "2", "3",'4'),labels=c('CC2', 'HOX','AAL','DES'))+
-  theme(legend.position="none")+
-  geom_point(data=dfm, aes(x=x, y=rel, color="#000000"),shape=18, size=3.5)
+  scale_size(guide = FALSE)+
+  stat_summary(fun.y=mean, geom="point",shape=18, size=4, color="black",show.legend = F)
 p
   

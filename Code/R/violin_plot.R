@@ -23,7 +23,8 @@ p<-ggplot(data=df,aes(x=dec, y=df,fill=cg))+geom_violin(trim=T)+
   scale_fill_discrete(name="Decisions",
                     breaks = c("1", "2", "3",'4'), 
                     labels=c('nff - frf', 'fsl - ant','nsc - scr','gsr - ngs'))+
-  stat_summary(fun.y=mean, geom="point",shape=18, size=4, color="black")
+  stat_summary(fun.y=mean, geom="point",shape=18, size=4, color="black",show.legend = F)+
+  geom_hline(yintercept=0,linetype=2)
 p 
 
 # ###############################################
