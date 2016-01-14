@@ -1,3 +1,6 @@
+*.drf
+*.fls
+*.toc
 *.pdf
 *.aux
 *.bbl

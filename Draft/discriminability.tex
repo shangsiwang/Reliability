@@ -1,0 +1,153 @@
+\documentclass{article}
+\input{preamble.tex}
+
+\title{\vspace{-50pt}
+% Reliable and Reproducible Brain-Based Measures for Candidate Biomarker Discovery from Big Data
+% Optimal Discovery Science from Big Brain-Imaging Data via Reliability and Reproducibility  
+\db{Optimal Design for Discovery Science via Maximizing Discriminability: \\ Applications in Neuroimaging}
+}
+\author{Shangsi Wang, Zhi Yang, Xi-Nian Zuo, Michael Milham, Cameron Craddock,  \\ 
+Greg Kiar, William Gray Roncal, Eric Bridgeford,
+Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vogelstein}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\para{Opportunity} Benchmark datasets are omnipresent
+
+\para{Challenge} Deciding on how to collect and process the data, in the absense of an explicit task
+
+\para{Action} We define ``discrimininability'' as the ability to differentiate between different classes of objects
+
+\para{Resolution} 
+
+
+\section{Results}
+
+
+
+\subsection{Theory}
+
+\subsubsection{Definition of Discriminability}
+
+\subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
+
+
+a useful definition of discriminability (D)
+
+\begin{thm}
+discriminability bounds predictive accuracy
+\end{thm}
+
+
+\subsubsection{Estimator/Test Statistic}
+
+\begin{itemize}
+\item an estimator of D, called Dhat
+
+\item proof that our estimator is unbiased (in a model free setting), 
+$E(Dhat)=D$.
+
+\item proof that our estimator asymptotically converges to truth (in a model free setting), $\mh{D}_n \conv D$
+\end{itemize}
+
+
+\subsection{Simulations}
+
+\subsubsection{Dhat $\conv$ E(D) in practice for some (eg, gaussian) simulation}
+
+
+\subsubsection{Dhat provides a more useful bound than ICC or I2C2 for a variety of simulated settings}
+
+\subsubsection{we can use Dhat to choose the most discriminable parameter (eg, threshold)}
+
+
+\subsection{Connectome Applications}
+
+\subsubsection{optimal Discriminability yields optimal predictive accuracy}
+
+\begin{figure}[t!]
+\includegraphics[width=\linewidth]{../Figs/HCP.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+\subsubsection{Best Pipeline of 64}
+
+\begin{figure}[t!]
+\includegraphics[width=\linewidth]{../Figs/64_pipelines_gg.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+\subsubsection{best pipeline = product of marginals}
+
+
+\begin{figure}[t!]
+\includegraphics[width=\linewidth]{../Figs/Differ_violin_mean.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+
+\subsubsection{thresholding vs. binning ranks}
+
+\subsubsection{which atlas/resolution}
+
+
+\subsubsection{DTI vs. fMRI}
+
+
+
+
+
+
+
+
+
+
+\section{Discussion}
+
+\para{Summary}
+
+\para{Related Work}
+
+
+\para{Next Steps}
+
+
+% \input{intro}
+% \input{simulations}
+% \input{flow}
+% \input{setting}
+% \input{logic}
+% \input{main}
+% \input{setup}
+% \input{gRAICAR}
+
+
+
+\appendix
+
+
+
+
+
+
+\newpage
+\small{
+\bibliography{biblio}
+\bibliographystyle{IEEEtran}
+}
+
+
+\end{document}
