@@ -73,21 +73,22 @@ library(ggplot2)
 
 df<-c()
 dotsize<-datascans/max(datascans)/2
+dotcol<-1:numExp
 for(j in 1:64) {
-  df<-rbind(df,cbind(data[plotorder[j],],rep(j,numExp),rep(ceiling(j/16),numExp),dotsize))
+  df<-rbind(df,cbind(data[plotorder[j],],rep(j,numExp),rep(ceiling(j/16),numExp),dotsize,dotcol))
 }
 
 df<-as.data.frame(df)
-colnames(df)<-c('rel','x','cg','sz')
+colnames(df)<-c('rel','x','cg','sz','cl')
 df$cg<-factor(df$cg)
+df$cl<-factor(df$cl)
 
-
-
-p<-ggplot(data=df, aes(x=x, y=rel, color=cg,size=sz)) +geom_point(shape=19)+
+datanames<-c('BNU1','BNU2','DC1','IBATRT','IPCAS','KKI21','NKI24mx645','NKI24mx1400','NKIstd2500','UWM','XHCUMS')
+p<-ggplot(data=df, aes(x=x, y=rel, color=cl,size=sz)) +geom_point(shape=19)+
   labs(title="Reliability of 64 Pipelines",x='', y = "Reliability")+
   scale_x_discrete(breaks=1:64,labels=xmarks[plotorder])+ 
   theme(axis.text.x=element_text(angle=90,size = rel(1.5),vjust=0,family = "mono"))+
-  scale_color_discrete(name="Atlases",breaks=c("1", "2", "3",'4'),labels=c('CC2', 'HOX','AAL','DES'))+
+  scale_color_discrete(name="Atlases",labels=datanames)+
   scale_size(guide = FALSE)+
   stat_summary(fun.y=mean, geom="point",shape=18, size=4, color="black",show.legend = F)
 p

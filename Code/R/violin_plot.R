@@ -1,6 +1,6 @@
 ###############################################
 rm(list=ls())
-setwd('C:/Users/shang/Desktop/Desktop/shangsi/reliability')
+setwd('C:/Users/shang/Desktop/Desktop/shangsi/reliability/Data')
 load('Reliability_11_datasets.RData')
 ###############################################
 library(ggplot2)
@@ -16,6 +16,7 @@ df<-as.data.frame(df)
 colnames(df)<-c('df','dec','cg')
 df$dec<-as.factor(df$dec)
 df$cg<-as.factor(df$cg)
+#theme_set(theme_grey(base_size = 14)) 
 p<-ggplot(data=df,aes(x=dec, y=df,fill=cg))+geom_violin(trim=T)+
   labs(title="Plot of Diffenrence in Reliability",x="Decisions Compared", y = "Difference")+
   scale_x_discrete(breaks=c("1", "2", "3",'4'),
@@ -24,7 +25,9 @@ p<-ggplot(data=df,aes(x=dec, y=df,fill=cg))+geom_violin(trim=T)+
                     breaks = c("1", "2", "3",'4'), 
                     labels=c('nff - frf', 'fsl - ant','nsc - scr','gsr - ngs'))+
   stat_summary(fun.y=mean, geom="point",shape=18, size=4, color="black",show.legend = F)+
-  geom_hline(yintercept=0,linetype=2)
+  geom_hline(yintercept=0,linetype=2)+
+  annotate("text", x = 1:4, y = 0.225, label = c("***","","","***"),size=6)
+  
 p 
 
 # ###############################################
