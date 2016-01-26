@@ -1,0 +1,186 @@
+\documentclass{article}
+\input{preamble.tex}
+
+\title{\vspace{-50pt}
+% Reliable and Reproducible Brain-Based Measures for Candidate Biomarker Discovery from Big Data
+% Optimal Discovery Science from Big Brain-Imaging Data via Reliability and Reproducibility  
+\db{Optimal Design for Discovery Science via Maximizing Discriminability: \\ Applications in Neuroimaging}
+}
+\author{Shangsi Wang, Zhi Yang, Xi-Nian Zuo, Michael Milham, Cameron Craddock,  \\ 
+Greg Kiar, William Gray Roncal, Eric Bridgeford,
+Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vogelstein}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\para{Opportunity and Challenge} In this era of big data, many scientific, government, and corporate groups are collecting and processing massive datasets. To obtain optimal quantitative answers to any inquiry about data requires making two decisions: (i) “how should the data be collected?”, and (ii) “how should the data be processed?”  When the downstream inference task is specified, a priori, we can collect and process data to optimize the performance of task. However, recently, across industry, governmental, and academic settings, certain datasets become benchmark or reference datasets. Such datasets can then be used for a wide variety of different inferential problems.  Collecting and processing these datasets requires massive institutional investments, and choices related to questions(i) and (ii) above have dramatic effects on all subsequent analyses. Optimally addressing experimental design decisions can yield significant savings in both the financial and human costs, and also improve accuracy of analytical results. Therefore, a theoretical framework to enable investigators to select from a set of possible design decisions using pilot data could reap great rewards
+
+
+
+\para{Action and Resolution} 
+To this end, we have proposed and developed a formal definition of discriminability to guide data collection and processing. Discriminability is a non-parametric statistical property of a joint distribution in a hierarchical model, to differentiate between classes of objects. We prove that discriminability (which may be more aptly called reliability), provides a lower bound on predictive accuracy for any downstream inference task, even if we have never seen the covariates to predict. We then design an estimator of discriminability computed from test-restest data set, demonstrate that it is unbiased, and derive our estimator’s asymptotic distribution. 
+
+Numerical simulations are conducted to demonstrate the basic property of our discriminability estimator in a variety of settings. Then, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to specifically study functional connectomics. We start by finding the maximally reliable threshold for converting correlation matrices  into graphs. Indeed, consistent with our theoretical and simulated results,
+maximizing the discriminability of our datasets also maximizes performance on a suite of different downstream inference tasks. We then ask about a series of pre-processing steps: should one motion correct or not, and
+should one implement global signal regression or not, etc. We determine the optimal choice for each pre-processing steps, and find the maximally discriminable pipelines amongst 64 pre-processing pipelines.
+
+Thus, in total, our reliability analysis is a powerful tool for making decisions about how to collect and analyze
+datasets designed for discovery science. We expect this method to be useful in a wide variety of applications,
+and therefore have made all the code open source and available from http://openconnecto.
+me.
+
+
+
+
+\section{Results}
+
+
+
+\subsection{Theory}
+
+\subsubsection{Definition of Discriminability}
+
+\subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
+
+
+\begin{thm}
+discriminability bounds predictive accuracy
+\end{thm}
+
+
+\subsubsection{Estimator/Test Statistic}
+
+\begin{itemize}
+\item an estimator of D, called Dhat
+
+\item proof that our estimator is unbiased (in a model free setting), 
+$E(Dhat)=D$.
+
+\item proof that our estimator asymptotically converges to truth (in a model free setting), $\mh{D}_n \conv D$
+\end{itemize}
+
+
+\subsection{Simulations}
+
+\subsubsection{Dhat $\conv$ E(D) in practice for some (eg, gaussian) simulation}
+
+\begin{figure}[t!]
+\includegraphics[width=3.0in]{../Figs/simumnr_violin.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+
+
+\subsubsection{Dhat provides a more useful bound than ICC or I2C2 for a variety of simulated settings}
+
+\begin{figure}[t!]
+\includegraphics[width=3.0in]{../Figs/Figure1_draft.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+
+\subsubsection{we can use Dhat to choose the most discriminable parameter (eg, threshold)}
+
+
+\begin{figure}[t!]
+\includegraphics[width=3.0in]{../Figs/parameter_selection_2sub.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+
+
+\subsection{Connectome Applications}
+
+\subsubsection{optimal Discriminability yields optimal predictive accuracy}
+
+\begin{figure}[t!]
+\includegraphics[width=3.0in]{../Figs/HCP.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+\subsubsection{Best Pipeline of 64}
+
+\begin{figure}[t!]
+\includegraphics[width=3.0in]{../Figs/64_pipelines_gg.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+\subsubsection{best pipeline = product of marginals}
+
+
+\begin{figure}[t!]
+\includegraphics[width=3.0in]{../Figs/Differ_violin_mean.png}
+\caption{}
+\label{fig:64}
+\end{figure}
+
+
+
+\subsubsection{thresholding vs. binning ranks}
+
+\subsubsection{which atlas/resolution}
+
+
+\subsubsection{DTI vs. fMRI}
+
+
+
+
+
+
+
+
+
+
+\section{Discussion}
+
+\para{Summary}
+
+\para{Related Work}
+
+
+\para{Next Steps}
+
+
+% \input{intro}
+% \input{simulations}
+% \input{flow}
+% \input{setting}
+% \input{logic}
+% \input{main}
+% \input{setup}
+% \input{gRAICAR}
+
+
+
+\appendix
+
+
+
+
+
+
+\newpage
+\small{
+\bibliography{biblio}
+\bibliographystyle{IEEEtran}
+}
+
+
+\end{document}
