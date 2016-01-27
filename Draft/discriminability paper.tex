@@ -45,14 +45,32 @@ me.
 \subsection{Theory}
 
 \subsubsection{Definition of Discriminability}
+ Discriminability measures the overall consistency and differentiability of observations. For example, if a subject is measured twice under the same conditions, two observations should be close to each other given the measure is consistent. In addition, one should be able to tell these two observations come from the same subject when compared to observations from other subjects given the measure is differentiable. We quantify this idea of consistency and differentiability through discriminability. 
+ 
+To formalize the definition of discriminability, consider the following generative process. For each sample $i$, there exists some true physical property $\bv_i$. Unfortunately, we do not get to directly observed $\bv_i$, rather, we measure it with some device, that transforms the truth from $\bv_i$ to $\bw_i$ via $f_{\bphi}$.  The parameter $\bphi \in \bPhi$ characterizes all options in the measurement, including, for example, which scanner to use, which resolution, the number of images, sampling rate, etc.  The output of $f_{\bphi}$ is the  ``raw'' observation data $\bw_i$, but it is corrupt in various ways, including movement or intensity artifacts introduced by the measurement process.  Therefore, rather than operating directly on $\bw_i$, we intentionally ``pre-process'' the data, in an effort to remove a number of nuisance variables.  This pre-processing procedure further transforms the data from $\bw_i$ to $\bx_i$ via $g_{\bpsi}$.   The parameter $\bpsi \in \bPsi$ indexes all pre-processing options, including whether to perform motion correction, which motion correction, deconvolution, etc.  More specifically, the entire code base, including dependencies, and even the hardware the pre-processing is running on, could count as $\bpsi$. For brevity, we define $\bx_i:= g_{\bpsi} \big(f_{\bphi} (\bv_i) \big)$.
+
+Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bw_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$, which encodes all the details of the measurement. If both $f$ and $g$ together do not introduce too much noise, then we would expect that $\bx_{i,1}$ and $\bx_{i,2}$ are \emph{closer} to one another than either are to any other subject's data, $\bx_{i',t}$.  Define $\delta$ to be a metric computing the distance between two data points, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) \leq \delta(\bx_{i,t},\bx_{i',t''})$, for any $i,i',t,t',t''$.  
+For brevity, let $\delta_{i,t,t'}:=\delta(\bx_{i,t}, \bx_{i,t'})$ and 
+$\delta_{i,i',t,t'}:=\delta(\bx_{i,t}, \bx_{i',t''})$.  
+This intuition leads to our definition of discriminability:
+\begin{align}
+D(\bpsi,\bphi) = \PP[ \delta_{i,t,t'} \leq \delta_{i,i',t,t'}]
+\end{align}
+When tring to find the best pre-processing routine encoded by $\bpsi$, we try to maximize the discriminability of processed data, that is 
+\begin{equation} 
+\begin{aligned}
+& \underset{\bpsi \in \bPsi}{\text{maximize}}
+& & D(\bpsi,\bphi)
+\end{aligned}
+\end{equation}
+
 
 \subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
+In addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data.  The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ and $\bpsi \in \bPsi$ to maximize some function of  $(\bx_i, \by_i)$.  
 
 
-\begin{thm}
-discriminability bounds predictive accuracy
-\end{thm}
 
+To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bV_i,\bY_i)$ pair is sampled independently and identically from some distribution, $(\bV_i,\bY_i) \iid F_{V,Y}$.  For simplicity, let us assume that our goal is regression, using $\bX_i$ as the \emph{predictor} variables, and a single dimension of $\bY_i$ as the \emph{target} variable (we will generalize these assumptions below).  Moreover, let $h \from \mc{X} \to \mc{Y}$ be the regression function (which we will typically learn from the data).  The loss function, $\ell$ quantifies the error of our predictions, $\ell( h(\bx_i), \by_i) \in \Real_+$.  
 
 \subsubsection{Estimator/Test Statistic}
 
