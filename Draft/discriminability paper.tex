@@ -30,7 +30,7 @@ Numerical simulations are conducted to demonstrate the basic property of our dis
 maximizing the discriminability of our datasets also maximizes performance on a suite of different downstream inference tasks. We then ask about a series of pre-processing steps: should one motion correct or not, and
 should one implement global signal regression or not, etc. We determine the optimal choice for each pre-processing steps, and find the maximally discriminable pipelines amongst 64 pre-processing pipelines.
 
-Thus, in total, our reliability analysis is a powerful tool for making decisions about how to collect and analyze
+Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and analyze
 datasets designed for discovery science. We expect this method to be useful in a wide variety of applications,
 and therefore have made all the code open source and available from http://openconnecto.
 me.
@@ -51,12 +51,12 @@ To formalize the definition of discriminability, consider the following generati
 
 Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bw_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$, which encodes all the details of the measurement. If both $f$ and $g$ together do not introduce too much noise, then we would expect that $\bx_{i,1}$ and $\bx_{i,2}$ are \emph{closer} to one another than either are to any other subject's data, $\bx_{i',t}$.  Define $\delta$ to be a metric computing the distance between two data points, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) \leq \delta(\bx_{i,t},\bx_{i',t''})$, for any $i,i',t,t',t''$.  
 For brevity, let $\delta_{i,t,t'}:=\delta(\bx_{i,t}, \bx_{i,t'})$ and 
-$\delta_{i,i',t,t'}:=\delta(\bx_{i,t}, \bx_{i',t''})$.  
+$\delta_{i,i',t,t''}:=\delta(\bx_{i,t}, \bx_{i',t''})$.  
 This intuition leads to our definition of discriminability:
 \begin{align}
-D(\bpsi,\bphi) = \PP[ \delta_{i,t,t'} \leq \delta_{i,i',t,t'}]
+D(\bpsi,\bphi) = \PP[ \delta_{i,t,t'} \leq \delta_{i,i',t,t''}]
 \end{align}
-When tring to find the best pre-processing routine encoded by $\bpsi$, we try to maximize the discriminability of processed data, that is 
+When trying to find the best pre-processing routine encoded by $\bpsi$, we try to maximize the discriminability of processed data, that is 
 \begin{equation} 
 \begin{aligned}
 & \underset{\bpsi \in \bPsi}{\text{maximize}}
@@ -66,23 +66,36 @@ When tring to find the best pre-processing routine encoded by $\bpsi$, we try to
 
 
 \subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
-In addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data.  The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ and $\bpsi \in \bPsi$ to maximize some function of  $(\bx_i, \by_i)$.  
 
+Consider the situation that the downstream task is classification, that is in addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data. The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ and $\bpsi \in \bPsi$ to make prediction of $\by_i$ based on $\bx_i$ easier. 
 
+To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bv_i,\by_i)$ pair is sampled independently and identically from some distribution, $(\bv_i,\by_i) \iid F_{V,Y}$.  For simplicity, let us assume that our goal is binary classification, using $\bx_i$ as the \emph{predictor} variables, and a binary-valued $\by_i$ as the \emph{target} variable. Moreover, the loss function, $\ell$ quantifies the Bayes classification error
+\[\ell( \bx_i, \by_i) =  \PP(C^{B}(\bx_i) \neq \by_i)\]
+ Here, $C^{B}(\bx_i)= \underset{y_i \in \{0,1\} }{\text{argmax }} \PP(\by_i=y|\bx_i) $ . Under some assumptions, we can prove theorem 1 which asserts that Bayes classification error is bounded by an decreasing function of discriminability. 
+\begin{thm}	
+	There is a decreasing function $h$, such that
+\[\ell( \bx_i, \by_i) \leq h(D(\bpsi,\bphi)) \]
+\end{thm}
 
-To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bV_i,\bY_i)$ pair is sampled independently and identically from some distribution, $(\bV_i,\bY_i) \iid F_{V,Y}$.  For simplicity, let us assume that our goal is regression, using $\bX_i$ as the \emph{predictor} variables, and a single dimension of $\bY_i$ as the \emph{target} variable (we will generalize these assumptions below).  Moreover, let $h \from \mc{X} \to \mc{Y}$ be the regression function (which we will typically learn from the data).  The loss function, $\ell$ quantifies the error of our predictions, $\ell( h(\bx_i), \by_i) \in \Real_+$.  
+Therefore, we expect the classification performance to be better when the more discriminable processing pipeline is used. This theorem justifies
+maximizing discriminability of processed data improves prediction accuracy.
 
 \subsubsection{Estimator/Test Statistic}
+In practice, exact distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi,\bphi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate discriminability using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from the same subject $i$, we first define
+\[ \hat{D}_{i,t,t'} = \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{(n-1)s}\]
+Here, $n$ is the total number of subjects, and $s$ is the number of observations per subject. $\hat{D}_{i,t,t'}$ approximate the probability that distance between observations from other subjects and $t^{th}$ observation of subject $i$ is larger than distance between $t^{th}$ and $t'^{th}$ trial of subject $i$. Then, we define $\hat{D}$ to be the mean of $\hat{D}_{i,t,t'}$.
+\[ \hat{D} := \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t' \neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)} \]
+$\hat{D}$ serves as the sample approximated discriminability. The next lemma asserts the unbiasedness of $\hat{D}$ as an estimator.
 
-\begin{itemize}
-\item an estimator of D, called Dhat
+\begin{lem}	
+	\[ E(\hat{D}) = D\]
+\end{lem}
 
-\item proof that our estimator is unbiased (in a model free setting), 
-$E(Dhat)=D$.
-
-\item proof that our estimator asymptotically converges to truth (in a model free setting), $\mh{D}_n \conv D$
-\end{itemize}
-
+The following lemma shows the as the number of subjects increase, $\hat{D}$ converges in probability to discriminability.
+\begin{lem}	
+As $n \rightarrow \infty$,
+\[\hat{D} \overset{p}{\rightarrow} D \]
+\end{lem}
 
 \subsection{Simulations}
 
