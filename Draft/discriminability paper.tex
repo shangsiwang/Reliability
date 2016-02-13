@@ -138,6 +138,11 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 \subsection{Connectome Applications}
 
 \subsubsection{optimal Discriminability yields optimal predictive accuracy}
+\begin{itemize}
+\item Introduce how fmri graph is constructed
+\item Describe how we threshold correlation and what is being predicted
+\item explain the result
+\end{itemize}
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/HCP.png}
@@ -146,7 +151,12 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 \end{figure}
 
 
-\subsubsection{Best Pipeline of 64}
+\subsubsection{Best Pipeline of 64 (raw correlation graph)}
+\begin{itemize}
+	\item Explain the problem of finding the best pipelines
+	\item Explain what decisions are  4 atlases, nff vs frf, fsl vs ant, scrub vs no scr, gsr vs no gsr. 
+	\item Claim we find the best pipeline with maximum mean (without a hypothesis tesing)
+\end{itemize}
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/64_pipelines_size.png}
@@ -156,7 +166,11 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 
 \subsubsection{best pipeline = product of marginals}
-
+\begin{itemize}
+	\item Explain we focus on individual decision for statistical significance
+	\item Explain how we perform the multifactor analysis of variance test
+	\item we find nff better than frf, fsl better than ant, scrub ? no scr, gsr better than no gsr, and atlas is being significant, best pipeline = product of marginals
+\end{itemize}
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/Differ_violin_mean.png}
@@ -164,9 +178,18 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 \label{fig:64}
 \end{figure}
 
-
+\subsubsection{which atlas/resolution}
+\begin{itemize}
+	\item Background info about 4 atlases
+	\item claim cc200 better than hox  better than aal better than des
+\end{itemize}
 
 \subsubsection{rank graphs}
+
+\begin{itemize}
+	\item Explain how rank graphs are constructed, the motivation to robust estimate graphs
+	\item Explain it offers large improvement when there is no gsr, small when there is gsr.s
+\end{itemize}
 \begin{figure}[t!]
 	\includegraphics[width=3.0in]{../Figs/64_pipelines_size_rank.png}
 	\caption{}
@@ -180,7 +203,7 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 	\label{fig:64}
 \end{figure}
 
-\subsubsection{which atlas/resolution}
+
 
 
 \subsubsection{DTI vs. fMRI}
