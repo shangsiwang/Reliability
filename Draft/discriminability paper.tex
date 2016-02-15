@@ -106,8 +106,8 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/simumnr_violin.png}
-\caption{}
-\label{fig:64}
+\caption{Convergence of sample Discriminability to true population Discriminability}
+\label{fig:1}
 \end{figure}
 
 
@@ -117,8 +117,8 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/Figure1_draft.png}
-\caption{}
-\label{fig:64}
+\caption{Two class ICC, I2C2 and Discriminability}
+\label{fig:2}
 \end{figure}
 
 
@@ -128,8 +128,8 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/parameter_selection_2sub.png}
-\caption{}
-\label{fig:64}
+\caption{Best linear projection selected by PCA and Discriminability}
+\label{fig:3}
 \end{figure}
 
 
@@ -140,28 +140,34 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 \subsubsection{optimal Discriminability yields optimal predictive accuracy}
 \begin{itemize}
 \item Introduce how fmri graph is constructed
-\item Describe how we threshold correlation and what is being predicted
-\item explain the result
+\item Describe how we threshold correlation and what is being predicted, how we predict
+\item explain the result in fig 4 that maximal discriminability yields best prediction performance 
 \end{itemize}
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/HCP.png}
-\caption{}
-\label{fig:64}
+\caption{Optimizing Discriminability yields optimal prediction accuracy for gender and age}
+\label{fig:4}
+\end{figure}
+
+\begin{figure}[t!]
+	\includegraphics[width=3.0in]{../Figs/pairdistance.png}
+	\caption{Pairwise distance of an discriminable data set}
+	\label{fig:5}
 \end{figure}
 
 
 \subsubsection{Best Pipeline of 64 (raw correlation graph)}
 \begin{itemize}
 	\item Explain the problem of finding the best pipelines
-	\item Explain what decisions are  4 atlases, nff vs frf, fsl vs ant, scrub vs no scr, gsr vs no gsr. 
+	\item Explain what four decisions are  and 4 atlases, nff vs frf, fsl vs ant, scrub vs no scr, gsr vs no gsr. 
 	\item Claim we find the best pipeline with maximum mean (without a hypothesis tesing)
 \end{itemize}
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/64_pipelines_size.png}
-\caption{}
-\label{fig:64}
+\caption{Discriminability of raw fmri graphs from 12 data sets processed 64 ways ordered by putting better decisions in front}
+\label{fig:6}
 \end{figure}
 
 
@@ -174,8 +180,8 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/Differ_violin_mean.png}
-\caption{}
-\label{fig:64}
+\caption{Paired difference in Discriminability of each decisions}
+\label{fig:7}
 \end{figure}
 
 \subsubsection{which atlas/resolution}
@@ -188,19 +194,19 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{itemize}
 	\item Explain how rank graphs are constructed, the motivation to robust estimate graphs
-	\item Explain it offers large improvement when there is no gsr, small when there is gsr.s
+	\item Explain it offers large improvement over raw fmri graphs when there is no gsr, small when there is gsr.s
 \end{itemize}
 \begin{figure}[t!]
 	\includegraphics[width=3.0in]{../Figs/64_pipelines_size_rank.png}
-	\caption{}
-	\label{fig:64}
+	\caption{Discriminability of rank fmri graphs from 12 data sets processed 64}
+	\label{fig:8}
 \end{figure}
 
 
 \begin{figure}[t!]
 	\includegraphics[width=3.0in]{../Figs/64_pipelines_differ.png}
-	\caption{}
-	\label{fig:64}
+	\caption{Difference in Discriminability of rank vs raw fmri graphs from 12 data sets processed 64}
+	\label{fig:9}
 \end{figure}
 
 
