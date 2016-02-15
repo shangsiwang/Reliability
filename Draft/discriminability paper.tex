@@ -81,7 +81,7 @@ Therefore, we expect the classification performance to be better when the more d
 maximizing discriminability of processed data improves prediction accuracy.
 
 \subsubsection{Estimator/Test Statistic}
-In practice, exact distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi,\bphi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate discriminability using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from the same subject $i$, we first define
+In practice, exact distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi,\bphi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate true discriminability using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from the same subject $i$, we first define
 \[ \hat{D}_{i,t,t'} = \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{(n-1)s}\]
 Here, $n$ is the total number of subjects, and $s$ is the number of observations per subject. $\hat{D}_{i,t,t'}$ approximate the probability that distance between observations from other subjects and $t^{th}$ observation of subject $i$ is larger than distance between $t^{th}$ and $t'^{th}$ trial of subject $i$. Then, we define $\hat{D}$ to be the mean of $\hat{D}_{i,t,t'}$.
 \[ \hat{D} := \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t' \neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)} \]
@@ -99,7 +99,10 @@ As $n \rightarrow \infty$,
 
 \subsection{Simulations}
 
-\subsubsection{Dhat $\conv$ E(D) in practice for some (eg, gaussian) simulation}
+\subsubsection{Convergence of $\hat{D}$}
+In Lemma 1 and 2, we assert sample discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate this idea with simulation. The true physical property are generated from independent Gaussian distribution. That is $v_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$. All subjects have two observations with additive noise: $x_{i,t} | v_i \sim \mathbb{G}(v_i,1)$. For each number of subjects, we generate data and compute dsicriminability 100 times. 
+
+The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size from 10 to 200. With this data generation scheme, the population discriminability can be computed from numerical integration, and is marked on the plot. We can see from the figure that sample discriminabiity $\hat{D}$ converges to $D$ as sample size increase.
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/simumnr_violin.png}
@@ -134,7 +137,12 @@ As $n \rightarrow \infty$,
 
 \subsection{Connectome Applications}
 
-\subsubsection{Optimal Discriminability yields optimal predictive accuracy}
+\subsubsection{optimal Discriminability yields optimal predictive accuracy}
+\begin{itemize}
+\item Introduce how fmri graph is constructed
+\item Describe how we threshold correlation and what is being predicted
+\item explain the result
+\end{itemize}
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/HCP.png}
@@ -143,17 +151,26 @@ As $n \rightarrow \infty$,
 \end{figure}
 
 
-\subsubsection{Best Pipeline of 64}
+\subsubsection{Best Pipeline of 64 (raw correlation graph)}
+\begin{itemize}
+	\item Explain the problem of finding the best pipelines
+	\item Explain what decisions are  4 atlases, nff vs frf, fsl vs ant, scrub vs no scr, gsr vs no gsr. 
+	\item Claim we find the best pipeline with maximum mean (without a hypothesis tesing)
+\end{itemize}
 
 \begin{figure}[t!]
-\includegraphics[width=3.0in]{../Figs/64_pipelines_gg.png}
+\includegraphics[width=3.0in]{../Figs/64_pipelines_size.png}
 \caption{}
 \label{fig:64}
 \end{figure}
 
 
 \subsubsection{best pipeline = product of marginals}
-
+\begin{itemize}
+	\item Explain we focus on individual decision for statistical significance
+	\item Explain how we perform the multifactor analysis of variance test
+	\item we find nff better than frf, fsl better than ant, scrub ? no scr, gsr better than no gsr, and atlas is being significant, best pipeline = product of marginals
+\end{itemize}
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/Differ_violin_mean.png}
@@ -161,12 +178,32 @@ As $n \rightarrow \infty$,
 \label{fig:64}
 \end{figure}
 
-\subsubsection{Which scanner parameters to use}
-
-
-\subsubsection{thresholding vs. binning ranks}
-
 \subsubsection{which atlas/resolution}
+\begin{itemize}
+	\item Background info about 4 atlases
+	\item claim cc200 better than hox  better than aal better than des
+\end{itemize}
+
+\subsubsection{rank graphs}
+
+\begin{itemize}
+	\item Explain how rank graphs are constructed, the motivation to robust estimate graphs
+	\item Explain it offers large improvement when there is no gsr, small when there is gsr.s
+\end{itemize}
+\begin{figure}[t!]
+	\includegraphics[width=3.0in]{../Figs/64_pipelines_size_rank.png}
+	\caption{}
+	\label{fig:64}
+\end{figure}
+
+
+\begin{figure}[t!]
+	\includegraphics[width=3.0in]{../Figs/64_pipelines_differ.png}
+	\caption{}
+	\label{fig:64}
+\end{figure}
+
+
 
 
 \subsubsection{DTI vs. fMRI}
@@ -185,6 +222,7 @@ As $n \rightarrow \infty$,
 \para{Summary}
 
 \para{Related Work}
+Our discriminability statistics is not the first attempt to quantify information of test-retest data set. Previous works include but not limit to: analysis of variance (ANOVA), intraclass correlation coefficient (ICC), image intraclass correlation coefficient (I2C2) and distance components (DISCO). The ANOVA and ICC approaches only operate on scalar data set. I2C2 is a generalization of ICC into high dimension space, however it is designed for additive Gaussian noise and assumes Euclidean distance. DISCO is a statistics designed to test whether multi-modal distribution are the same or not. It is less robust and intuitive compared to $\hat{D}$. Also, the mean of DISCO varies with the number of subject and dimension of observation which makes it not suitable to compare across data set.
 
 
 \para{Next Steps}
