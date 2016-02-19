@@ -1,7 +1,7 @@
 dir <- dirname(parent.frame(2)$ofile)
 dir <- dirname(sys.frame(1)$ofile)
 setwd(dir)
-source("../../pureR/distance.R")
+source("../functions/distance.R")
 require("testthat")
 
 test_that("distance matrix in the simple case of 4 scans", {
