@@ -47,7 +47,7 @@ me.
 \subsubsection{Definition of Discriminability}
  Discriminability measures the overall consistency and differentiability of observations. For example, if a subject is measured twice under the same conditions, two observations should be close to each other given the measure is consistent. In addition, one should be able to tell these two observations come from the same subject when compared to observations from other subjects given the measure is differentiable. We quantify this idea of consistency and differentiability through discriminability. 
  
-To formalize the definition of discriminability, consider the following generative process. For each sample $i$, there exists some true physical property $\bv_i$. Unfortunately, we do not get to directly observed $\bv_i$, rather, we measure it with some device, that transforms the truth from $\bv_i$ to $\bw_i$ via $f_{\bphi}$.  The parameter $\bphi \in \bPhi$ characterizes all options in the measurement, including, for example, which scanner to use, which resolution, the number of images, sampling rate, etc.  The output of $f_{\bphi}$ is the  ``raw'' observation data $\bw_i$, but it is corrupt in various ways, including movement or intensity artifacts introduced by the measurement process.  Therefore, rather than operating directly on $\bw_i$, we intentionally ``pre-process'' the data, in an effort to remove a number of nuisance variables.  This pre-processing procedure further transforms the data from $\bw_i$ to $\bx_i$ via $g_{\bpsi}$.   The parameter $\bpsi \in \bPsi$ indexes all pre-processing options, including whether to perform motion correction, which motion correction, deconvolution, etc.  More specifically, the entire code base, including dependencies, and even the hardware the pre-processing is running on, could count as $\bpsi$. For brevity, we define $\bx_i:= g_{\bpsi} \big(f_{\bphi} (\bv_i) \big)$.
+To formalize the definition of discriminability, consider the following generative process. For each sample $i$, there exists some true physical property $\bv_i$. Unfortunately, we do not get to directly observed $\bv_i$, rather, we measure it with some device, that transforms the truth from $\bv_i$ to $\bw_i$ via $f_{\bphi}$.  The parameter $\bphi \in \bPhi$ characterizes all options in the measurement, including, for example, which scanner to use, which resolution, the number of images, sampling rate, etc.  The output of $f_{\bphi}$ is the  ``raw'' observation data $\bw_i$, but it is corrupt in various ways, including movement or intensity artifacts introduced by the measurement process.  Therefore, rather than operating directly on $\bw_i$, we intentionally ``pre-process'' the data, in an effort to remove a number of nuisance variables.  This pre-processing procedure further transforms the data from $\bw_i$ to $\bx_i$ via $g_{\bpsi}$.   The parameter $\bpsi \in \bPsi$ indexes all pre-processing options, including whether to perform motion correction, which motion correction, deconvolution, etc.  More specifically, the entire code base, including dependencies, and even the hardware the pre-processing is running on, could count as $\bpsi$. For brevity, we define $\bx_i:= g_{\bpsi} \big(f_{\bphi} (\bv_i) \big)$. {\bf TODO: Should emphasize $g_{\bpsi}$ is a random function or takes a random variable as input. Otherwise $\bx_i|\bv_i$ is not random.}
 
 Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bw_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$, which encodes all the details of the measurement. If both $f$ and $g$ together do not introduce too much noise, then we would expect that $\bx_{i,1}$ and $\bx_{i,2}$ are \emph{closer} to one another than either are to any other subject's data, $\bx_{i',t}$.  Define $\delta$ to be a metric computing the distance between two data points, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) \leq \delta(\bx_{i,t},\bx_{i',t''})$, for any $i,i',t,t',t''$.  
 For brevity, let $\delta_{i,t,t'}:=\delta(\bx_{i,t}, \bx_{i,t'})$ and 
@@ -56,32 +56,40 @@ This intuition leads to our definition of discriminability:
 \begin{align}
 D(\bpsi,\bphi) = \PP[ \delta_{i,t,t'} \leq \delta_{i,i',t,t''}]
 \end{align}
-When trying to find the best pre-processing routine encoded by $\bpsi$, we try to maximize the discriminability of processed data, that is 
+When trying to find the best data collection and processing pipeline, we try to maximize the discriminability of processed data, that is  
 \begin{equation} 
 \begin{aligned}
-& \underset{\bpsi \in \bPsi}{\text{maximize}}
+& \underset{\bpsi \in \bPsi,\bphi \in \bPhi}{\text{maximize}}
 & & D(\bpsi,\bphi)
 \end{aligned}
 \end{equation}
+It is often the case that data collection is out of control of researchers, that is $\bphi$ is a fixed element in $\bPhi$. Therefore, we are only interested in finding the best pre-processing routine encoded by $\bpsi$. This is also the focus of this paper, since we do not have opportunity to make decision on data collection choices. In this case, we drop $\bphi$ in our notation and only maximize the discriminability over set $\bPsi$
+\begin{equation} 
+\begin{aligned}
+& \underset{\bpsi \in \bPsi}{\text{maximize}}
+& & D(\bpsi)
+\end{aligned}
+\end{equation}
+ This approach is intuitive and easy to understand. We will show in the theory section that maximizing discriminability leads to good prediction performance. In addition, an unbiased estimator is designed to compute discriminability from test-retest data set. In the simulation and application section, we will demonstrate the utility of discriminability through data experiments.
 
 
 \subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
 
-Consider the situation that the downstream task is classification, that is in addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data. The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ and $\bpsi \in \bPsi$ to make prediction of $\by_i$ based on $\bx_i$ easier. 
+Consider the situation that the downstream inference task is classification, that is in addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data. The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ to make prediction of $\by_i$ based on observation $\bx_i$ easier. In this section, we will see that given two pipelines $\bpsi_1$ and $\bpsi_2$, the one with larger discriminability is more likely to have better prediction performance.  
 
-To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bv_i,\by_i)$ pair is sampled independently and identically from some distribution, $(\bv_i,\by_i) \iid F_{V,Y}$.  For simplicity, let us assume that our goal is binary classification, using $\bx_i$ as the \emph{predictor} variables, and a binary-valued $\by_i$ as the \emph{target} variable. Moreover, the loss function, $\ell$ quantifies the Bayes classification error
-\[\ell( \bx_i, \by_i) =  \PP(C^{B}(\bx_i) \neq \by_i)\]
- Here, $C^{B}(\bx_i)= \underset{y_i \in \{0,1\} }{\text{argmax }} \PP(\by_i=y|\bx_i) $ . Under some assumptions, we can prove theorem 1 which asserts that Bayes classification error is bounded by an decreasing function of discriminability. 
+To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bv_i,\by_i)$ pair is sampled independently and identically from some distribution, $(\bv_i,\by_i) \iid F_{V,Y}$. For simplicity, let us assume that our goal is binary classification, using $\bx_i$ as the \emph{predictor} variables, and a binary-valued $\by_i$ as the \emph{target} variable. Moreover, the loss function $\ell( \bx_i, \by_i)$ quantifies the Bayes classification error in $(\bx_i, \by_i)$
+\[\ell( \bx_i, \by_i) :=  \PP(C^{B}(\bx_i) \neq \by_i) \]
+ Here, $C^{B}$ is the Bayes classifier which is defined 
+ \[C^{B}(\bx_i):= \underset{y \in \{0,1\} }{\text{argmax }} \PP(\by_i=y|\bx_i)\] 
+ Since $\bx_i$ depends on the processing pipeline $\bpsi$, we also write $\ell(\bpsi):=\ell(g_{\bpsi} (f_{\bphi} (\bv_i) ),\by_i)=\ell( \bx_i, \by_i)$ when the target variable is clear. Under some assumptions, we can prove theorem 1 which asserts that Bayes classification error is bounded by an decreasing function of discriminability. 
 \begin{thm}	
-	There is a decreasing function $h$, such that
-\[\ell( \bx_i, \by_i) \leq h(D(\bpsi,\bphi)) \]
+There is a decreasing function $h$, such that
+\[\ell(\bpsi) \leq h(D(\bpsi)) \]
 \end{thm}
-
-Therefore, we expect the classification performance to be better when the more discriminable processing pipeline is used. This theorem justifies
-maximizing discriminability of processed data improves prediction accuracy.
+As a consequence, we expect the classification performance to be small when the discriminability is large. When choosing from two processing pipelines $\bpsi_1$ and $\bpsi_2$, we should first compute $D(\bpsi_1)$ and $D(\bpsi_2)$. We then choose the pipeline which yields larger discriminability to have lower bound on the Bayes classification error. This theorem justifies maximizing discriminability for subsequent classification tasks.
 
 \subsubsection{Estimator/Test Statistic}
-In practice, exact distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi,\bphi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate true discriminability using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from the same subject $i$, we first define
+In practice, exact distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate true discriminability using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from the same subject $i$, we first define
 \[ \hat{D}_{i,t,t'} = \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{(n-1)s}\]
 Here, $n$ is the total number of subjects, and $s$ is the number of observations per subject. $\hat{D}_{i,t,t'}$ approximate the probability that distance between observations from other subjects and $t^{th}$ observation of subject $i$ is larger than distance between $t^{th}$ and $t'^{th}$ trial of subject $i$. Then, we define $\hat{D}$ to be the mean of $\hat{D}_{i,t,t'}$.
 \[ \hat{D} := \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t' \neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)} \]
@@ -146,7 +154,7 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{figure}[t!]
 \includegraphics[width=3.0in]{../Figs/HCP.png}
-\caption{{\bf Optimizing Discriminability yields optimal prediction accuracy for gender and age.} The raw correlation graph is thresholded to convert it to a binary graph. The threshold is varied from 0 to 1. At each threshold, the discriminability is computed; gender and age are predicted using k-NN. The threshold maximizing discriminability yields optimal prediction performance for both covariates. }
+\caption{{\bf Optimizing Discriminability yields optimal prediction accuracy for gender and age.} HCP100 is used to investigate optimal threshold to convert correlation graphs into binary graphs. The threshold is varied from 0 to 1. At each threshold, the discriminability is computed; sex, age and a neuro factor are predicted using k-NN. The threshold maximizing discriminability yields optimal prediction performance for all three tasks. }
 \label{fig:4}
 \end{figure}
 
@@ -194,7 +202,7 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{itemize}
 	\item Explain how rank graphs are constructed, the motivation to robust estimate graphs
-	\item Explain it offers large improvement over raw fmri graphs when there is no gsr, small when there is gsr.s
+	\item Explain it offers large improvement over raw fmri graphs when there is no gsr, small when there is gsr.
 \end{itemize}
 \begin{figure}[t!]
 	\includegraphics[width=3.0in]{../Figs/64_pipelines_size_rank.png}
