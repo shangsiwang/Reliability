@@ -33,15 +33,27 @@
 #   maxmnr: the maximum mnr for this pipeline
 #
 compute_single_pipe <- function(gpath, name, scan_pos, tpath) {
-  
-  source('reliability.R')
   require('ggplot2')
   require('reshape2')
+  source("open_graphs.R")
+  source("thresh_mnr.R")
+  source("../../FlashRupdated/functions/reliability.R")
+  source("../../FlashRupdated/functions/nbinstar.R")
+  source("hell_dist.R")
   print(name)
   #get the graphs from wherever we are
-  graphnames <- list.files(gpath, pattern="\\.graphml", full.names=TRUE)
-  numscans <- length(graphnames)
-  parsed_graphs <- open_ts(graphnames, scan_pos)
+  
+  saveLoc <- paste(tpath, "graphs.rds", sep="")
+  
+  if (!file.exists(saveLoc)) {
+    graphnames <- list.files(gpath, pattern="\\.graphml", full.names=TRUE)
+    numscans <- length(graphnames)
+    parsed_graphs <- open_graphs(graphnames, scan_pos)
+    saveRDS(parsed_graphs, saveLoc)
+  } else {
+    parsed_graphs <- readRDS(saveLoc)
+  }
+      
   wgraphs <- parsed_graphs[[1]]
   ids <- parsed_graphs[[2]]
   
@@ -93,25 +105,26 @@ compute_single_pipe <- function(gpath, name, scan_pos, tpath) {
 # Outputs:
 #   dataset: a dataframe containing all the information about the dataset collected over the pipeline
 #
-compute_set_of_pipes <- function(gpath, setname, tpath) {
+compute_set_of_pipes <- function(gpath, setname, tpath, pos) {
   dataset <- data.frame(matrix(ncol=8, nrow=0))
   names(dataset) <- c("name", "pre", "freq", "scrub", "gsr", "at", "path", "mnr")
-  pipes <- c("ANT", "FSL")
+  pres <- c("ANT", "FSL")
   nuis <- c("gsr", "ngs")
   freq <- c("frf", "nff")
   scrub <- c("scr", "nsc")
   masks <- c("aal","cc2","des","hox")
   i <- 1
-  for (v in pipes)  {
+  for (v in pres) {
     for (w in freq) {
-      for (x in scrub)  {
-        for (y in nuis)  {
+      for (x in scrub) {
+        for (y in nuis) {
           for (z in masks) {
-            name <- paste(setname, pre, freq, scrub, nuis, masks, sep="_")
-            folder <- paste(pre, freq, scrub, nuis, masks, sep="_")
+            name <- paste(setname, v, w, x, y, z, sep="_")
+            folder <- paste(v, w, x, y, z, sep="_")
             #target path  for outputs of the inner loop is the folder for that pipeline
-            mnr <- compute_single_pipe(paste(gpath, folder, "/", sep=""), name, paste(tpath, folder, "/", sep=""))
-            test <- data.frame(setname, pre, freq, scrub, global, at, path, mnr)
+            path <- paste(gpath, folder, "/", sep="")
+            mnr <- compute_single_pipe(path, name, pos, paste(tpath, folder, "/", sep=""))
+            test <- data.frame(setname, v, w, x, y, z, path, mnr)
             dataset <- rbind(dataset, test)
           }
         }
@@ -130,9 +143,10 @@ basepath <- args[[1]] # the base path to the graphml derivatives for a dataset
 
 targetpath <- args[[2]] # path of the destination for the outputs... should have the folders setup appropriately
 
-pathadd <- paste(setval, "/", unique, "/", sep="")
-print(pathadd)
+scanPos <- as.numeric(args[[3]])
 
-nameset <- paste(setval, unique, sep="")
-print(paste(basepath, pathadd, sep=""))
-compute_set_of_pipes(gpath = basepath, setname = nameset, tpath = targetpath)
+nameset <- unlist(strsplit(basepath, split="/"))[6]
+
+print(nameset)
+
+compute_set_of_pipes(gpath = basepath, setname = nameset, tpath = targetpath, pos = scanPos)
