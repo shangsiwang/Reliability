@@ -28,6 +28,7 @@ threshold_plot <- function(thresh, name) {
     geom_line(data=thresh, aes(x=xvals, y=raw, color="Raw")) +
     labs(color="thresholding method") + xlab("normalized threshold") + ylab("mnr") + ggtitle(paste(name, "comparing analysis strategies"))
   
+ 
   return(pthresh)
 
 }
