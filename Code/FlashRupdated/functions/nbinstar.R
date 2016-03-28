@@ -1,4 +1,4 @@
-nbinstar <- function(graphs, ids, scans=2, N=100, spacing='linear', lim=0) {
+nbinstar <- function(graphs, ids, N=100, spacing='linear', lim=0) {
   require(emdbook)
   if (spacing != 'log' && spacing != 'linear') {
     stop(paste('Unknown spacing type:', spacing))
@@ -22,14 +22,14 @@ nbinstar <- function(graphs, ids, scans=2, N=100, spacing='linear', lim=0) {
     for (j in 1:length(bs)) {
       tempg <- tempg + (graphs > bs[j])
     }
-    tempd <- compute_distance(tempg, norm='F')
-    mnrs[i] <- mnr(rdf(tempd, ids, scans))
+    tempd <- distance(tempg, norm='F')
+    mnrs[i] <- mnr(rdf(tempd, ids))
     print(mnrs[i])
     if (mnrs[i] > king) {
       king <- mnrs[i]
       kingbins <- bs
       kingdist <- tempd
-      kingrdf <-rdf(tempd, ids, scans)
+      kingrdf <-rdf(tempd, ids)
     }
   }
   mnrs<-mnrs[which(!is.na(mnrs))]

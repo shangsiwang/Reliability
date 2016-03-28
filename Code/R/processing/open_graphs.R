@@ -27,7 +27,7 @@
 #   subjects[nx1]: the subject ids
 #
 open_graphs <- function(fnames, scan_pos=2) {
-  print("opening graphs...")
+    print("opening graphs...")
   require('igraph')
   subjects <- c()
   numscans<-length(fnames)

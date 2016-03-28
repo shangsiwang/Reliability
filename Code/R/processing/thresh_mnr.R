@@ -33,6 +33,8 @@
 
 thresh_mnr <- function(wgraphs, id, N=50) {
   print("raw thresholding...")
+  source("../../FlashRupdated/functions/reliability.R")
+  source("../../FlashRupdated/functions/distance.R")
   mnrmax <- 0
   mnrall <- array(dim=(N))   # initialize empty vector for the number of thresholding points we will use
   tvalall <- seq(min(wgraphs), max(wgraphs), length=N)
@@ -40,7 +42,7 @@ thresh_mnr <- function(wgraphs, id, N=50) {
     corrt <- wgraphs # temporarily store the initial graphs here
     corrt[ corrt<=tvalall[tloc] ] <- 0  # make the values less than thresh 0
     corrt[ corrt > tvalall[tloc] ] <- 1 # make the values greater than thresh 1
-    dist <- compute_distance(corrt) # compute the distance matrix from the set of graphs that are thresholded
+    dist <- distance(corrt) # compute the distance matrix from the set of graphs that are thresholded
     rel <- rdf(dist, id) # obtain the rdf for the subjects
     mnrall[tloc] <- mnr(rel,remove_outliers=FALSE, thresh=0) # compute the mnr from the rdf
     if (mnrall[tloc] > mnrmax) {
