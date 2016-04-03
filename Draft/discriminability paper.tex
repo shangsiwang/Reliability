@@ -92,10 +92,13 @@ There is a decreasing function $h$ which only depends on $\bv$ and $\by$, such t
 \end{thm}
 As a consequence, we expect the classification performance to be good when the discriminability is large. An immediate corollary justifies using discriminability to select the optimal processing pipeline. 
 \begin{coro}	
-Given two processing pipelines: $\bpsi_1$ and $\bpsi_2$, assume $\bpsi_1$ is more discriminable than $\bpsi_2$. That is if $D(\bpsi_1) > D(\bpsi_2)$, then for any distribution of $\by$ there exists $h$, 
-\[ h(D(\bpsi_1)) \leq h(D(\bpsi_2)) \]
+Given two processing pipelines $\bpsi_1$ and $\bpsi_2$, suppose $\bpsi_1$ is more discriminable than $\bpsi_2$, that is $D(\bpsi_1) > D(\bpsi_2)$. If $\ell(\bpsi_2) \geq h(D(\bpsi_1))$, then
+\[ \ell(\bpsi_1) \leq \ell(\bpsi_2) \] 
+Also, we must have
+\[ \ell(\bpsi_1) \leq h(D(\bpsi_2)) \]
+
 \end{coro}
-It tells us for any distribution of $\by$, we have a tighter bound on Bayes error using the more reliable pipeline. When choosing from two processing pipelines $\bpsi_1$ and $\bpsi_2$, we should first compute $D(\bpsi_1)$ and $D(\bpsi_2)$. We then select the pipeline which yields larger discriminability to have lower bound on the Bayes classification error. This theorem justifies maximizing discriminability for subsequent classification tasks.
+It tells us for any distribution of $\by$, we have a tighter bound on Bayes error using the more discriminable pipeline. When choosing from two processing pipelines $\bpsi_1$ and $\bpsi_2$, we should first compute $D(\bpsi_1)$ and $D(\bpsi_2)$. We then select the pipeline which yields larger discriminability to have lower bound on the Bayes classification error. This theorem justifies maximizing discriminability for subsequent classification tasks.
 
 \subsubsection{Estimator/Test Statistic}
 In real world, exact distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate true discriminability using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from the same subject $i$, we first define
@@ -222,7 +225,7 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \begin{figure}[t!]
 	\includegraphics[width=3.0in]{../Figs/64_pipelines_differ.png}
-	\caption{{\bf Difference in Discriminability of rank vs raw fmri graphs from 12 data sets processed 64.} Difference in discriminability is computed by fixing a pipeline and a data set. Overall, rank graphs is more discriminable than raw correlation graphs, especially when no global signal regression is performed. }
+	\caption{{\bf Difference in Discriminability between rank vs raw fmri graphs from 12 data sets processed 64.} Difference in discriminability is computed by fixing a pipeline and a data set. Overall, rank graphs is more discriminable than raw correlation graphs, especially when no global signal regression is performed. }
 	\label{fig:9}
 \end{figure}
 
@@ -231,7 +234,11 @@ The figure 1 shows how $\hat{D}$ is distributed when we vary the sample size fro
 
 \subsubsection{DTI vs. fMRI}
 
-
+\begin{figure}[t!]
+	\includegraphics[width=3.0in]{../Figs/dti_mri_differ.png}
+	\caption{{\bf Difference in Discriminability between dti and fmri of 4 data sets.} Discriminability of dti and fmri are computed for data sets: BNU1, HNU1, SWU4 and KKI. Difference in discriminability is then computed by subtracting fmri discriminability from dti discriminability. The number at top indicates the percentage of outliers removed from dti data sets. Overall, dti graphs is more discriminable than fmri graphs. }
+	\label{fig:9}
+\end{figure}
 
 
 
