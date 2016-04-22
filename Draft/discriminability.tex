@@ -4,8 +4,7 @@
 \title{\vspace{-50pt}
 % Reliable and Reproducible Brain-Based Measures for Candidate Biomarker Discovery from Big Data
 % Optimal Discovery Science from Big Brain-Imaging Data via Reliability and Reproducibility  
-% Optimal Design for Discovery Science via Maximizing Discriminability: \\ Applications in Neuroimaging
-\db{Optimal Discovery Science via Maximizing Discriminability: \\ Applications in Neuroimaging}
+\db{Optimal Design for Discovery Science via Maximizing Discriminability: \\ Applications in Neuroimaging}
 }
 \author{Shangsi Wang, Zhi Yang, Xi-Nian Zuo, Michael Milham, Cameron Craddock,  \\ 
 Greg Kiar, William Gray Roncal, Eric Bridgeford,
@@ -22,11 +21,12 @@ Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vo
 
 \para{Opportunity} Benchmark datasets are omnipresent
 
-\para{Challenge} Deciding on how to collect and process the data, in the absence of an explicit task
+\para{Challenge} Deciding on how to collect and process the data, in the absense of an explicit task or for multiple tasks.
 
-\para{Action} We define ``discrimininability'' as the ability to differentiate between different classes of objects
+\para{Action} We define discriminability as a probability which bounds Bayes error.
 
-\para{Resolution} 
+\para{Resolution} We compute discriminability on a simulated data set and real data sets to study the optimal way to process data.
+
 
 
 \section{Results}
@@ -35,59 +35,47 @@ Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vo
 
 \subsection{Theory}
 
-\subsubsection{Definition of Discriminability}
+\subsubsection{Discriminability as a framework to guide processing}
+\para{Rigorously define discriminability} Based on intuition, we define discriminability of a multi-subject distribution $F$ as a probability of within subject distances to be smaller than across subject distances.
+
+\para{Define optimizing pipeline problem} we are looking for most discriminable processing pipeline that is $\max_\phi \phi(F)$.
+
+
 
 \subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
 
+\para{Introduce classification} Define the binary classification problem and Bayes error.
+
+\para{Justify discriminability} Under additive noise setting, discriminability bounds bayes error.
 
 \begin{thm}
 discriminability bounds predictive accuracy
 \end{thm}
 
+\para{Corollary} Processing pipeline selection.
 
-\subsubsection{Estimator/Test Statistic}
+\subsubsection{Estimating Discriminability}
+
+\para{Estimate discriminability} We design an estimator Dhat to estimate discriminability from test-retest data set.
 
 \begin{itemize}
-\item an estimator of D, called Dhat
 
-\item proof that our estimator is unbiased (in a model free setting), 
-$E(Dhat)=D$.
+\item In a model free setting, $E(Dhat)=D$.
 
-\item proof that our estimator asymptotically converges to truth (in a model free setting), $\mh{D}_n \conv D$
+\item In a model free setting, $\mh{D}_n \conv D$
 \end{itemize}
 
 
 \subsection{Simulations}
 
-\subsubsection{Dhat $\conv$ E(D) in practice for some (eg, gaussian) simulation}
 
-\begin{figure}[t!]
-\includegraphics[width=3.0in]{../Figs/simumnr_violin.png}
-\caption{}
-\label{fig:64}
-\end{figure}
+\subsubsection{Dhat $\conv$ E(D) in practice for some gaussian simulation}
+\para{Simulation} The means of subjects follow gaussian and the observations from a subject also follow gaussian. 
 
 
 
-
-\subsubsection{Dhat provides a more useful bound than ICC or I2C2 for a variety of simulated settings}
-
-\begin{figure}[t!]
-\includegraphics[width=3.0in]{../Figs/Figure1_draft.png}
-\caption{}
-\label{fig:64}
-\end{figure}
-
-
-
-\subsubsection{we can use Dhat to choose the most discriminable parameter (eg, threshold)}
-
-
-\begin{figure}[t!]
-\includegraphics[width=3.0in]{../Figs/parameter_selection_2sub.png}
-\caption{}
-\label{fig:64}
-\end{figure}
+\subsubsection{we can use Dhat to choose the most discriminable parameter }
+\para{Simulation} Learn the optimal linear projection through discriminability
 
 
 
@@ -95,55 +83,44 @@ $E(Dhat)=D$.
 \subsection{Connectome Applications}
 
 \subsubsection{optimal Discriminability yields optimal predictive accuracy}
+\para{real experiment} Describe the data and threshold experiment. 
 
-\begin{figure}[t!]
-\includegraphics[width=3.0in]{../Figs/HCP.png}
-\caption{}
-\label{fig:64}
-\end{figure}
+\para{real experiment} Emphasize that discriminability selects threshold which is close to optimal for multiple tasks.
+
 
 
 \subsubsection{Best Pipeline of 64}
+\para{real experiment} Describe the 12 data sets and 64 pipelines. 
 
-\begin{figure}[t!]
-\includegraphics[width=3.0in]{../Figs/64_pipelines_gg.png}
-\caption{}
-\label{fig:64}
-\end{figure}
+\para{real experiment} Decide the best among 64 pipelines.
 
-
-\subsubsection{best pipeline = product of marginals}
-
-
-\begin{figure}[t!]
-\includegraphics[width=3.0in]{../Figs/Differ_violin_mean.png}
-\caption{}
-\label{fig:64}
-\end{figure}
+\para{real experiment} Decide the optimal for each decision (atlas, nff vs frf, ant vs fsl, nsc vs scr, gsr vs ngs) using anova test.
 
 
 
-\subsubsection{thresholding vs. binning ranks}
 
-\subsubsection{which atlas/resolution}
+\subsubsection{raw vs ranks}
+\para{real experiment} Describe how to convert raw graphs to rank graphs
 
+\para{real experiment} Decide rank is better, especially when global signal regression is not performed.
 
 \subsubsection{DTI vs. fMRI}
+\para{real experiment} Describe the 4 fmri and dti data sets.
 
+\para{real experiment} After removing outliers, dti is more discriminable than fmri.
 
+\subsubsection{DTI atlas/resolution}
+\para{real experiment} Describe we process a  dti data data set with rank, raw and log for 15 atlases. 
 
-
-
-
-
+\para{real experiment} We see a trend that large roi are better. Since discriminability after removing outliers is close to one, more experiments need to be done.
 
 
 
 \section{Discussion}
 
-\para{Summary}
+\para{Summary} We propose a definition of discriminability and apply it to a variety of set ups.
 
-\para{Related Work}
+\para{Related Work} I2C2, DISCO and GICC
 
 
 \para{Next Steps}
