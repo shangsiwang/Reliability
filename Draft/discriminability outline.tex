@@ -74,7 +74,13 @@ discriminability bounds predictive accuracy
 
 \begin{figure}[ht!]
 	\includegraphics[width=3.0in]{../Figs/simumnr_violin.png}
-	\caption{{\bf Convergence of sample discriminability.} Distribution of sample discriminability is estimated. As the number of subjects increases, the sample discriminability converges to true population discriminability. }
+	\caption{{\bf Convergence of sample discriminability.} Distribution of sample discriminability is estimated. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
+	\label{fig:1}
+\end{figure}
+
+\begin{figure}[ht!]
+	\includegraphics[width=3.0in]{../Figs/theo_plot.png}
+	\caption{{\bf Prediction error vs discriminability.} Samples are drawn from a mixture of two Gaussian distribution with additive noise. The red line is the theoretical bound derived from the theorem 1. The green line indicates the true Bayes error. }
 	\label{fig:1}
 \end{figure}
 
@@ -84,7 +90,7 @@ discriminability bounds predictive accuracy
 
 \begin{figure}[ht!]
 	\includegraphics[width=3.0in]{../Figs/parameter_selection_2sub.png}
-	\caption{{\bf Linear projection based on by PCA and Discriminability.} Linear projections are computed using PCA, optimizing Discriminability. Maximizing discriminability yield separated samples which have Bayes optimal classification accuracy. }
+	\caption{{\bf Linear projection based on by PCA and Discriminability.} Linear projections are computed using PCA and optimizing Discriminability. Maximizing discriminability yield separated samples which have Bayes optimal classification error. }
 	\label{fig:3}
 \end{figure}
 
@@ -97,8 +103,8 @@ discriminability bounds predictive accuracy
 \para{real experiment} Emphasize that discriminability selects threshold which is close to optimal for multiple tasks.
 
 \begin{figure}[ht!]
-\includegraphics[width=4.0in]{../Figs/hcp_2.png}
-\caption{{\bf Optimizing Discriminability yields optimal prediction accuracy for multiple covariates.} HCP100 is used to investigate optimal threshold to convert correlation graphs into binary graphs. The threshold is varied from 0 to 1. For each threshold, the discriminability is computed;  sex, age and a neuro factor are predicted using k-NN. The threshold maximizing discriminability is close to optimal thresholds for predicting three covariates. }
+\includegraphics[width=4.0in]{../Figs/HCP_100.png}
+\caption{{\bf Optimizing Discriminability yields optimal prediction accuracy for multiple covariates.} HCP100 is used to investigate optimal threshold to convert correlation graphs into binary graphs. The threshold is varied from 0 to 1. For each value of threshold, the discriminability is computed;  sex, age and a neuro factor are predicted using k-NN. The threshold maximizing discriminability is close to optimal thresholds for predicting three covariates. }
 \label{fig:4}
 \end{figure}
 
@@ -110,7 +116,7 @@ discriminability bounds predictive accuracy
 \para{real experiment} Decide the optimal for each decision (atlas, nff vs frf, ant vs fsl, nsc vs scr, gsr vs ngs) using anova test.
 \begin{figure}[ht!]
 	\includegraphics[width=4.0in]{../Figs/64_pipelines_raw.png}
-	\caption{{\bf Discriminability of raw fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS processed by 64 pipelines are computed. Colors indicate data set and size indicates the size of data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data set. }
+	\caption{{\bf Discriminability of raw fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS processed by 64 pipelines are computed. Color of dot indicates data set and size indicates the number of observations in data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data sets. }
 	\label{fig:6}
 \end{figure}
 
@@ -138,7 +144,7 @@ discriminability bounds predictive accuracy
 
 \begin{figure}[ht!]
 	\includegraphics[width=4.0in]{../Figs/dti_mri_differ.png}
-	\caption{{ \bf Paired difference in discriminability between dti and fmri data sets.} Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. DTI data sets are more discriminable than fMRI data sets.}
+	\caption{{ \bf Paired difference in discriminability between dti and fmri data sets.} Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets are more discriminable than fMRI data sets.}
 	\label{fig:7}
 \end{figure}
 
@@ -149,7 +155,7 @@ discriminability bounds predictive accuracy
 
 \begin{figure}[ht!]
 	\includegraphics[width=4.0in]{../Figs/SWU4_DTI_logroi.png}
-	\caption{{ \bf Discriminability of 15 atlases.} Discriminability of SWU4 DTI registered with 15 atlases are computed. Atlases with a larger number of rois tend to be more discriminable.}
+	\caption{{ \bf Discriminability of 15 atlases.} Discriminability of SWU4 DTI registered with 15 atlases are computed. Raw, rank and log edges weights are considered. Atlases with a larger number of ROIs tend to be more discriminable.}
 	\label{fig:7}
 \end{figure}
 
