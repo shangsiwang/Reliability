@@ -73,7 +73,7 @@ discriminability bounds predictive accuracy
 \para{Simulation} The means of subjects follow gaussian and the observations from a subject also follow gaussian. 
 
 \begin{figure}[ht!]
-	\includegraphics[width=3.0in]{../Figs/simumnr_violin.png}
+	\includegraphics[width=3.0in]{../Figs/rel_conv.png}
 	\caption{{\bf Convergence of sample discriminability.} Distribution of sample discriminability is estimated. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
 	\label{fig:1}
 \end{figure}
@@ -89,7 +89,7 @@ discriminability bounds predictive accuracy
 \para{Simulation} Learn the optimal linear projection through discriminability
 
 \begin{figure}[ht!]
-	\includegraphics[width=3.0in]{../Figs/parameter_selection_2sub.png}
+	\includegraphics[width=3.0in]{../Figs/opt_proj.png}
 	\caption{{\bf Linear projection based on by PCA and Discriminability.} Linear projections are computed using PCA and optimizing Discriminability. Maximizing discriminability yield separated samples which have Bayes optimal classification error. }
 	\label{fig:3}
 \end{figure}
@@ -108,7 +108,7 @@ discriminability bounds predictive accuracy
 \label{fig:4}
 \end{figure}
 
-\subsubsection{Best Pipeline of 64}
+\subsubsection{fMRI Processing pipelines}
 \para{real experiment} Describe the 12 data sets and 64 pipelines. 
 
 \para{real experiment} Decide the best among 64 pipelines.
@@ -126,7 +126,6 @@ discriminability bounds predictive accuracy
 	\label{fig:7}
 \end{figure}
 
-\subsubsection{raw vs ranks}
 \para{real experiment} Describe how to convert raw graphs to rank graphs
 
 \para{real experiment} Decide rank is better, especially when global signal regression is not performed.
@@ -136,6 +135,19 @@ discriminability bounds predictive accuracy
 	\label{fig:7}
 \end{figure}
 
+
+
+
+\subsubsection{DTI processing pipelines}
+\para{real experiment} Describe we process a  dti data data set with rank, raw and log for 15 atlases. 
+
+\para{real experiment} We see a trend that large roi are better. Since discriminability after removing outliers is close to one, more experiments need to be done.
+
+\begin{figure}[ht!]
+	\includegraphics[width=4.0in]{../Figs/four_dti.png}
+	\caption{{ \bf Discriminability of 15 atlases.} Discriminability of SWU4 DTI registered with 15 atlases are computed. Raw, rank and log edges weights are considered. Atlases with a larger number of ROIs tend to be more discriminable.}
+	\label{fig:7}
+\end{figure}
 
 \subsubsection{DTI vs. fMRI}
 \para{real experiment} Describe the 4 fmri and dti data sets.
@@ -148,17 +160,6 @@ discriminability bounds predictive accuracy
 	\label{fig:7}
 \end{figure}
 
-\subsubsection{DTI atlas/resolution}
-\para{real experiment} Describe we process a  dti data data set with rank, raw and log for 15 atlases. 
-
-\para{real experiment} We see a trend that large roi are better. Since discriminability after removing outliers is close to one, more experiments need to be done.
-
-\begin{figure}[ht!]
-	\includegraphics[width=4.0in]{../Figs/SWU4_DTI_logroi.png}
-	\caption{{ \bf Discriminability of 15 atlases.} Discriminability of SWU4 DTI registered with 15 atlases are computed. Raw, rank and log edges weights are considered. Atlases with a larger number of ROIs tend to be more discriminable.}
-	\label{fig:7}
-\end{figure}
-
 \section{Discussion}
 
 \para{Summary} We propose a definition of discriminability and apply it to a variety of set ups.
@@ -167,6 +168,8 @@ discriminability bounds predictive accuracy
 
 
 \para{Next Steps}
+
+\section{Appendix}
 
 
 % \input{intro}
