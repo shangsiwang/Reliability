@@ -14,7 +14,8 @@ load('BNU_1_FSL_nff_nsc_gsr_cc2_pairdist.RData')
 library(reshape)
 library(ggplot2)
 
-
+O<-c(1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4)
+O<-rnorm(16,0,0.3)+O
 
 diag(pairdist)<-Inf
 diag(pairdist)<-min(pairdist)
