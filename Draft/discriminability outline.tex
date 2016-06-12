@@ -19,74 +19,131 @@ Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vo
 
 \section{Introduction}
 
-\para{Opportunity} Benchmark datasets are omnipresent
-
-\para{Challenge} Deciding on how to collect and process the data, in the absense of an explicit task or for multiple tasks.
-
-\para{Action} We define discriminability as a probability which bounds Bayes error.
-
-\para{Resolution} We compute discriminability on a simulated data set and real data sets to study the optimal way to process data.
+\para{Opportunity and Challenge} In this era of big data, many scientific, government, and corporate groups are collecting and processing massive datasets. To obtain optimal quantitative answers to any inquiry about data requires making two decisions: (i) “how should the data be collected?”, and (ii) “how should the data be processed?”  When the downstream inference task is specified, a priori, we can collect and process data to optimize the performance of task. However, recently, across industry, governmental, and academic settings, certain datasets become benchmark or reference datasets. Such datasets are then used for a wide variety of different inferential problems. Collecting and processing these datasets requires massive institutional investments, and choices related to questions(i) and (ii) above have dramatic effects on all subsequent analyses. Optimally addressing experimental design decisions can yield significant savings in both the financial and human costs, and also improve accuracy of analytical results. Therefore, a theoretical framework to enable investigators to select from a set of possible design decisions in the absence of an explicit task or for multiple tasks could reap great rewards.
 
 
+
+\para{Action} 
+To this end, we have proposed and developed a formal definition of discriminability to guide data collection and processing. Discriminability is a non-parametric statistical property of a joint distribution in a hierarchical model, to differentiate between classes of objects. We prove that discriminability (which may be more aptly called reliability), provides a lower bound on predictive accuracy for any downstream inference task, even if we have never seen the covariates to predict in the processing. We then design an estimator of discriminability computed from test-retest data set, demonstrate that it is unbiased, and derive our estimator’s asymptotic distribution. 
+
+\para{Resolution} Numerical simulations are conducted to demonstrate the basic property of our discriminability estimator in a variety of settings. Then, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to investigate functional connectomics. We start by finding the maximally discriminable threshold for converting correlation matrices into binary graphs. Indeed, consistent with our theoretical and simulated results, maximizing the discriminability of our datasets also maximizes performance on a suite of different downstream inference tasks. We then ask about a series of pre-processing steps: should one motion correct or not, and should one implement global signal regression or not, etc. We determine the optimal choice for each pre-processing steps, and find the maximally discriminable pipelines amongst 64 pre-processing pipelines.
+
+Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and analyze datasets designed for discovery science. We expect this method to be useful in a wide variety of applications,
+and therefore have made all the code open source and available from http://openconnecto.me.
+
+\begin{figure}[ht!]
+	\includegraphics[width=5.0in]{../Figs/flow_chart.png}
+	\caption{{\bf Decision Making Through Discriminability Framework.} Test-retest data is collected from multiple subjects. The data is processed by a set of pipelines. For each processing pipeline, pairwise distances between observations are computed and discriminability is estimated. The pipeline with the maximal discriminability is selected. }
+	\label{fig:1}
+\end{figure}
 
 \section{Results}
-
-
-
 \subsection{Theory}
 
 \subsubsection{Discriminability as a framework to guide processing}
-\para{Rigorously define discriminability} Based on intuition, we define discriminability of a multi-subject distribution $F$ as a probability of within subject distances to be smaller than across subject distances.
+\para{Rigorously define discriminability} 
+Discriminability measures the overall consistency and differentiability of observations. For example, if a subject is measured twice under the same conditions, two observations should be close to each other given the measure is consistent. In addition, one should be able to tell these two observations come from the same subject when compared to observations from other subjects given the measure is differentiable. We quantify this idea of consistency and differentiability through discriminability. 
 
-\para{Define optimizing pipeline problem} we are looking for most discriminable processing pipeline that is $\max_\phi \phi(F)$.
+To formalize the definition of discriminability, consider the following generative process. For each sample $i$, there exists some true physical property $\bv_i$. Unfortunately, we do not get to directly observed $\bv_i$, rather, we measure it with some device, that transforms the truth from $\bv_i$ to $\bw_i$ via $f_{\bphi}$. The parameter $\bphi \in \bPhi$ characterizes all options in the measurement, including, for example, which scanner to use, which resolution, the number of images, sampling rate, etc.  The output of $f_{\bphi}$ is the  ``raw'' observation data $\bw_i$, but it is corrupt in various ways, including movement or intensity artifacts introduced by the measurement process.  Therefore, rather than operating directly on $\bw_i$, we intentionally ``pre-process'' the data, in an effort to remove a number of nuisance variables.  This pre-processing procedure further transforms the data from $\bw_i$ to $\bx_i$ via $g_{\bpsi}$.   The parameter $\bpsi \in \bPsi$ indexes all pre-processing options, including whether to perform motion correction, which motion correction, deconvolution, etc.  More specifically, the entire code base, including dependencies, and even the hardware the pre-processing is running on, could count as $\bpsi$. For brevity, we define $\bx_i:= g_{\bpsi} \big(f_{\bphi} (\bv_i) \big)$. We should notice that $g_{\bpsi}$ and $f_{\bphi}$ by their natures are random functions which means even if we measure the same physical property $\bv_i$ twice the results could be different.
+
+Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bx_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$ and $\bpsi$, which encodes all the details of the measurement and pre-processing. If both $g_{\bpsi}$ and $f_{\bphi}$ together do not introduce too much noise, then we would expect that $\bx_{i,t}$ and $\bx_{i,t'}$ are \emph{closer} to one another than either are to any other subject's data, $\bx_{i',t}$. Define $\delta$ to be a metric computing the distance between two data points, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) \leq \delta(\bx_{i,t},\bx_{i',t''})$, for most combinations of $i,i'\neq i,t,t' \neq t,t''$.  
+For brevity, let $\delta_{i,t,t'}:=\delta(\bx_{i,t}, \bx_{i,t'})$ and 
+$\delta_{i,i',t,t''}:=\delta(\bx_{i,t}, \bx_{i',t''})$.  
+This intuition leads to our definition of discriminability:
+\begin{align}
+	D(\bpsi,\bphi) = \PP[ \delta_{i,t,t'} \leq \delta_{i,i',t,t''}]
+\end{align}
+In words, discriminability is the probability that within subject distance is smaller than across subject distance. Implicitly, $D(\bpsi,\bphi)$ also depends on the distribution of true physical property $\bv$; through out this paper we will assume it is fixed and is independent of $g_{\bpsi}$ and $f_{\bphi}$. 
+
+\para{Define optimizing pipeline problem} When trying to find the best data collection and processing pipeline, we try to maximize the discriminability of processed data, that is  
+\begin{equation} 
+\begin{aligned}
+& \underset{\bpsi \in \bPsi,\bphi \in \bPhi}{\text{maximize}}
+& & D(\bpsi,\bphi)
+\end{aligned}
+\end{equation}
+It is often the case that data collection is out of control of researchers, that is $\bphi$ is a fixed element in $\bPhi$. Therefore, we are only interested in finding the best pre-processing routine encoded by $\bpsi$. This is also the focus of this paper, since we do not have opportunity to make decision on data collection choices. In this case, we drop $\bphi$ in our notation and only maximize the discriminability over set $\bPsi$
+\begin{equation} 
+\begin{aligned}
+& \underset{\bpsi \in \bPsi}{\text{maximize}}
+& & D(\bpsi)
+\end{aligned}
+\end{equation}
+This approach is intuitive and easy to understand. We will show in the theory section that maximizing discriminability leads to good prediction performance. In addition, an unbiased estimator is designed to compute discriminability from test-retest data set. In the simulation and application section, we will demonstrate the utility of discriminability through data experiments.
+
+
+Based on intuition, we define discriminability of a multi-subject distribution $F$ as a probability of within subject distances to be smaller than across subject distances.
+
 
 
 
 \subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
 
-\para{Introduce classification} Define the binary classification problem and Bayes error.
+Consider the situation that the downstream inference task is classification, that is in addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data. In this paper, we focus on binary classification problem that is $\mc{Y}=\{0,1\}$. The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ to make prediction of $\by_i$ based on observation $\bx_i$ easier. In this section, we will see that given two pipelines $\bpsi_1$ and $\bpsi_2$, the one with larger discriminability is more likely to have better prediction performance.  
 
-\para{Justify discriminability} Under additive noise setting, discriminability bounds bayes error.
-
-\begin{thm}
-discriminability bounds predictive accuracy
+To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bv_i,\by_i)$ pair is sampled independently and identically from some distribution, $(\bv_i,\by_i) \iid F_{V,Y}$. The goal is to predict the binary-valued \emph{target} variable $\by_i$,  using $\bx_i$ as the \emph{predictor} variables. Given a classifier $C: \mc{X} \rightarrow \mc{Y}$, to quantify the performance of classifier, we define the loss function $L(C)$ to be the probability of making error in prediction that is
+\[L(C) = \PP(C(\bx_i) \neq \by_i) \]
+It is well known the minimal prediction error is achieved by Bayes classification.
+\[L^*(\bx_i,\by_i) : = L(C^B)\]
+where $C^{B}$ is the Bayes classifier which is defined by
+\[C^{B}(\bx_i):= \underset{y \in \{0,1\} }{\text{argmax }} \PP(\by_i=y|\bx_i)\] 
+$L^*$ is determined by the distribution of $(\bx_i, \by_i)$. Since $\bx_i$ depends on pipeline $\bpsi$, we denote the loss of pipeline $\bpsi$ by $\ell(\bpsi)$ which is the Bayes prediction error of $(\bx_i, \by_i)$.
+\[\ell(\bpsi):= L^*(\bx_i,\by_i) = L^*(g_{\bpsi} (f_{\bphi} (\bv_i) ),\by) \] 
+The next theorem shows the relationship between Bayes classification error ad discriminability. Under assumptions that the noise is additive, we can prove theorem 1 which asserts that Bayes classification error is bounded by a decreasing function of discriminability. 
+\begin{thm}	
+	There is a decreasing function $h$ which only depends on $\bv$ and $\by$, such that
+	\[\ell(\bpsi) \leq h(D(\bpsi)) \]
 \end{thm}
+As a consequence, we expect the classification performance to be good when the discriminability is large. An immediate corollary justifies using discriminability to select the optimal processing pipeline. 
+\begin{coro}	
+	Given two processing pipelines $\bpsi_1$ and $\bpsi_2$, suppose $\bpsi_1$ is more discriminable than $\bpsi_2$, that is $D(\bpsi_1) > D(\bpsi_2)$. If $\ell(\bpsi_2) \geq h(D(\bpsi_1))$, then
+	\[ \ell(\bpsi_1) \leq \ell(\bpsi_2) \] 
+	Also, we must have
+	\[ \ell(\bpsi_1) \leq h(D(\bpsi_2)) \]
+	
+\end{coro}
+It tells us for any distribution of $\by$, we have a tighter bound on Bayes error using the more discriminable pipeline. When choosing from two processing pipelines $\bpsi_1$ and $\bpsi_2$, we should first compute $D(\bpsi_1)$ and $D(\bpsi_2)$. We then select the pipeline which yields larger discriminability to have lower bound on the Bayes classification error. This theorem justifies maximizing discriminability for subsequent classification tasks.
 
-\para{Corollary} Processing pipeline selection.
 
 \subsubsection{Estimating Discriminability}
+In real world, distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate true discriminability $D$ using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from the same subject $i$, we first define
+\[ \hat{D}_{i,t,t'} = \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{(n-1)s}\]
+where $\mathbb{I}\{ \cdot \} $ is the indicator function, $n$ is the number of subjects, and $s$ denotes the number of observations per subject. $\hat{D}_{i,t,t'}$ approximate the probability that distances from observations of other subjects to the $t^{th}$ observation of subject $i$ is larger than the distance between $t^{th}$ and $t'^{th}$ trial of subject $i$. Then, we define the discriminability estimator $\hat{D}$ to be the mean of $\hat{D}_{i,t,t'}$.
+\[ \hat{D} := \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t' \neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)} \]
+$\hat{D}$ serves as the sample approximated discriminability. The next two lemmas asserts that the discriminability estimator $\hat{D}$ is unbiased and converges to $D$ as $n$ goes to infinity.
 
-\para{Estimate discriminability} We design an estimator Dhat to estimate discriminability from test-retest data set.
+\begin{lem}	
+	$\hat{D}$ is an unbiased estimator of $D$, that is
+	\[ E(\hat{D}) = D\]
+\end{lem}
 
-\begin{itemize}
+\begin{lem}	
+	As $n \rightarrow \infty$, $\hat{D}$ converges to $D$ in probability, that is
+	\[\hat{D} \overset{p}{\rightarrow} D \]
+\end{lem}
 
-\item In a model free setting, $E(Dhat)=D$.
-
-\item In a model free setting, $\mh{D}_n \conv D$
-\end{itemize}
 
 
 \subsection{Simulations}
-
-
-\subsubsection{Dhat $\conv$ E(D) under gaussian simulation}
-\para{Simulation} The means of subjects follow gaussian and the observations from a subject also follow gaussian. 
-
+\subsubsection{Convergence of Discriminability Estimator}
+In Lemma 1 and 2, we claim discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate this idea with simulation. We consider a simple case that $g_{\bpsi}$ and $f_{\bphi}$ together introduces independent Gaussian noise $\epsilon$, that is
+\begin{equation}
+\bx_{i,t} =g_{\bpsi} \big(f_{\bphi} (\bv_i) \big) =\bv_{i} + \mb{\epsilon}_{i,t}
+\end{equation}  
+We sample $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ independently from standard Gaussian distribution. That is $\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$ and $\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$. For each  subject, we sample two observations and let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times to estimate the distribution of $\hat{D}$. With this data generation scheme, we can compute the population discriminability $D$ from numerical integration $0.6150$. The figure 1 shows the difference $\hat{D}$ and $D$. We can see from the figure that sample discriminabiity $\hat{D}$ converges to $D$ as the number of subject increases.
 \begin{figure}[ht!]
 	\includegraphics[width=3.0in]{../Figs/rel_conv.png}
-	\caption{{\bf Convergence of sample discriminability.} Distribution of sample discriminability is estimated. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
-	\label{fig:1}
-\end{figure}
-
-\begin{figure}[ht!]
-	\includegraphics[width=3.0in]{../Figs/theo_plot.png}
-	\caption{{\bf Prediction error vs discriminability.} Samples are drawn from a mixture of two Gaussian distribution with additive noise. The red line is the theoretical bound derived from the theorem 1. The green line indicates the true Bayes error. }
+	\caption{{\bf Convergence of sample discriminability.} Distribution of sample discriminability is estimated. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
 	\label{fig:1}
 \end{figure}
 
 
-\subsubsection{we can use Dhat to choose the most discriminable parameter }
-\para{Simulation} Learn the optimal linear projection through discriminability
+
+
+\subsubsection{Projection Selection through Discriminability  }
+In this simulation, we consider the task of projecting 2-dimensional observations linearly into 1-dimensional space. Again, we assume additive noise. In addition to $\bx_{i,t}$, there is a binary class label $\by_{i}$ associated with subject $i$. The true physical property is Gaussian distributed conditioned on $\by_i$,
+\[\bv_i|\by_i=1 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \text{ and, } \bv_i|\by_i=0 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}-1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \]
+The optimal linear projection should keep two classes separated which is just keep the first dimension of the observations. We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case is that $\mb{\epsilon}_{i,t}$ has larger variance in the first dimension; the other case is that $\mb{\epsilon}_{i,t}$ has larger variance in the second dimension. We use both discriminability and principal component analysis to find the optimal linear projection. The result of two cases are provided in two columns of figure 3. In the first case, both methods find the linear projection which separate two classes. However, in the second case only discriminability recovers the projection which separate two classes. 
 
 \begin{figure}[ht!]
 	\includegraphics[width=3.0in]{../Figs/opt_proj.png}
@@ -94,6 +151,12 @@ discriminability bounds predictive accuracy
 	\label{fig:3}
 \end{figure}
 
+
+\begin{figure}[ht!]
+	\includegraphics[width=3.0in]{../Figs/theo_plot.png}
+	\caption{{\bf Prediction error vs discriminability.} Samples are drawn from a mixture of two Gaussian distribution with additive noise. The red line is the theoretical bound derived from the theorem 1. The green line indicates the true Bayes error. }
+	\label{fig:1}
+\end{figure}
 
 \subsection{Connectome Applications}
 

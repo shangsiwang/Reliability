@@ -4,11 +4,9 @@
 \title{\vspace{-50pt}
 % Reliable and Reproducible Brain-Based Measures for Candidate Biomarker Discovery from Big Data
 % Optimal Discovery Science from Big Brain-Imaging Data via Reliability and Reproducibility  
-\db{Optimal Design for Discovery Science (aka Unspecified Tasks) via Maximizing Discriminability: \\ Applications in Neuroimaging}
+\db{Optimal Design for Discovery Science: \\ Applications in Neuroimaging}
 }
-\author{Shangsi Wang, Zhi Yang, Xi-Nian Zuo, Michael Milham, Cameron Craddock,  \\ 
-Greg Kiar, William Gray Roncal, Eric Bridgeford,
-Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vogelstein}
+\author{Shangsi Wang, Zhi Yang, Xi-Nian Zuo, Michael Milham, Cameron Craddock,  \\ Consortium for Reliability and Reproducibility, Carey E.~Priebe, Joshua T. Vogelstein}
 
 
 \begin{document}
@@ -17,7 +15,7 @@ Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vo
 
 \section{Introduction}
 
-The data age is enabling us as a society to answer both age old questions and brand new ones.  Fundamentally, to obtain quantitative answers to any inquiry requires making two decisions: (i) ``how should the data be collected?'', and (ii) ``how should the data be processed?''  Optimally addressing experimental design decisions can yield dramatic improvements in both the financial and inferential costs \cite{?}.  When the downstream inference task is known, a priori, the theory of experimental design tells us how to proceed \cite{Fisher1935}. 
+The data age is enabling us as a society to answer both age old questions and brand new ones.  Fundamentally, to obtain obtain quantitative answers to any inquiry requires making two decisions: (i) ``how should the data be collected?'', and (ii) ``how should the data be processed?''  Optimally addressing experimental design decisions can yield dramatic improvements in both the financial and inferential costs \cite{?}.  When the downstream inference task is known, a priori, the theory of experimental design tells us how to proceed \cite{Fisher1935}. 
 % 
 % Historically, however, much of the work has focused on designing  experiments with a specific hypothesis testing or estimation problem in mind \cite{Winer1965}.  In more recent times
 Recently, across industry, governmental, and academic settings, certain datasets become benchmark or reference datasets.  Such datasets can then be used for a wide variety of different inferential problems. For example, the Sloan Digital Sky Survey (SDSS) data has been used to discover new quasars \cite{?}, and the human genome project data has revealed genetic insights into a many different diseases \cite{?}.  Collecting and processing these datasets requires massive institutional investments, and choices related to questions (i) and (ii) above have dramatic effects on all subsequent analyses.  Therefore, a theoretical framework to enable investigators to select from a set of possible design decisions using pilot data could reap great rewards.
@@ -27,38 +25,77 @@ Instead, however, we can show that one can choose from amongst a set of alternat
 % 
 Both recent and historical work in a discipline of study called ``Generalizability Theory'' has related goals. More specifically, it aims to analyze and quantify the various sources of error.  Intra-class correlation (ICC) \cite{Shroud1979} and Kendall's tau \cite{Kendall1938} are parametric and non-parametric methods, respectively, for evaluating the ``reliability'' of a particular univariate statistic (such as magnitude or direction).  More recently, I2C2 was proposed \cite{Shou2013} as a multivariate extension to ICC.   These methods, while quite powerful, also have certain limitations.  For example, ICC and Kendell's tau only operate on univariate data.  The motivating example for this work, however, is high-dimensional neuroimaging data.  The high-dimensional generalization of ICC, I2C2, makes certain parametric assumptions, and therefore is inappropriate in certain settings of interest, such as sparsity.  
 % 
-Moreover, we are not interested in quantifying the relative sources of error explicitly, rather, we have supervised learning problem; we desire to optimize performance on unknown tasks.  
+Moreover, we are not interested in quantifying the relative sources of error explicitly, rather, we have supervised learning problem; we desire to optimize reliability.  
 
-To this end,  we have developed a  formal definition of discriminability, 
+To this end,  we have developed a novel formal definition of reliability, 
 a non-parametric statistical property of a joint distribution in a hierarchical model, 
 to reflect the trade-off across within and between entity variance.  
-We prove that discriminability, provides a lower bound on predictive accuracy for any downstream inference task, even if we have never seen the covariates to predict.
+We prove that our notion of reliability (which may be more aptly called repeatability), provides a lower bound on predictive accuracy for any downstream inference task, even if we have never seen the covariates to predict.
 % 
-We then derive an estimator of discriminability, and derive our estimator's asymptotic distribution, demonstrating that it is unbiased. 
-Numerical simulations demonstrate the utility of our discriminability estimator in a variety of settings.  Finally, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to specifically study connectomics.  We start by finding the maximally discriminable threshold for converting correlation matrices (sometimes called functional connectomes), into binary edge lists (or graphs).  Indeed, consistent with out theoretical and simulated results, maximizing the discriminability of our datasets also maximizes performance on a suite of different downstream inference tasks.  We then ask about a series of pre-processing steps: should one motion correct or not, and should one implement global signal regression or not, etc. We find the maximally discriminable strategy amongst a combinatorial set of options.  Moreover, the pre-processing strategy that maximizes discriminability also maximizes predictive accuracy on a suite of tests.  Finally, we apply our method to determine which dataset is more discriminable by comparing multiple different datasets.  We conclude that a particular dataset is more discriminable than the others, and that predictive accuracy from that dataset is improved relative to the others. 
+We then derive an estimator of reliability, and derive our estimator's asymptotic distribution, demonstrating that it is unbiased. 
+Numerical simulations demonstrate the utility of our reliability estimator in a variety of settings.  Finally, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to specifically study connectomics.  We start by finding the maximally reliable threshold for converting correlation matrices (sometimes called functional connectomes), into binary edge lists (or graphs).  Indeed, consistent with out theoretical and simulated results, maximizing the reliability of our datasets also maximizes performance on a suite of different downstream inference tasks.  We then ask about a series of pre-processing steps: should one motion correct or not, and should one implement global signal regression or not, etc. We find the maximally reliable strategy amongst a combinatorial set of options.  Moreover, the pre-processing strategy that maximizes reliability also maximizes predictive accuracy on a suite of tests.  Finally, we apply our method to determine which dataset is more reliable by comparing multiple different datasets.  We conclude that a particular dataset is more reliable than the others, and that predictive accuracy from that dataset is improved relative to the others. 
 
-Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and analyze datasets designed for discovery science.  We expect this method to be useful in a wide variety of applications, and therefore have made all the code open source and available from \url{http://neurodata.io}.
+Thus, in total, our reliability analysis is a powerful tool for making decisions about how to collect and analyze datasets designed for discovery science.  We expect this method to be useful in a wide variety of applications, and therefore have made all the code open source and available from \url{http://openconnecto.me}.
 
 
 \section{Results}
 
 
 
-\subsection{Theory}
-
-\subsubsection{Definition of Discriminability}
-
-\subsubsection{Optimizing discriminability Optimizes Bound on Performance for Any Task}
+\subsection{Illustrative Simulation}
 
 
-a useful definition of discriminability (R)
+\subsection{Problem Statement}
+
+Consider the following generative process.  For each sample $i$, there exists some true physical property $\bv_i$.  In our running example throughout this article, $\bv_i$ is the true connectome of subject $i$.
+Unfortunately, we do not get to directly observed $\bv_i$, rather, we measure it with some device, that transforms the truth from $\bv_i$ to $\bw_i$ via $f_{\bphi}$.  The parameter $\bphi \in \bPhi$ characterizes all options in the measurement, including, for example, which scanner to use, which resolution, the number of images, sampling rate, etc.  The output of $f_{\bphi}$ is the  ``raw'' observation data $\bw_i$, but it is corrupt in various ways, including movement or intensity artifacts introduced by the measurement process.  Therefore, rather than operating directly on $\bw_i$, we intentionally ``pre-process'' the data, in an effort to remove a number of nuisance variables.  This pre-processing procedure further transforms the data from $\bw_i$ to $\bx_i$ via $g_{\bpsi}$.   The parameter $\bpsi \in \bPsi$ indexes all pre-processing options, including whether to perform motion correction, which motion correction, deconvolution, etc.  More specifically, the entire code base, including dependencies, and even the hardware the pre-processing is running on, could count as $\bpsi$. For brevity,  we  define $\bx_i:= g_{\bpsi} \big(f_{\bphi} (\bv_i) \big)$.
+
+In addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data.  The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ and $\bpsi \in \bPsi$ to maximize some function of  $(\bx_i, \by_i)$.  
+
+
+
+To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bV_i,\bY_i)$ pair is sampled independently and identically from some distribution, $(\bV_i,\bY_i) \iid F_{V,Y}$.  For simplicity, let us assume that our goal is regression, using $\bX_i$ as the \emph{predictor} variables, and a single dimension of $\bY_i$ as the \emph{target} variable (we will generalize these assumptions below).  Moreover, let $h \from \mc{X} \to \mc{Y}$ be the regression function (which we will typically learn from the data).  The loss function, $\ell$ quantifies the error of our predictions, $\ell( h(\bx_i), \by_i) \in \Real_+$.  
+% Moreover, we assume that there exists some desired action, $\mb{a}_i^* \in \mc{A}$, and a loss function, $\ell: h(\mc{X},\mc{Y}) \times \mc{A} \to \Real_+$ that evaluates the performance of our function.  For example, $h(\cdot)$ might be a regression function that operates only on $\mc{X}$, in which case the loss might be squared error distance between the predicted value of $\bY_i$ and its true value.  
+In the above described scenario, we can characterize our desiderata as minimizing the risk, or expected loss, under the above assumptions:
+\begin{equation} \label{eq:goal}
+\begin{aligned}
+& \underset{\bphi \in \bPhi,\bpsi \in \bPsi}{\text{minimize}}
+& & \EE [ \ell( h (\bx_i), \by_i)],
+\end{aligned}
+\end{equation}
+where the expectation is taken with respect to the joint distribution of $X$ and $Y$, which is induced by the joint distribution of $(\bV,\bY)$, and transformed by $f(\cdot)$ and $g(\cdot)$; that is, $F_{X,Y}:=F_{f(g(V),Y}$.
+
+Problem \eqref{eq:goal} is an experimental design question.  However, in the scenario of interest, $\by$ is not observed.  Therefore, we cannot directly optimize Problem \eqref{eq:goal}, and instead, we must consider some surrogate function.  
+
+\subsection{Proposed Solution}
+
+We propose to borrow an idea from generalizability theory (or G theory), in particular, by introducing ``facets''.  A facet is a particular source of variance.  For simplicity, consider the following illustrative scenario (we will generalize this idea below). In particular, assume that our goal is to optimize the pre-processing routine, encoded by $\bpsi$. Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bw_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$, which encodes all the details of the measurement.  If both $f$ and $g$ together do not introduce too much noise, then we would expect that $\bx_{i,1}$ and $\bx_{i,2}$ are \emph{closer} to one another than either are to any other subject's data, $\bx_{i',t}$.  Define $\delta$ to be a metric computing the distance between two data points, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) \leq \delta(\bx_{i,t},\bx_{i',t''})$, for any $i,i',t,t',t''$.  
+For brevity, let $\delta_{i,t,t'}:=\delta(\bx_{i,t}, \bx_{i,t'})$ and 
+$\delta_{i,i',t,t'}:=\delta(\bx_{i,t}, \bx_{i',t''}$.  
+This intuition leads to our definition of reliability:
+\begin{align}
+R(\bpsi,\bphi,F) = \PP[ \delta_{i,t,t'} \leq \delta_{i,i',t,t'}]
+\end{align}
+
+
+Now, we can consider a surrogate objective function:
+\begin{equation} \label{eq:surroage}
+\begin{aligned}
+& \underset{\bpsi \in \bPsi}{\text{minimize}}
+& & \EE [ \ell( \bx_{i,1}, \bx_{i,2})],
+\end{aligned}
+\end{equation}
+
+
+
+
+a useful definition of reliability (R)
 
 \begin{thm}
-discriminability bounds predictive accuracy
+reliability bounds predictive accuracy
 \end{thm}
 
-
-\subsubsection{Estimator/Test Statistic}
+\subsection{Estimator/Test Statistic}
 
 \begin{itemize}
 \item an estimator of R, called Rhat
@@ -69,32 +106,9 @@ $E(Rhat)=R$.
 \item proof that our estimator asymptotically converges to truth (in a model free setting), $\mh{R}_n \conv R$
 \end{itemize}
 
+\subsection{Some Simulations}
 
-\subsection{Simulations}
-
-\subsubsection{}
-
-
-\subsection{Connectome Applications}
-
-\subsubsection{optimal reliablity yields optimal predictive accuracy}
-
-
-\subsubsection{best pipeline = product of marginals}
-
-\subsubsection{thresholding vs. binning ranks}
-
-\subsubsection{which atlas/resolution}
-
-
-\subsubsection{DTI vs. fMRI}
-
-
-
-
-
-
-
+\subsection{Some Real Data Experiments}
 
 
 
@@ -107,16 +121,16 @@ $E(Rhat)=R$.
 
 
 \begin{itemize}
-\item Prior to embarking on any new large experimental data collection and analysis, we recommend generating a pilot dataset amenable to discriminability analysis.
-\item Upon designing a new experiment or analysis, we recommend discriminability, as defined in Eq.~\eqref{eq:R}, as the criterion upon which to optimize decisions.
-\item Because data analytics now have a large number of software dependencies, to maximize discriminability of analytics workstreams, we recommend packaging all necessary software into portable deployable systems, such as vagrant
+\item Prior to embarking on any new large experimental data collection and analysis, we recommend generating a pilot dataset amenable to reliability analysis.
+\item Upon designing a new experiment or analysis, we recommend reliability, as defined in Eq.~\eqref{eq:R}, as the criterion upon which to optimize decisions.
+\item Because data analytics now have a large number of software dependencies, to maximize reliability of analytics workstreams, we recommend packaging all necessary software into portable deployable systems, such as vagrant
 \item For Human multimodal MRI connectomics, assuming the hardware system and scanner are sufficiently similar to those studies in this manuscript, we recommend using the reference pipelines  
 \end{itemize}
 
 
 \begin{itemize}
-\item Upon designing a new experiment or analysis, we recommend discriminability, as defined in Eq.~\eqref{eq:R}, as the criterion upon which to optimize decisions.
-\item Because data analytics now have a large number of software dependencies, to maximize discriminability of analytics workstreams, we recommend packaging all necessary software into portable deployable systems, such as vagrant
+\item Upon designing a new experiment or analysis, we recommend reliability, as defined in Eq.~\eqref{eq:R}, as the criterion upon which to optimize decisions.
+\item Because data analytics now have a large number of software dependencies, to maximize reliability of analytics workstreams, we recommend packaging all necessary software into portable deployable systems, such as vagrant
 \end{itemize}
 
 
@@ -137,46 +151,45 @@ $E(Rhat)=R$.
 \appendix
 
 
-
 \section{Introduction}
 
-In many problems arising in the data science, data preprocessing is the first step toward statistical inference. In this era, data usually comes with high dimensionality and in complicated forms which make directly working with raw data almost impossible. Therefore, necessary preprocessing must be performed to prepare the data ready for subsequent inference task. However, this crucial first step is sometimes done in an arbitrary or subjective fashion which lacks proper guidance and theoretical justification. In our current work, we investigate the relationship between data preprocessing and supervised learning. In particular, we propose that data preprocessing should be done to maximize discriminability of processed data. We demonstate theoretically and with real data experiments that under supervised learning setting this approach produces data with small prediction error.\\
+In many problems arising in the data science, data preprocessing is the first step toward statistical inference. In this era, data usually comes with high dimensionality and in complicated forms which make directly working with raw data almost impossible. Therefore, necessary preprocessing must be performed to prepare the data ready for subsequent inference task. However, this crucial first step is sometimes done in an arbitrary or subjective fashion which lacks proper guidance and theoretical justification. In our current work, we investigate the relationship between data preprocessing and supervised learning. In particular, we propose that data preprocessing should be done to maximize reliability of processed data. We demonstate theoretically and with real data experiments that under supervised learning setting this approach produces data with small prediction error.\\
 \\
-Reliability refers to the overall consistency of a measure. For example, if a subject is measured twice under the same conditions, two measures should be close to each other given the measure is discriminable. The same spirit can be applied to data preprocessing. Good data preprocessing method should be discriminable which means the processed data should have samples from the same subject close to each other. Actually, our analysis reveals that optimal data preprocessing is achieved when the discriminability of processed data is maximized. In order to compare and select among preprocessing methods, we first need to be able to measure the discriminability of processed data. \\
+Reliability refers to the overall consistency of a measure. For example, if a subject is measured twice under the same conditions, two measures should be close to each other given the measure is reliable. The same spirit can be applied to data preprocessing. Good data preprocessing method should be reliable which means the processed data should have samples from the same subject close to each other. Actually, our analysis reveals that optimal data preprocessing is achieved when the reliability of processed data is maximized. In order to compare and select among preprocessing methods, we first need to be able to measure the reliability of processed data. \\
 \\
-Many successful attempts have been made toward measuring discriminability. Previous works include but not limit to Cohen's Kappa, Intraclass Correlation Coefficient (ICC), Bland Altman Test and Image intraclass correlation coefficient (I2C2). The key limitation the first three measure have is that they can only measure discriminability of one-dimensional data, which makes them not appropriate to apply in multidimensional data preprocessing circumstances. I2C2 is designed to capture signal-to-noise ratio of high dimensional data. However, I2C2 assumes data has additive noise and lies in Euclidean space equiped with $L_2$ norm. These assumptions make it hard to generalize and apply for real data. To overcome the disadvantages of previous measure, we propose to use mean normalized rank (MNR) as a new measure of discriminability. \\
+Many successful attempts have been made toward measuring reliability. Previous works include but not limit to Cohen's Kappa, Intraclass Correlation Coefficient (ICC), Bland Altman Test and Image intraclass correlation coefficient (I2C2). The key limitation the first three measure have is that they can only measure reliability of one-dimensional data, which makes them not appropriate to apply in multidimensional data preprocessing circumstances. I2C2 is designed to capture signal-to-noise ratio of high dimensional data. However, I2C2 assumes data has additive noise and lies in Euclidean space equiped with $L_2$ norm. These assumptions make it hard to generalize and apply for real data. To overcome the disadvantages of previous measure, we propose to use mean normalized rank (MNR) as a new measure of reliability. \\
 \\
 Let us first introduce some notations and the definition of normalized rank. Suppose there are $n$ subjects and each subject is measured $s$ times. Denote $O_{ij}$, for $1\leq i \leq n$, $1\leq j \leq s$ the $j$th observation on subject $i$. The normalized rank $R_{ijk}$, $k\neq j$ counts the number of observations from other subjects are closer to observation $O_{ij}$ compared to $O_{ik}$, and the count is then normalized by dividing the total number of observations from other subjects which is $(n-1)s$. That is,
 \[R_{ijk} := \frac{\sum\limits_{p=1,p\neq i}^{n} \sum\limits_{q=1}^{s} I\{\|O_{ij}-O_{pq}\| < \|O_{ij}-O_{ik}\| \} }{(n-1)s}\]
  The normalized rank $R_{ijk}$ can be also understood as the rank of distance between $O_{ij}$ and $O_{ik}$, among the distances between observations of other subjects and $O_{ij}$, but the rank is rescaled to make sure it lies between 0 and 1. The definition of $R_{ijk}$ above can be easily generalized to metric space by replacing the norm $\|\cdot-\cdot\|$ with ditance $d(\cdot,\cdot)$. There are two things to notice. First, when computing the rank of $\|O_{ij}-O_{ik}\|$, the distances between other observations of the subject $i$ and $O_{ij}$ are excluded. Second, when obeservations are discrete and there are ties, it is recommended to add $0.5 \times I\{\|O_{ij}-O_{pq}\| = \|O_{ij}-O_{ik}\| \}$ to the nominator. Mean normalized rank (MNR) $R$ of a data set is defined to be the avergare of all normalized ranks. 
 \[ R := \frac{\sum\limits_{i=1}^{n} \sum\limits_{j=1}^{s}  \sum\limits_{k=1,k\neq j}^{s} R_{ijk}}{ns(s-1)} \]
-Intuitively, in a discriminable data set distances between observations of same subject are small compared to distances between observations from different subjects; therefore, discriminable data set should have a small MNR. \\
+Intuitively, in a reliable data set distances between observations of same subject are small compared to distances between observations from different subjects; therefore, reliable data set should have a small MNR. \\
 \\
-Our paper is structured as follows. In Section 2, we analyze properties of MNR theoretically. In particular, we demonstrate it bounds error probability of Bayes classifier. In Section 3, we demonstrate utility of MNR through simulation and real data expeiments. Discriminability and Prediction error of two human connectome data sets are studied and compared. We conclude in section 4 with implications of our work and possible future extensions.
+Our paper is structured as follows. In Section 2, we analyze properties of MNR theoretically. In particular, we demonstrate it bounds error probability of Bayes classifier. In Section 3, we demonstrate utility of MNR through simulation and real data expeiments. Reliability and Prediction error of two human connectome data sets are studied and compared. We conclude in section 4 with implications of our work and possible future extensions.
 
 
 
 \section{Theoretical Analysis}
 
-\subsection{Discriminability Measured by Mean Normalized Rank}
+\subsection{Reliability Measured by Mean Normalized Rank}
 
-As discussed in the previous section, we propose to use MNR as a measure of discriminability. The next lemma is to show the intuition behind the definition of MNR. In particular, MNR can be understood as the probability that distance between two observations from different subjects are smaller than distances between two observations from one subject.
+As discussed in the previous section, we propose to use MNR as a measure of reliability. The next lemma is to show the intuition behind the definition of MNR. In particular, MNR can be understood as the probability that distance between two observations from different subjects are smaller than distances between two observations from one subject.
 \begin{lem} 
 With the same notations above, assume all $O$s follow the same distribution then,
 \[ E(R) = P(\|O_{ij}-O_{pq}\| < \|O_{ij}-O_{ik}\|)\]
 Here, $p\neq i$ and $j\neq k$.
 \end{lem} 
-\noindent This lemma justifies validity of using MNR as a measure of discriminability. For a discriminable data set, samples from the same subject are close to each other compared to samples from other subjects. Then, $\|O_{ij}-O_{ik}\|$ is more likely to be smaller than $\|O_{ij}-O_{pq}\|$. As a consequence, MNR of the discriminable data set should be small. The lemma above concerns the expectation of MNR. If we analyze the variance of MNR carefully, we can see the variance of MNR is less than $\frac{1}{n}$. This implies that MNR converges in probability to its expectation as the number samples goes to infinity. 
+\noindent This lemma justifies validity of using MNR as a measure of reliability. For a reliable data set, samples from the same subject are close to each other compared to samples from other subjects. Then, $\|O_{ij}-O_{ik}\|$ is more likely to be smaller than $\|O_{ij}-O_{pq}\|$. As a consequence, MNR of the reliable data set should be small. The lemma above concerns the expectation of MNR. If we analyze the variance of MNR carefully, we can see the variance of MNR is less than $\frac{1}{n}$. This implies that MNR converges in probability to its expectation as the number samples goes to infinity. 
 \begin{lem} 
 As $n \rightarrow \infty$,
 \[R \xrightarrow[]{p} P(\|O_{ij}-O_{pq}\| < \|O_{ij}-O_{ik}\|)\]
 Here, $p\neq i$ and $j\neq k$.
 \end{lem} 
-\noindent The two lemmaa above requires very few assumptions. There is no requirement on distribution of obervations. It also doesn't assume the noise is additive or data lies in Euclidean space. Furthermore, one may notice that $n$ and $s$ have no effect on the expectation of MNR. Therefore, MNR can also be applied to compare discriminability across different data sets, in which the number of subjects and the number of oservations per subject may differ. In real data experiment section, this idea will be demonstrated by comparing discriminability of two human connectome data sets through MNR. The next two subsections are going to study properties of data set with small MNR.
+\noindent The two lemmaa above requires very few assumptions. There is no requirement on distribution of obervations. It also doesn't assume the noise is additive or data lies in Euclidean space. Furthermore, one may notice that $n$ and $s$ have no effect on the expectation of MNR. Therefore, MNR can also be applied to compare reliability across different data sets, in which the number of subjects and the number of oservations per subject may differ. In real data experiment section, this idea will be demonstrated by comparing reliability of two human connectome data sets through MNR. The next two subsections are going to study properties of data set with small MNR.
 
-\subsection{Discriminability and Signal-to-Noise Ratio}
+\subsection{Reliability and Signal-to-Noise Ratio}
 
-In this subsection, we investigate relationship between discriminability and signal-to-noise ratio (SNR). Specifically, we show that SNR is lower bounded by a decreasing function of MNR. Consequently, preprocessing data to maximize discriminability can be also recognized as to maximize a lower bound on SNR. Before presenting the result, we introduce the model and some notations. \\
+In this subsection, we investigate relationship between reliability and signal-to-noise ratio (SNR). Specifically, we show that SNR is lower bounded by a decreasing function of MNR. Consequently, preprocessing data to maximize reliability can be also recognized as to maximize a lower bound on SNR. Before presenting the result, we introduce the model and some notations. \\
 \\
 As in classical regression analysis, we assume the observed sample $O_{ij}$ is a sum of two variables.
 \[O_{ij}=X_i+Z_{ij}\]
@@ -186,22 +199,20 @@ $X_i$ denote the true value of measurment for subject i and $Z_{ij}$ is the obse
 \mu &=&E(X_i)\\
 \sigma_1^2&=&Trace(Cov(Z_{ij},Z_{ij})) \\
 \sigma_2^2&=&Trace(Cov(X_{i},X_{i}))\\
-c&=&\frac{E(\|X_i-X_j \|^2)^2}{E(\|X_i-X_j \|^4)} \\
+E(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2) &\geq& a^2 \sigma_1^2 \\
+\frac{E^2(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2)}{E(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||)^4} &\geq& b \\
 \lambda&=&\frac{\sigma_2}{\sigma_1} 
 \end{eqnarray*}
 Here, $\lambda$ is defined to be the signal-to-noise ratio which measures the strength of true values to the strength of errors. Actually, Image Intraclass Correlation Coefficient (I2C2) is defined to be precisely $\frac{\lambda^2}{1+\lambda^2}$. MNR and I2C2 will be discussed in further detail in data experiment section. The next lemma demonstrates realtionship between MNR and SNR under additive noise setting.
 
 \begin{lem} 
-Assume $\lambda \geq 2^{\frac{1}{4}}$, 
-\[E(R) \leq 1-c(1-\frac{2^{\frac{1}{4}}}{\lambda})^3 \] 
-Alternatively,
-\[\lambda \geq \frac{2^{\frac{1}{4}}}{1-(\frac{1-E(R)}{c})^{\frac{1}{3}}} \]
+\[\frac{ \sigma_2}{\sigma_1} \geq\frac{a}{\sqrt{2}} (1-(\frac{2-2D}{b})^{1/3} )\]
 \end{lem}
-\noindent Statistical inference based on large SNR data is usually easier. More technics can be applied to yield useful result. Furthermore, we are more likely to reach correct inference results and the results are more statistically significant. As a consequnce, by preprocessing to maximize discriminability, processed data with large SNR should be optimal for miscellaneous inference tasks. For examples, these tasks can be classification, regression or clustering. There is no need to preprocess differently for different task. This idea will be illuminated in the data experiment section.
+\noindent Statistical inference based on large SNR data is usually easier. More technics can be applied to yield useful result. Furthermore, we are more likely to reach correct inference results and the results are more statistically significant. As a consequnce, by preprocessing to maximize reliability, processed data with large SNR should be optimal for miscellaneous inference tasks. For examples, these tasks can be classification, regression or clustering. There is no need to preprocess differently for different task. This idea will be illuminated in the data experiment section.
 
-\subsection{Discriminability and Classification Error}
+\subsection{Reliability and Classification Error}
 
-In this subsection, we focus on a specific inference task which is classification and the relationship between discriminability and classification error is analyzed. In particular, theorem 1 shows that under suitable regularity conditions, Bayes error of classification is bounded by discriminability measured by MNR. Let us introduce the classification setting and some notations. \\
+In this subsection, we focus on a specific inference task which is classification and the relationship between reliability and classification error is analyzed. In particular, theorem 1 shows that under suitable regularity conditions, Bayes error of classification is bounded by reliability measured by MNR. Let us introduce the classification setting and some notations. \\
 \\
 Throughout this subsection, we assume $O_{ij}=X_i+ \frac{1}{\lambda} Z_{ij}$, here $Z$ and $X$ does not depend on constant $\lambda$. Despite $O_{ij}$, another class label $Y_i$ is observed for each subject $i$. In the classification setting, $Y_i \in \{0,1\}$ and our inference task is to predict the value of class label $Y_i$ based on features namely $O_{ij}$. It is well-known this task is best done by Bayes classifier $g_B$ and denote $L_{\lambda}=P(g_B(O)\neq Y)$ the error rate of Bayes classifier. Furthermore, the following are assumed.
 \begin{eqnarray*}
@@ -224,16 +235,16 @@ Here, $\Sigma_\lambda=\pi_0\Sigma_0+\pi_1\Sigma_1+\frac{1}{\lambda^2}\Sigma$
 \end{eqnarray*}
 The lemma shows that when noise is relatively small compared to true values, the Bayes error is also small. Lemma 3 and Lemma 4 can be combined to establish the relationship between MNR and Bayes error. We need one more assumption to make sure the definitions of $\lambda$ in both lemmas are consistent, that is $Trace(\text{Var}(X))=Trace(\text{Var}(Z))$. This can be quarnateed by properly scaling variable $Z$.
 \begin{thm}
-Let $\lambda_{\ast}=\frac{2^{\frac{1}{4}}}{1-(\frac{1-E(R)}{c})^{\frac{1}{3}}}$, under suitable regularity assumptions Bayes classification error $L$ of $(O,Y)$ satisfies,
+Let $\lambda_{\ast}=\frac{a}{\sqrt{2}} (1-(\frac{2-2D}{b})^{1/3} )$, under suitable regularity assumptions Bayes classification error $L$ of $(O,Y)$ satisfies,
 \[ L \leq \frac{2\pi_0\pi_1}{1+\pi_0\pi_1(\mu_0-\mu_1)^T\Sigma_{\lambda_\ast}^{-1}(\mu_0-\mu_1)}\]
 \end{thm} 
-\noindent The theorem shows that maximizing discriminability yields data with small Bayes error. Although Bayes error is usually not achievable in practice, it is clear that the performance of many widely used classifiers is closely related to Bayes error. If the Bayes error is small, classifiers include but not limit to k-NN, LDA and SVM tend to also have small classification error. If the primary inference task is classification, this theorem justifies maximizing discriminability of processed data improves prediction accuracy.
+\noindent The theorem shows that maximizing reliability yields data with small Bayes error. Although Bayes error is usually not achievable in practice, it is clear that the performance of many widely used classifiers is closely related to Bayes error. If the Bayes error is small, classifiers include but not limit to k-NN, LDA and SVM tend to also have small classification error. If the primary inference task is classification, this theorem justifies maximizing reliability of processed data improves prediction accuracy.
 
 \section{Simulated Data Experiment}
 
 
 \subsection{Simulation Experiment: Convergence of MNR}
-\noindent In Lemma 2, we prove that MNR converges to $P(\|O_{ij}-O_{pq}\| < \|O_{ij}-O_{ik}\|)$ as $n\rightarrow\infty$. If we define the discriminability as the probability of distance between 2 observations of different subject less than 2 observations of the same subject, the Lemma 2 indicates that our sample approximated discriminability MNR converges to the population discriminability. In this experiment, we demonstrate this idea with simulated data. We generate data according to additive Guassian noise setting, which is $O_{ij}=X_i+Z_{ij}$ and $X_i \sim \text{N}(0,1) \text{ ,}Z_{ij} \sim \text{N}(0,1)$. 2 observations are generated for each one of n subject. For each fixed sample size, we repeated generate data and compute discriminability 100 times. The figure below shows how the sample approximated discriminability distributed, when we vary the sample size. Under this setting, the population discriminability is 0.3850 which is computed through numerical integration. We can see clearly from the figure as sample size increases, sample approximated discriminability converges to its mean.
+\noindent In Lemma 2, we prove that MNR converges to $P(\|O_{ij}-O_{pq}\| < \|O_{ij}-O_{ik}\|)$ as $n\rightarrow\infty$. If we define the reliability as the probability of distance between 2 observations of different subject less than 2 observations of the same subject, the Lemma 2 indicates that our sample approximated reliability MNR converges to the population reliability. In this experiment, we demonstrate this idea with simulated data. We generate data according to additive Guassian noise setting, which is $O_{ij}=X_i+Z_{ij}$ and $X_i \sim \text{N}(0,1) \text{ ,}Z_{ij} \sim \text{N}(0,1)$. 2 observations are generated for each one of n subject. For each fixed sample size, we repeated generate data and compute reliability 100 times. The figure below shows how the sample approximated reliability distributed, when we vary the sample size. Under this setting, the population reliability is 0.3850 which is computed through numerical integration. We can see clearly from the figure as sample size increases, sample approximated reliability converges to its mean.
 
 \begin{figure*}[t!]
 \begin{center}
@@ -243,11 +254,11 @@ Let $\lambda_{\ast}=\frac{2^{\frac{1}{4}}}{1-(\frac{1-E(R)}{c})^{\frac{1}{3}}}$,
 \end{figure*}
 
 \subsection{Simulation Experiment: Comparing MNR and I2C2}
-\noindent In this subsection, we use simulated data to demonstrate the utility of MNR. In addition, comparison is made between MNR and another discriminability measure I2C2. I2C2 is another discriminability measure introduced in paper (**). Under additive noise assumption, I2C2 is defined to be one minus the ratio of within subject variance over total variance. That is given $O_{ij}=X_i+Z_{ij}$,
+\noindent In this subsection, we use simulated data to demonstrate the utility of MNR. In addition, comparison is made between MNR and another reliability measure I2C2. I2C2 is another reliability measure introduced in paper (**). Under additive noise assumption, I2C2 is defined to be one minus the ratio of within subject variance over total variance. That is given $O_{ij}=X_i+Z_{ij}$,
  
 \[ I2C2=1-\frac{\text{Trace}(\text{Cov}(Z_{ij}))}{\text{Trace}(\text{Cov}(O_{ij}))} \]
 
-In practice, $\text{Cov}(Z_{ij})$ and $\text{Cov}(O_{ij})$ need to be estimated from data. Compared to I2C2, MNR has a few advantages. First, MNR is a more generalized and non-parametric measure of discriminability. MNR can be easily extended to non-Euclidean metric and still be able to interpreted as a probability. Due to the fact that MNR rely on fewer assumptions and only estimate the probability, it turns out that relative standard error of MNR estimate is usually less than I2C2. Furthermore, non-additive noise and non-continuous data cannot be properly handled by I2C2. Even in continuous and additive noise setting, I2C2 is only determined by first two moments of data and is not sensitive to higher moments or correlations between noises.\\
+In practice, $\text{Cov}(Z_{ij})$ and $\text{Cov}(O_{ij})$ need to be estimated from data. Compared to I2C2, MNR has a few advantages. First, MNR is a more generalized and non-parametric measure of reliability. MNR can be easily extended to non-Euclidean metric and still be able to interpreted as a probability. Due to the fact that MNR rely on fewer assumptions and only estimate the probability, it turns out that relative standard error of MNR estimate is usually less than I2C2. Furthermore, non-additive noise and non-continuous data cannot be properly handled by I2C2. Even in continuous and additive noise setting, I2C2 is only determined by first two moments of data and is not sensitive to higher moments or correlations between noises.\\
 \\
 In the coming experiment, we consider four data generation scheme. We assume there are only two subjects under study, and $50$ observations in $\mathbb{R}^2$ are generated for each subject. Then we compute ICC of the first dimension, ICC of the second dimension, I2C2 and MNR. For each data generation scheme, $100$ repetitions are done. The figure 2 shows the result.\\
 \\
@@ -262,15 +273,15 @@ In the coming experiment, we consider four data generation scheme. We assume the
 \caption{Simulation results}
 \end{figure*}
 
-\noindent In figure 1, the scatter plots at the top are observations from two subjects, and the box plots at the bottom are the corresponding discriminability measures. First, it is not surprising that one dimensional discriminability measure ICC does not capture discriminability of higher dimensional data. Comaring scheme 1 and scheme 2, we expect that simple rotation does not affect discriminability; however, ICCs of two dimensions change substantially. Second, we can see I2C2 does not fully reflect the discriminability of data. In all four cases, I2C2 are roughly the same due to the fact we fix the first and second moments of data. However, we can see from the scatter plots that observations of scheme 3 is slightly more separated than observations of scheme 1, and observations of scheme 4 is mostly separated. At last, I2C2 clearly has larger estimation variance than MNR. This is partly due to the fact that I2C2 have more parameters to estimate. In order to compute I2C2, we must first estimate diagonal terms of two covariance matrices which leads to large variance in I2C2 estimate.   \\
+\noindent In figure 1, the scatter plots at the top are observations from two subjects, and the box plots at the bottom are the corresponding reliability measures. First, it is not surprising that one dimensional reliability measure ICC does not capture reliability of higher dimensional data. Comaring scheme 1 and scheme 2, we expect that simple rotation does not affect reliability; however, ICCs of two dimensions change substantially. Second, we can see I2C2 does not fully reflect the reliability of data. In all four cases, I2C2 are roughly the same due to the fact we fix the first and second moments of data. However, we can see from the scatter plots that observations of scheme 3 is slightly more separated than observations of scheme 1, and observations of scheme 4 is mostly separated. At last, I2C2 clearly has larger estimation variance than MNR. This is partly due to the fact that I2C2 have more parameters to estimate. In order to compute I2C2, we must first estimate diagonal terms of two covariance matrices which leads to large variance in I2C2 estimate.   \\
 \\
-In this simple setting, we can quantify the degree of separation between two subjects by using Bayes error. Two subjects can be treated as two classes, and the Bayes errors of four schemes are $0.2395$, $0.2395$, $0.1839$ and $0$ respectively. It can be seen that MNR respects this ordering and reflects the degree of separation between subjects.   If we are interested in predicting a phenotype, our intuition is that the error rate will more likely to be small, when there is more separation between subjects. We conclude here that MNR is a better discriminability measure.
+In this simple setting, we can quantify the degree of separation between two subjects by using Bayes error. Two subjects can be treated as two classes, and the Bayes errors of four schemes are $0.2395$, $0.2395$, $0.1839$ and $0$ respectively. It can be seen that MNR respects this ordering and reflects the degree of separation between subjects.   If we are interested in predicting a phenotype, our intuition is that the error rate will more likely to be small, when there is more separation between subjects. We conclude here that MNR is a better reliability measure.
 
 
-\subsection{Simulation Experiment: Maximizing Discriminability}
-\noindent In this experiment, we demonstrate discriminability can be used to select parameter in data preprocessing. As in the last section, we consider only 2 subjects, each with s observations in $\mathbb{R}^2$. Again, we consider additve noise setting. The means of two subjects are $X_1=[1,0]$ and $X_2=[-1,0]$ respectively. For the noise, we consider two cases. The first case is $Z_{ij}\sim\text{MVN}([0,0],(\begin{matrix} 4 & 0 \\ 0 & 1\end{matrix}))$ and the second case is $Z_{ij}\sim\text{MVN}([0,0],(\begin{matrix} 1 & 0 \\ 0 & 4\end{matrix}))$. \\
+\subsection{Simulation Experiment: Maximizing Reliability}
+\noindent In this experiment, we demonstrate reliability can be used to select parameter in data preprocessing. As in the last section, we consider only 2 subjects, each with s observations in $\mathbb{R}^2$. Again, we consider additve noise setting. The means of two subjects are $X_1=[1,0]$ and $X_2=[-1,0]$ respectively. For the noise, we consider two cases. The first case is $Z_{ij}\sim\text{MVN}([0,0],(\begin{matrix} 4 & 0 \\ 0 & 1\end{matrix}))$ and the second case is $Z_{ij}\sim\text{MVN}([0,0],(\begin{matrix} 1 & 0 \\ 0 & 4\end{matrix}))$. \\
 \\
-Now, assuming we want to linearly project the observations into 1 dimensional space. To achieve this, we sample possible lines to project uniformly from sphere, and compute discriminability of projection. Then, we choose the projection which has maximum MNR. Also, PCA is performed for comparison. Because of the way that data is generated, we see the optimal linear projection should be projecting observations onto x-axis, and Bayes error is the same before and after this projection. The figure 3 shows the result. From the figure, we see both MNR PCA give the optimal projection in the first case. However, in the second case only MNR gives the optimal projection. In this case, the second dimension has larger variance than the first dimension; therefore, PCA choose y-axis to project to.
+Now, assuming we want to linearly project the observations into 1 dimensional space. To achieve this, we sample possible lines to project uniformly from sphere, and compute reliability of projection. Then, we choose the projection which has maximum MNR. Also, PCA is performed for comparison. Because of the way that data is generated, we see the optimal linear projection should be projecting observations onto x-axis, and Bayes error is the same before and after this projection. The figure 3 shows the result. From the figure, we see both MNR PCA give the optimal projection in the first case. However, in the second case only MNR gives the optimal projection. In this case, the second dimension has larger variance than the first dimension; therefore, PCA choose y-axis to project to.
 
 \begin{figure*}[t!]
 \begin{center}
@@ -288,17 +299,17 @@ Despite brain scans, demographic information including age and gender of subject
 
 
 
-\noindent From figure 4 and 5, we can see the processed data is most discriminable when the threshold $t$ is around $0.16$. Meanwhile, mean squared error of age prediction and classification error of gender prediction are also close to their minimums. Gender and age are two uncorrelated variables in the data set. Therefore, this experiment demonstrates that processed data of maximum discriminability is optimal for two independent inference tasks. 
+\noindent From figure 4 and 5, we can see the processed data is most reliable when the threshold $t$ is around $0.16$. Meanwhile, mean squared error of age prediction and classification error of gender prediction are also close to their minimums. Gender and age are two uncorrelated variables in the data set. Therefore, this experiment demonstrates that processed data of maximum reliability is optimal for two independent inference tasks. 
 
 \subsection{Human Connectome Data: HCP}
 HCP is another human connectome data set we analyze. In the data set, 476 subjects are each scanned 4 times. Scans are then parcellized into 25, 50, 100, 200 and 300 regions. Again we compute the correlation matrix and threshold it to construct a graph for each brain scan. Age and gender are then predicted based on the constructed graph.\\
 
 
-\noindent Figure 6-10 show similar results. The most discriminable processed data has smallest classification error. However, mean square error of age prediction seems to just fluctuate randomly. This may due to the fact that age prediction is a much harder task and the K-NN is not good enough to capture the change of differentiability of processed data.\\
+\noindent Figure 6-10 show similar results. The most reliable processed data has smallest classification error. However, mean square error of age prediction seems to just fluctuate randomly. This may due to the fact that age prediction is a much harder task and the K-NN is not good enough to capture the change of differentiability of processed data.\\
 \\
-A natural question to ask next is that among these 7 connectome data sets which one is most discriminable. The question can be answered by comparing MNR. For each data set, we first choose the threshold $t$ which maximizes discriminability and then compare the corresponding MNR across data set. A standard error estimate is also calculated by assuming normalized ranks are independent. The assumption leads to underestimate the standard error due to mild positive correlations between normalized ranks. To test whether two data sets are of same discriminability, we can construct to confidence intervals of MNR and check whether they overlap or not. \\
+A natural question to ask next is that among these 7 connectome data sets which one is most reliable. The question can be answered by comparing MNR. For each data set, we first choose the threshold $t$ which maximizes reliability and then compare the corresponding MNR across data set. A standard error estimate is also calculated by assuming normalized ranks are independent. The assumption leads to underestimate the standard error due to mild positive correlations between normalized ranks. To test whether two data sets are of same reliability, we can construct to confidence intervals of MNR and check whether they overlap or not. \\
 \\
-Table 1 below summarizes the results. Two NKI data sets are remarkably more discriminable compared to 5 HCP data sets. Discriminability of NKI131 tends to be better than discriminability of NKI165, but the difference is not statistical significant. Among 5 HCP data sets, HCP100 tends to be the most discriminable one. By looking at HCP data sets alone, we discover another interesting fact that discriminability demonstrates some kinds of bias-variance tradeoff. When the brain is partitioned into very few regions, the data set is not discriminable possibly due to large bias. When the brain is partitioned into a large number of regions, the data set is also not discriminable due to large variance. 
+Table 1 below summarizes the results. Two NKI data sets are remarkably more reliable compared to 5 HCP data sets. Reliability of NKI131 tends to be better than reliability of NKI165, but the difference is not statistical significant. Among 5 HCP data sets, HCP100 tends to be the most reliable one. By looking at HCP data sets alone, we discover another interesting fact that reliability demonstrates some kinds of bias-variance tradeoff. When the brain is partitioned into very few regions, the data set is not reliable possibly due to large bias. When the brain is partitioned into a large number of regions, the data set is also not reliable due to large variance. 
 
 \begin{table}
 
@@ -315,7 +326,7 @@ Table 1 below summarizes the results. Two NKI data sets are remarkably more disc
     HCP300 & 0.0944 & 0.0027 \\ \hline
 %    \hline
   \end{tabular}
-  \caption{Discriminability Comparison}
+  \caption{Reliability Comparison}
 \end{center}
 \end{table}
 
@@ -323,54 +334,15 @@ Table 1 below summarizes the results. Two NKI data sets are remarkably more disc
 
 
 \section{Conclusion}
-In the sections above, we demonstrate that maximizing discriminability helps improving prediction accuracy. Our work provides guidance and direction to scientists on data preprocessing. Particularly, when facing decisions which are hard to make in data preprocessing, scientists should consider preprocessing method which maximizes discriminability of processed data.\\
+In the sections above, we demonstrate that maximizing reliability helps improving prediction accuracy. Our work provides guidance and direction to scientists on data preprocessing. Particularly, when facing decisions which are hard to make in data preprocessing, scientists should consider preprocessing method which maximizes reliability of processed data.\\
 \\
-The current work can be extended in both theoretical and practical directions. From theoretical aspect, we only show Bayes error rate varies with discriminability. It is also interesting to see the classification error of a specific classifier varies with discriminability. Secondly, assumptions of theoretical analysis should be relaxed. Assumptions include additive noise, independence between noise and true values, and Euclidean distance maybe relaxed to better model real data. Thirdly, we only analyze the relationship between classification and discriminability. More inference tasks should be considered. These inference tasks can be but not limit to hypothesis testing, regression and clustering. Their relationship to discriminability should be investigated.\\
+The current work can be extended in both theoretical and practical directions. From theoretical aspect, we only show Bayes error rate varies with reliability. It is also interesting to see the classification error of a specific classifier varies with reliability. Secondly, assumptions of theoretical analysis should be relaxed. Assumptions include additive noise, independence between noise and true values, and Euclidean distance maybe relaxed to better model real data. Thirdly, we only analyze the relationship between classification and reliability. More inference tasks should be considered. These inference tasks can be but not limit to hypothesis testing, regression and clustering. Their relationship to reliability should be investigated.\\
 \\ 
-From the aspect of practice, the whole data preprocessing procedure should be studied. In the experiments above, we focus on only one step of the data preprocessing. We may investigate discriminability of data preprocessing step as a whole or even starting at data collection step. Secondly, more data experiments should be done in different setting to prove utility of discriminability in data preprocessing. Data of more complicated form or with non-Euclidean distance can be investigated in a similar manner. The points mentioned in this and last paragraph can all extend our current work and improve its applicability. Nevertheless, our primary purpose is to demonstrate the relationship between discriminability and predictability.
+From the aspect of practice, the whole data preprocessing procedure should be studied. In the experiments above, we focus on only one step of the data preprocessing. We may investigate reliability of data preprocessing step as a whole or even starting at data collection step. Secondly, more data experiments should be done in different setting to prove utility of reliability in data preprocessing. Data of more complicated form or with non-Euclidean distance can be investigated in a similar manner. The points mentioned in this and last paragraph can all extend our current work and improve its applicability. Nevertheless, our primary purpose is to demonstrate the relationship between reliability and predictability.
 
 
 
-\section{Other Stuff}
 
-
-Consider the following generative process.  For each sample $i$, there exists some true physical property $\bv_i$.  In our running example throughout this article, $\bv_i$ is the true connectome of subject $i$.
-Unfortunately, we do not get to directly observed $\bv_i$, rather, we measure it with some device, that transforms the truth from $\bv_i$ to $\bw_i$ via $f_{\bphi}$.  The parameter $\bphi \in \bPhi$ characterizes all options in the measurement, including, for example, which scanner to use, which resolution, the number of images, sampling rate, etc.  The output of $f_{\bphi}$ is the  ``raw'' observation data $\bw_i$, but it is corrupt in various ways, including movement or intensity artifacts introduced by the measurement process.  Therefore, rather than operating directly on $\bw_i$, we intentionally ``pre-process'' the data, in an effort to remove a number of nuisance variables.  This pre-processing procedure further transforms the data from $\bw_i$ to $\bx_i$ via $g_{\bpsi}$.   The parameter $\bpsi \in \bPsi$ indexes all pre-processing options, including whether to perform motion correction, which motion correction, deconvolution, etc.  More specifically, the entire code base, including dependencies, and even the hardware the pre-processing is running on, could count as $\bpsi$. For brevity,  we  define $\bx_i:= g_{\bpsi} \big(f_{\bphi} (\bv_i) \big)$.
-
-In addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data.  The goal of experimental design, in this context, is to choose $\bphi \in \bPhi$ and $\bpsi \in \bPsi$ to maximize some function of  $(\bx_i, \by_i)$.  
-
-
-
-To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bV_i,\bY_i)$ pair is sampled independently and identically from some distribution, $(\bV_i,\bY_i) \iid F_{V,Y}$.  For simplicity, let us assume that our goal is regression, using $\bX_i$ as the \emph{predictor} variables, and a single dimension of $\bY_i$ as the \emph{target} variable (we will generalize these assumptions below).  Moreover, let $h \from \mc{X} \to \mc{Y}$ be the regression function (which we will typically learn from the data).  The loss function, $\ell$ quantifies the error of our predictions, $\ell( h(\bx_i), \by_i) \in \Real_+$.  
-% Moreover, we assume that there exists some desired action, $\mb{a}_i^* \in \mc{A}$, and a loss function, $\ell: h(\mc{X},\mc{Y}) \times \mc{A} \to \Real_+$ that evaluates the performance of our function.  For example, $h(\cdot)$ might be a regression function that operates only on $\mc{X}$, in which case the loss might be squared error distance between the predicted value of $\bY_i$ and its true value.  
-In the above described scenario, we can characterize our desiderata as minimizing the risk, or expected loss, under the above assumptions:
-\begin{equation} \label{eq:goal}
-\begin{aligned}
-& \underset{\bphi \in \bPhi,\bpsi \in \bPsi}{\text{minimize}}
-& & \EE [ \ell( h (\bx_i), \by_i)],
-\end{aligned}
-\end{equation}
-where the expectation is taken with respect to the joint distribution of $X$ and $Y$, which is induced by the joint distribution of $(\bV,\bY)$, and transformed by $f(\cdot)$ and $g(\cdot)$; that is, $F_{X,Y}:=F_{f(g(V),Y}$.
-
-Problem \eqref{eq:goal} is an experimental design question.  However, in the scenario of interest, $\by$ is not observed.  Therefore, we cannot directly optimize Problem \eqref{eq:goal}, and instead, we must consider some surrogate function.  
-
-
-We propose to borrow an idea from generalizability theory (or G theory), in particular, by introducing ``facets''.  A facet is a particular source of variance.  For simplicity, consider the following illustrative scenario (we will generalize this idea below). In particular, assume that our goal is to optimize the pre-processing routine, encoded by $\bpsi$. Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bw_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$, which encodes all the details of the measurement.  If both $f$ and $g$ together do not introduce too much noise, then we would expect that $\bx_{i,1}$ and $\bx_{i,2}$ are \emph{closer} to one another than either are to any other subject's data, $\bx_{i',t}$.  Define $\delta$ to be a metric computing the distance between two data points, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) \leq \delta(\bx_{i,t},\bx_{i',t''})$, for any $i,i',t,t',t''$.  
-For brevity, let $\delta_{i,t,t'}:=\delta(\bx_{i,t}, \bx_{i,t'})$ and 
-$\delta_{i,i',t,t'}:=\delta(\bx_{i,t}, \bx_{i',t''}$.  
-This intuition leads to our definition of discriminability:
-\begin{align}
-R(\bpsi,\bphi,F) = \PP[ \delta_{i,t,t'} \leq \delta_{i,i',t,t'}]
-\end{align}
-
-
-Now, we can consider a surrogate objective function:
-\begin{equation} \label{eq:surroage}
-\begin{aligned}
-& \underset{\bpsi \in \bPsi}{\text{minimize}}
-& & \EE [ \ell( \bx_{i,1}, \bx_{i,2})],
-\end{aligned}
-\end{equation}
 
 % \appendices
 \section{Proof of Lemmas}
@@ -416,44 +388,42 @@ By Lemma 1, we only need to bound $P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|)$. Un
 \begin{eqnarray*}
 & &P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|) \\
 &=&P(\|Z_{ij}-Z_{ik}\| < \|X_{i}+Z_{ij}-X_{p}-Z_{pq}\|) \\
-&\geq&P(\|Z_{ij}-Z_{ik}\| < \|X_{i}-X_{p}\| - \|Z_{ij}-Z_{pq}\|) \\
-&=& P(\|Z_{ij}-Z_{ik}\|+\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\|) \\
-&\geq& P(\|Z_{ij}-Z_{ik}\|^2+\|Z_{ij}-Z_{pq}\|^2< \|X_{i}-X_{p}\|^2) \\
+&\leq&P(\|Z_{ij}-Z_{ik}\| < \|X_{i}-X_{p}\| + \|Z_{ij}-Z_{pq}\|) \\
+&=& P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\|) \\
+&=& \frac{1}{2}P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\||\|Z_{ij}-Z_{ik}\|<\|Z_{ij}-Z_{pq}\|) + \\ 
+& &\frac{1}{2}P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\||\|Z_{ij}-Z_{ik}\|>\|Z_{ij}-Z_{pq}\|) \\
+&=&\frac{1}{2} + \frac{1}{2}P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\||\|Z_{ij}-Z_{ik}\|>\|Z_{ij}-Z_{pq}\|) \\
+&=& \frac{1}{2} + \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||< \|X_{i}-X_{p}\|) \\
+&=& 1 - \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||> \|X_{i}-X_{p}\|)
 \end{eqnarray*}
 To bound the probability above, we bound the two terms on different sides of equation separately. We start with the term at the left side and compute its expectation.
  \begin{eqnarray*}
- & &E(\|Z_{ij}-Z_{ik}\|^2+\|Z_{ij}-Z_{pq}\|^2) \\
- &=&2 E(\|Z_{ij}-Z_{ik}\|^2) \\
- &=&2 E(Z_{ij}^T Z_{ij}+Z_{ik}^T Z_{ik} +2Z_{ij}^T Z_{ik}) \\
- &=&4\sigma_1^2
+ & &E(\|X_{i}-X_{p}\|^2) \\
+ &=&E(X_{i}^T X_{i}+X_{p}^TX_{p} -2X_{i}^T X_{p}) \\
+ &=&2\sigma_2^2
  \end{eqnarray*}
  We then use Markov's Inequality to this term, 
- \[P(\|Z_{ij}-Z_{ik}\|^2+\|Z_{ij}-Z_{pq}\|^2 < k\sigma_1^2) \geq 1-\frac{4}{k} \]
- Similarly, we compute the expectation of second term.
-  \begin{eqnarray*}
-  & &E(\|X_{i}-X_{p}\|^2) \\
-  &=&E(X_{i}^T X_{i}+X_{p}^T X_{p}+2X_{i}^T X_{p}) \\
-  &=&2\sigma_2^2 \\
-  &=&2\lambda^2\sigma_1^2
-  \end{eqnarray*}
+ \[P(\|X_{i}-X_{p}\| < t) \geq 1 - \frac{2 \sigma_2^2}{t^2} \]
+Assume, 
+\[E(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2) \geq a^2 \sigma_1^2\]
+\[\frac{E^2(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2)}{E(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||)^4} \geq b \]
 Then, we apply Paley-Zygmund Inequality,
-\[P(\|X_i-X_p\|^2 > k\sigma_1^2 ) \geq c(1-\frac{k}{2\lambda^2})^2 \]
+\[P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2 > t^2 ) \geq b(1-\frac{t^2}{a^2 \sigma_1^2})^2 \]
 Understand the fact that $X$s and $Z$s are independent, we can combine the two inequalities and get a bound on $P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|)$.
 \begin{eqnarray*}
 & &P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|) \\
-&\geq& P(\|Z_{ij}-Z_{ik}\|^2+\|Z_{ij}-Z_{pq}\|^2< \|X_{i}-X_{p}\|^2) \\
-&\geq& P(\|Z_{ij}-Z_{ik}\|^2+\|Z_{ij}-Z_{pq}\|^2<k\sigma_1^2) \\
-& & \times P(\|X_i-X_p\|^2 > k\sigma_1^2 ) \\
-&\geq& c(1-\frac{k}{2\lambda^2})^2(1-\frac{4}{k}) \\
-&=&c(1-\frac{\sqrt{2}}{\lambda})^3
+&\leq& 1 - \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||> \|X_{i}-X_{p}\|)\\
+&\leq& 1 - \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2 > t^2 )P(\|X_{i}-X_{p}\|^2 < t^2) \\
+&\leq& 1- \frac{1}{2}b(1-\frac{t^2}{a^2 \sigma_1^2})^2(1 - \frac{2 \sigma_2^2}{t^2})
 \end{eqnarray*}
-The last equality is the result by setting $k=2\sqrt{2}\lambda$. This leads to the final result on the expectation of mean normalized rank.
+Assume $a^2 \sigma_1^2 \geq 2 \sigma_2^2$ and set $k=\sqrt{2} a \sigma_1 \sigma_2$,
 \begin{eqnarray*}
-E(R)&=&1-P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|) \\
-&\leq& 1-c(1-\frac{\sqrt{2}}{\lambda})^3
+P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|) \leq  1- \frac{1}{2}b(1 - \frac{\sqrt{2} \sigma_2}{a\sigma_1})^3
 \end{eqnarray*}
-We can also solve for and lower bound $\lambda$.
-\[\lambda \geq \frac{2^{\frac{1}{4}}}{1-(\frac{1-E(R)}{c})^{\frac{1}{3}}} \]
+Denote $P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|)$ by $D$, we can  solve for and lower bound $\frac{ \sigma_2}{\sigma_1}$.
+\[\frac{ \sigma_2}{\sigma_1} \geq\frac{a}{\sqrt{2}} (1-(\frac{2-2D}{b})^{1/3} )\]
+
+
 \end{proof}
 
 
@@ -474,9 +444,6 @@ Then, apply Devijver and Kittler's result,
 
 % you can choose not to have a title for an appendix
 % if you want by leaving the argument blank
-
-
-
 
 \newpage
 \small{
