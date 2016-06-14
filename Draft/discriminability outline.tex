@@ -31,15 +31,8 @@ To this end, we have proposed and developed a formal definition of discriminabil
 Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and analyze datasets designed for discovery science. We expect this method to be useful in a wide variety of applications,
 and therefore have made all the code open source and available from http://openconnecto.me.
 
-<<<<<<< HEAD
 
-=======
-\begin{figure}[ht!]
-	% \includegraphics[width=\linewidth]{../Figs/flow_chart.png}
-	\caption{{\bf Decision Making Through Discriminability Framework.} Test-retest data is collected from multiple subjects. The data is processed by a set of pipelines. For each processing pipeline, pairwise distances between observations are computed and discriminability is estimated. The pipeline with the maximal discriminability is selected. }
-	\label{fig:1}
-\end{figure}
->>>>>>> 29d596e60764577b784493b38d98abb9a22c99b7
+
 
 \section{Results}
 \subsection{Theory}
@@ -80,7 +73,7 @@ It is often the case that data collection is out of control of researchers, that
 This approach is intuitive and easy to understand. We will show in the theory section that maximizing discriminability leads to good prediction performance. In addition, an unbiased estimator is designed to compute discriminability from test-retest data set. In the simulation and application section, we will demonstrate the utility of discriminability through data experiments.
 
 \begin{figure}[ht!]
-	\includegraphics[width=5.0in]{../Figs/flow_chart.png}
+	\includegraphics[width=\linewidth]{../Figs/flow_chart.png}
 	\caption{{\bf Decision Making Through Discriminability Framework.} Test-retest data is collected from multiple subjects. The data is processed by a set of pipelines. For each processing pipeline, pairwise distances between observations are computed and discriminability is estimated. }
 	\label{fig:1}
 \end{figure}
@@ -143,13 +136,8 @@ In Lemma 1 and 2, we claim discriminability $\hat{D}$ is unbiased and converges 
 \end{equation}  
 We sample $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ independently from standard Gaussian distribution. That is $\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$ and $\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$. For each  subject, we sample two observations and let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times to estimate the distribution of $\hat{D}$. With this data generation scheme, we can compute the population discriminability $D$ from numerical integration $0.6150$. The figure 1 shows the difference $\hat{D}$ and $D$. We can see from the figure that sample discriminabiity $\hat{D}$ converges to $D$ as the number of subject increases.
 \begin{figure}[ht!]
-<<<<<<< HEAD
-	\includegraphics[width=3.0in]{../Figs/rel_conv.png}
-	\caption{{\bf Convergence of discriminability estimates.} Distribution of differences between discriminability estimates and true discriminability is plotted. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
-=======
 	\includegraphics[width=\linewidth]{../Figs/rel_conv.png}
 	\caption{{\bf Convergence of sample discriminability.} Distribution of sample discriminability is estimated. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
->>>>>>> 29d596e60764577b784493b38d98abb9a22c99b7
 	\label{fig:1}
 \end{figure}
 
