@@ -75,7 +75,7 @@ This approach is intuitive and easy to understand. We will show in the theory se
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/flow_chart.png}
 	\caption{{\bf Decision Making Through Discriminability Framework.} Test-retest data is collected from multiple subjects. The data is processed by a set of pipelines. For each processing pipeline, pairwise distances between observations are computed and discriminability is estimated. }
-	\label{fig:1}
+	\label{fig:fc}
 \end{figure}
 
 
@@ -162,34 +162,45 @@ The optimal linear projection should keep two classes separated which is just ke
 	\label{fig:1}
 \end{figure}
 
-\subsection{Connectome Applications}
+\subsection{Connectome Processing Applications}
 
-\subsubsection{optimal Discriminability yields optimal predictive accuracy}
-\para{real experiment} Describe the data and threshold experiment. 
+\subsubsection{optimal discriminability yields optimal predictive accuracy}
+In this experiment, we are going to investigate the thresholding step in processing functional magnetic resonance images (fMRI). In fMRI processing, time series is first extracted for each region of interest of brain. Then, a pairwise connectivity matrix is estimated through computing absolute Pearson correlation. To obtain a binary graph, the pairwise connectivity matrix needs to be thresholded by a value which lies in $[0,1]$. We would like to find the optimal value for the threshold. In addition to neuroimages, demographic information and a neuro factor are also collected from each subject. We also want to find the optimal threshold which leads to graphs with the best prediction performance.  
 
-\para{real experiment} Emphasize that discriminability selects threshold which is close to optimal for multiple tasks.
+HCP100 data set is used in this experiment. It has $461$ subjects with $4$ measurements per subject. We let the threshold vary from 0 to 1. For each value of threshold, the discriminability is computed; sex, age and the neuro factor are predicted using k-nearest neighbor classifier. As a comparison, a reliability statistics, namely image intraclass correlation coefficient (I2C2) is also computed. It is proposed by (Han Zhou et al.) which generalizes intraclass correlation coefficient for high dimensional observations. The discriminability, I2C2, and prediction errors are shown in figure 5. The threshold which maximizes discriminability is close to the optimal thresholds for predicting three covariates. 
+
+
 
 \begin{figure}[ht!]
 \includegraphics[width=\linewidth]{../Figs/HCP_100.png}
-\caption{{\bf Optimizing Discriminability yields optimal prediction accuracy for multiple covariates.} HCP100 is used to investigate optimal threshold to convert correlation graphs into binary graphs. The threshold is varied from 0 to 1. For each value of threshold, the discriminability is computed;  sex, age and a neuro factor are predicted using k-NN. The threshold maximizing discriminability is close to optimal thresholds for predicting three covariates. }
+\caption{{\bf Optimizing Discriminability yields optimal prediction accuracy for multiple covariates.} HCP100 is used to investigate optimal threshold to convert correlation graphs into binary graphs. Curves are scaled to have similar value range. For each statistic, the optimal threshold and value pair is indicated by a circle on the curve. The threshold maximizing discriminability is close to the optimal thresholds for predicting three covariates. }
 \label{fig:4}
 \end{figure}
 
 \subsubsection{fMRI Processing pipelines}
-\para{real experiment} Describe the 12 data sets and 64 pipelines. 
+In this experiment, we are going to investigate the pre-processing options in acquiring fMRI graphs. There have been a lot of pre-processing steps proposed in the last decade. We could only study a subset of them. In particular, we are interested in options include atlas, anatomical registration, temporal filtering, motion correction and nuisance signal regression. We want to find the optimal pre-processing pipeline and the best decision for each option. We are going to index each pipeline by five letters which is explained in the table below.   
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		Option & Letter  \\ \hline
+		Atlas & C for CC200, H for HOX, A for AAL, D for DES  \\ \hline
+		Anatomical Registration & F for FSL, A for ANTS \\ \hline
+		Temporal Filtering & F for frequency filtering, X for not  \\ \hline
+		Motion Correction & S for scrubbing, X for not  \\ \hline
+		Nuisance Signal Regression & G for global signal regression, and X for not  \\ \hline
+	\end{tabular}
+\end{center}
+For example, the best pipeline found is CFXXG which is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, no scrubbing and with global signal regression. There are $64$ possible combinations of options. We pre-processed $12$ data sets with the $64$ pipleines and compute discriminability thereafter. The result is shown in figure 6. CFXXG turns out to be the best pipeline with maximal mean discriminability across all data sets. Furthermore, we carried out a multi-factor analysis of variance test to study each option. It turns out that FSL, no frequency filtering, no scrubbing and global signal regression is better than their alternatives in terms of mean discriminability. However, only no frequency filtering and global signal regression are statistical significantly better based on the test. Figure 7 shows the distribution of paired difference in discriminability.
 
-\para{real experiment} Decide the best among 64 pipelines.
-
-\para{real experiment} Decide the optimal for each decision (atlas, nff vs frf, ant vs fsl, nsc vs scr, gsr vs ngs) using anova test.
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/64_pipelines_raw.png}
-	\caption{{\bf Discriminability of raw fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS processed by 64 pipelines are computed. Color of dot indicates data set and size indicates the number of observations in data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data sets. }
+	\caption{{\bf Discriminability of raw fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are computed. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data sets.}
 	\label{fig:6}
 \end{figure}
 
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/Differ_violin_mean.png}
-	\caption{{ \bf Paired difference in discriminability of decisions.} Difference in discriminability for each decision in pipeline is compared by fixing other decisions and data sets. nff and gsr are statistical significantly better than the alternatives. fsl and nsc are not significantly better than the alternatives.}
+	\caption{{ \bf Paired difference in discriminability of pre-processing options.} Difference in discriminability for each option is compared by fixing the other options and the data set. no frequency filtering and global signal regression are statistical significantly better than the alternatives. FSL and no scrubbing are not significantly better than the alternatives.}
 	\label{fig:7}
 \end{figure}
 
