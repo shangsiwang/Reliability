@@ -31,7 +31,15 @@ To this end, we have proposed and developed a formal definition of discriminabil
 Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and analyze datasets designed for discovery science. We expect this method to be useful in a wide variety of applications,
 and therefore have made all the code open source and available from http://openconnecto.me.
 
+<<<<<<< HEAD
 
+=======
+\begin{figure}[ht!]
+	% \includegraphics[width=\linewidth]{../Figs/flow_chart.png}
+	\caption{{\bf Decision Making Through Discriminability Framework.} Test-retest data is collected from multiple subjects. The data is processed by a set of pipelines. For each processing pipeline, pairwise distances between observations are computed and discriminability is estimated. The pipeline with the maximal discriminability is selected. }
+	\label{fig:1}
+\end{figure}
+>>>>>>> 29d596e60764577b784493b38d98abb9a22c99b7
 
 \section{Results}
 \subsection{Theory}
@@ -135,8 +143,13 @@ In Lemma 1 and 2, we claim discriminability $\hat{D}$ is unbiased and converges 
 \end{equation}  
 We sample $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ independently from standard Gaussian distribution. That is $\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$ and $\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$. For each  subject, we sample two observations and let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times to estimate the distribution of $\hat{D}$. With this data generation scheme, we can compute the population discriminability $D$ from numerical integration $0.6150$. The figure 1 shows the difference $\hat{D}$ and $D$. We can see from the figure that sample discriminabiity $\hat{D}$ converges to $D$ as the number of subject increases.
 \begin{figure}[ht!]
+<<<<<<< HEAD
 	\includegraphics[width=3.0in]{../Figs/rel_conv.png}
 	\caption{{\bf Convergence of discriminability estimates.} Distribution of differences between discriminability estimates and true discriminability is plotted. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
+=======
+	\includegraphics[width=\linewidth]{../Figs/rel_conv.png}
+	\caption{{\bf Convergence of sample discriminability.} Distribution of sample discriminability is estimated. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
+>>>>>>> 29d596e60764577b784493b38d98abb9a22c99b7
 	\label{fig:1}
 \end{figure}
 
@@ -149,14 +162,14 @@ In this simulation, we consider the task of projecting 2-dimensional observation
 The optimal linear projection should keep two classes separated which is just keep the first dimension of the observations. We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case is that $\mb{\epsilon}_{i,t}$ has larger variance in the first dimension; the other case is that $\mb{\epsilon}_{i,t}$ has larger variance in the second dimension. We use both discriminability and principal component analysis to find the optimal linear projection. The result of two cases are provided in two columns of figure 3. In the first case, both methods find the linear projection which separate two classes. However, in the second case only discriminability recovers the projection which separate two classes. 
 
 \begin{figure}[ht!]
-	\includegraphics[width=3.0in]{../Figs/opt_proj.png}
+	\includegraphics[width=\linewidth]{../Figs/opt_proj.png}
 	\caption{{\bf Linear projection based on by PCA and Discriminability.} Linear projections are computed using PCA and optimizing Discriminability. Maximizing discriminability yield separated samples which have Bayes optimal classification error. }
 	\label{fig:3}
 \end{figure}
 
 
 \begin{figure}[ht!]
-	\includegraphics[width=3.0in]{../Figs/theo_plot.png}
+	\includegraphics[width=\linewidth]{../Figs/theo_plot.png}
 	\caption{{\bf Prediction error vs discriminability.} Samples are drawn from a mixture of two Gaussian distribution with additive noise. The red line is the theoretical bound derived from the theorem 1. The green line indicates the true Bayes error. }
 	\label{fig:1}
 \end{figure}
@@ -169,7 +182,7 @@ The optimal linear projection should keep two classes separated which is just ke
 \para{real experiment} Emphasize that discriminability selects threshold which is close to optimal for multiple tasks.
 
 \begin{figure}[ht!]
-\includegraphics[width=4.0in]{../Figs/HCP_100.png}
+\includegraphics[width=\linewidth]{../Figs/HCP_100.png}
 \caption{{\bf Optimizing Discriminability yields optimal prediction accuracy for multiple covariates.} HCP100 is used to investigate optimal threshold to convert correlation graphs into binary graphs. The threshold is varied from 0 to 1. For each value of threshold, the discriminability is computed;  sex, age and a neuro factor are predicted using k-NN. The threshold maximizing discriminability is close to optimal thresholds for predicting three covariates. }
 \label{fig:4}
 \end{figure}
@@ -181,13 +194,13 @@ The optimal linear projection should keep two classes separated which is just ke
 
 \para{real experiment} Decide the optimal for each decision (atlas, nff vs frf, ant vs fsl, nsc vs scr, gsr vs ngs) using anova test.
 \begin{figure}[ht!]
-	\includegraphics[width=4.0in]{../Figs/64_pipelines_raw.png}
+	\includegraphics[width=\linewidth]{../Figs/64_pipelines_raw.png}
 	\caption{{\bf Discriminability of raw fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS processed by 64 pipelines are computed. Color of dot indicates data set and size indicates the number of observations in data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data sets. }
 	\label{fig:6}
 \end{figure}
 
 \begin{figure}[ht!]
-	\includegraphics[width=4.0in]{../Figs/Differ_violin_mean.png}
+	\includegraphics[width=\linewidth]{../Figs/Differ_violin_mean.png}
 	\caption{{ \bf Paired difference in discriminability of decisions.} Difference in discriminability for each decision in pipeline is compared by fixing other decisions and data sets. nff and gsr are statistical significantly better than the alternatives. fsl and nsc are not significantly better than the alternatives.}
 	\label{fig:7}
 \end{figure}
@@ -196,7 +209,7 @@ The optimal linear projection should keep two classes separated which is just ke
 
 \para{real experiment} Decide rank is better, especially when global signal regression is not performed.
 \begin{figure}[ht!]
-	\includegraphics[width=4.0in]{../Figs/64_pipelines_differ.png}
+	\includegraphics[width=\linewidth]{../Figs/64_pipelines_differ.png}
 	\caption{{ \bf Paired difference in discriminability between rank and raw graphs.} Difference in discriminability for rank and raw fmri graphs are computed for 12 data sets processed using 64 pipelines. Rank fmri graphs are more discriminable than raw fmri graphs.}
 	\label{fig:7}
 \end{figure}
@@ -210,7 +223,7 @@ The optimal linear projection should keep two classes separated which is just ke
 \para{real experiment} We see a trend that large roi are better. Since discriminability after removing outliers is close to one, more experiments need to be done.
 
 \begin{figure}[ht!]
-	\includegraphics[width=4.0in]{../Figs/four_dti.png}
+	\includegraphics[width=\linewidth]{../Figs/four_dti.png}
 	\caption{{ \bf Discriminability of 15 atlases.} Discriminability of SWU4 DTI registered with 15 atlases are computed. Raw, rank and log edges weights are considered. Atlases with a larger number of ROIs tend to be more discriminable.}
 	\label{fig:7}
 \end{figure}
@@ -221,7 +234,7 @@ The optimal linear projection should keep two classes separated which is just ke
 \para{real experiment} After removing outliers, dti is more discriminable than fmri.
 
 \begin{figure}[ht!]
-	\includegraphics[width=4.0in]{../Figs/dti_mri_differ.png}
+	\includegraphics[width=\linewidth]{../Figs/dti_mri_differ.png}
 	\caption{{ \bf Paired difference in discriminability between dti and fmri data sets.} Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets are more discriminable than fMRI data sets.}
 	\label{fig:7}
 \end{figure}
