@@ -164,7 +164,7 @@ The optimal linear projection should keep two classes separated which is just ke
 
 \subsection{Connectome Processing Applications}
 
-\subsubsection{optimal discriminability yields optimal predictive accuracy}
+\subsubsection{Optimal discriminability yields optimal predictive accuracy}
 In this experiment, we are going to investigate the thresholding step in processing functional magnetic resonance images (fMRI). In fMRI processing, time series is first extracted for each region of interest of brain. Then, a pairwise connectivity matrix is estimated through computing absolute Pearson correlation. To obtain a binary graph, the pairwise connectivity matrix needs to be thresholded by a value which lies in $[0,1]$. We would like to find the optimal value for the threshold. In addition to neuroimages, demographic information and a neuro factor are also collected from each subject. We also want to find the optimal threshold which leads to graphs with the best prediction performance.  
 
 HCP100 data set is used in this experiment. It has $461$ subjects with $4$ measurements per subject. We let the threshold vary from 0 to 1. For each value of threshold, the discriminability is computed; sex, age and the neuro factor are predicted using k-nearest neighbor classifier. As a comparison, a reliability statistics, namely image intraclass correlation coefficient (I2C2) is also computed. It is proposed by (Han Zhou et al.) which generalizes intraclass correlation coefficient for high dimensional observations. The discriminability, I2C2, and prediction errors are shown in figure 5. The threshold which maximizes discriminability is close to the optimal thresholds for predicting three covariates. 
@@ -177,8 +177,8 @@ HCP100 data set is used in this experiment. It has $461$ subjects with $4$ measu
 \label{fig:4}
 \end{figure}
 
-\subsubsection{fMRI Processing pipelines}
-In this experiment, we are going to investigate the pre-processing options in acquiring fMRI graphs. There have been a lot of pre-processing steps proposed in the last decade. We could only study a subset of them. In particular, we are interested in options include atlas, anatomical registration, temporal filtering, motion correction and nuisance signal regression. We want to find the optimal pre-processing pipeline and the best decision for each option. We are going to index each pipeline by five letters which is explained in the table below.   
+\subsubsection{fMRI processing pipelines}
+In this experiment, we are going to investigate the pre-processing options in acquiring fMRI graphs. There have been a lot of steps proposed for pre-processing connectomes in the last decade. We could only study a subset of them. In particular, we are interested in options include atlas, anatomical registration, temporal filtering, motion correction and nuisance signal regression. We want to find the optimal pre-processing pipeline and the best decision for each option. We are going to index each pipeline by five letters which is explained in the table below.   
 \begin{center}
 	\begin{tabular}{ |c|c| } 
 		\hline
@@ -187,10 +187,15 @@ In this experiment, we are going to investigate the pre-processing options in ac
 		Anatomical Registration & F for FSL, A for ANTS \\ \hline
 		Temporal Filtering & F for frequency filtering, X for not  \\ \hline
 		Motion Correction & S for scrubbing, X for not  \\ \hline
-		Nuisance Signal Regression & G for global signal regression, and X for not  \\ \hline
+		Nuisance Signal Regression & G for global signal regression, X for not  \\ \hline
 	\end{tabular}
 \end{center}
-For example, the best pipeline found is CFXXG which is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, no scrubbing and with global signal regression. There are $64$ possible combinations of options. We pre-processed $12$ data sets with the $64$ pipleines and compute discriminability thereafter. The result is shown in figure 6. CFXXG turns out to be the best pipeline with maximal mean discriminability across all data sets. Furthermore, we carried out a multi-factor analysis of variance test to study each option. It turns out that FSL, no frequency filtering, no scrubbing and global signal regression is better than their alternatives in terms of mean discriminability. However, only no frequency filtering and global signal regression are statistical significantly better based on the test. Figure 7 shows the distribution of paired difference in discriminability.
+For example, the best pipeline found is CFXXG which means the data is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, no scrubbing and with global signal regression. There are $64$ possible combinations of options. We pre-processed $12$ data sets with the $64$ pipleines and compute discriminability thereafter. The result is shown in figure 6. CFXXG turns out to be the best pipeline with maximal mean discriminability across all data sets. Furthermore, we carried out a multi-factor analysis of variance test to study each option. It turns out that FSL, no frequency filtering, no scrubbing and global signal regression is better than their alternatives in terms of mean discriminability. However, only no frequency filtering and global signal regression are statistical significantly better based on the test. Figure 7 shows the distribution of paired difference in discriminability.
+
+We also consider an extra  pre-processing step which proves to be helpful in boosting discriminability. Rank conversion means converting a weighted undirected graph into a graph with rank weights. Specifically, in the previous experiment all edge weights are absolute continuous correlations which lies in $[0,1]$. In rank conversion step, for each edge in the grah, its weight $w$ is replace by the rank of $w$ among all edge weights. If we denote a graph by a node set and an edge weight set pair $(V,E)$ with $E=\{w_{i,j}\}$, rank conversion is a function
+\[(V,E) \rightarrow (V,E') \text{ , where } E'= \{\text{rank}(w_{i,j})\} \]
+
+The rank conversion is supposed to improve signal to noise ratio by removing background noise. We carry out this step on $12$ data sets pre-processed by the $64$ pipleines. We compare the difference in discriminability with rank conversion and without. Figure 8 shows the results. To summarize, rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability. 
 
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/64_pipelines_raw.png}
@@ -209,7 +214,7 @@ For example, the best pipeline found is CFXXG which is pre-processed using CC200
 \para{real experiment} Decide rank is better, especially when global signal regression is not performed.
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/64_pipelines_differ.png}
-	\caption{{ \bf Paired difference in discriminability between rank and raw graphs.} Difference in discriminability for rank and raw fmri graphs are computed for 12 data sets processed using 64 pipelines. Rank fmri graphs are more discriminable than raw fmri graphs.}
+	\caption{{ \bf Paired difference in discriminability between rank and raw graphs.} Difference in discriminability for rank and raw fmri graphs are computed for 12 data sets processed using 64 pipelines. Overall, rank fMRI graphs are more discriminable than raw fMRI graphs.}
 	\label{fig:7}
 \end{figure}
 
@@ -217,20 +222,17 @@ For example, the best pipeline found is CFXXG which is pre-processed using CC200
 
 
 \subsubsection{DTI processing pipelines}
-\para{real experiment} Describe we process a  dti data data set with rank, raw and log for 15 atlases. 
+In this experiment, we consider the processing of diffusion tensor images (DTI). In particular, we are interested in finding the optimal number of region of interest (ROI), and the optimal approach to process edge weights. We process four DTI data sets using 15 atlases with the number of ROI ranging from 48 to 1875. For edge weights, we consider using raw edge weights which are fiber counts. Furthermore, we consider two alternatives: log weights and rank conversion. Figure 9 shows the results. We see discriminability is stable across different atlases when using raw and log edge weights. When using the rank weights, discrinability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$.As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
 
-\para{real experiment} We see a trend that large roi are better. Since discriminability after removing outliers is close to one, more experiments need to be done.
 
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/four_dti.png}
-	\caption{{ \bf Discriminability of 15 atlases.} Discriminability of SWU4 DTI registered with 15 atlases are computed. Raw, rank and log edges weights are considered. Atlases with a larger number of ROIs tend to be more discriminable.}
+	\caption{{ \bf Discriminability of four DTI data sets.} Discriminability of BNU1, HNU1, SWU4 and KKI registered with 15 atlases are computed. Raw, rank and log edges weights are considered. }
 	\label{fig:7}
 \end{figure}
 
-\subsubsection{DTI vs. fMRI}
-\para{real experiment} Describe the 4 fmri and dti data sets.
-
-\para{real experiment} After removing outliers, dti is more discriminable than fmri.
+\subsubsection{fMRI vs. DTI}
+In this experiment, we want to compare discriminanility of fMRI and DTI data sets. Four data sets with both fMRI and DTI measurements are selected for the comparison. In processing fMRI data sets, the most dicriminable pipeline (CFXXG) is used. In processing DTI data sets, some measurements fail to pass the processing pipeline or have very small number of edges. In this case, these measurements are labeled as outliers and removed from discriminability calculation. The result is shown in figure 10. Our conclusion is that DTI data sets after outlier removal have comparable discriminability as fMRI data sets. Actually, DTI measurements are better than fMRI in three out of four data sets. 
 
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/dti_mri_differ.png}
