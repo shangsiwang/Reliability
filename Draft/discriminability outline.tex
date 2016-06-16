@@ -209,9 +209,6 @@ The rank conversion is supposed to improve signal to noise ratio by removing bac
 	\label{fig:7}
 \end{figure}
 
-\para{real experiment} Describe how to convert raw graphs to rank graphs
-
-\para{real experiment} Decide rank is better, especially when global signal regression is not performed.
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/64_pipelines_differ.png}
 	\caption{{ \bf Paired difference in discriminability between rank and raw graphs.} Difference in discriminability for rank and raw fmri graphs are computed for 12 data sets processed using 64 pipelines. Overall, rank fMRI graphs are more discriminable than raw fMRI graphs.}
@@ -242,12 +239,18 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 
 \section{Discussion}
 
-\para{Summary} We propose a definition of discriminability and apply it to a variety of set ups.
+\para{Summary} We propose a non-parametric statistics of discriminability which is define to be the probability that within subject distance is smaller than across subject distance.  We prove discriminability bounds Bayes prediction error. An estimator is designed to approximate the discriminability based on test-retest data set. We show the estimator is unbiased and converges to the discriminability asymptotically. We apply the discriminabilility framework under various setups in neuroimaging processing. We find the best processing pipeline for fMRI pre-processing and look into options in DTI processing. Furthermore, fMRI and DTI are shown to have comparable discriminability.
 
-\para{Related Work} I2C2, DISCO and GICC
+\para{Related Work} Image intraclass correlation coefficient (I2C2) is proposed by Shou H et al to measure reliability. It generalizes classic image intraclass coefficient to high dimensional observations. It relies on the assumption that noise is additive and computes reliability estimates based on the traces of within subject and across subject covariance matrix. 
+
+Graphical intraclass correlation coefficient (GICC) is another reproducibility measure proposed by Chen Y et al. It is designed specifically for the case when data of interest are binary graphs. It takes a parametric approach by first estimating latent edge feature vectors for and computes GICC based on variation of latent edge feature vectors.
+
+Distance components (DISCO) is proposed by MARIA L. RIZZO AND GÁBOR J. SZÉKELY as a measure of dispersion. It computes one distance statistic for multiple empirical distributions based on pairwise distances between samples. It can also be used to test whether multiple set samples are drawn from the same distribution or not. 
 
 
-\para{Next Steps}
+\para{Next Steps} First, more experiments should be carried out to analyze processing options. In particular, we could investigate processing of DTI more thoroughly given more data sets. Also, the effect of the number of ROI on discriminability is still not determined. Second, metrics other than Euclidean distance could be studied. Third, a testing procedure could be developed for comparing two discriminability.
+
+
 
 \section{Appendix}
 
