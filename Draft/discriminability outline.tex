@@ -268,7 +268,110 @@ Distance components (DISCO) is proposed by MARIA L. RIZZO AND GÁBOR J. SZÉKELY
 
 
 \appendix
+\begin{proof}[Proof of Lemma 1]
+	By definition of $\hat{D}$,
+	\[\hat{D}= \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)}\]
+	The expectation of $\hat{D}_{i,t,t'}$ is actually $D$,
+	\begin{eqnarray*}  
+		& &E(\hat{D}_{i,t,t'}) \\
+		&=&\frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} 		    	 E(\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}) }{(n-1)s} \\
+		&=&\frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} 
+		     	\PP[\delta_{i,t,t'} \leq \delta_{i,i',t,t''}]}{(n-1)s} \\
+		&=& \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} 
+			D}{(n-1)s} \\
+		&=& D
+	\end{eqnarray*}
+	Therefore, we have
+	\begin{eqnarray*}
+		& &E(\hat{D})\\
+		&=&\frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} E(\hat{D}_{i,t,t'})}{ns(s-1)} \\
+		&=&\frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} D}{ns(s-1)} \\
+		&=& D
+	\end{eqnarray*}
+	This concludes that $\hat{D}$ is an unbiased estimator of discriminability $D$.
+\end{proof}
 
+\begin{proof}[Proof of Lemma 2]
+	By definition of $\hat{D}$,
+	\begin{eqnarray*}  
+		\hat{D} &=&\frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)}\\
+		&=& \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s}\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{ns(s-1)(n-1)s}\\
+		&=& \frac{\sum\limits_{i,i',t,t',t''} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}  }{ns(s-1)(n-1)s}
+	\end{eqnarray*}
+	In the last step, we simplify the sum, but keep in mind that $i\neq i'$ and $t \neq t'$. We show in the previous lemma that $E(\hat{D})=D$. To demonstrate that $\hat{D}$ converges to $D$ in probability, it is suffice to show that $\text{Var}(\hat{D}) \rightarrow 0$. Since then, by Chebyshev's inequality,
+	\[\PP[|\hat{D}-D| \geq \epsilon] \leq \frac{\text{Var}(\hat{D})}{\epsilon^2} \rightarrow 0\]
+	If we expand the variance of $R$, 
+	\[\text{Var}(\hat{D})= \frac{\sum\limits_{i,i',t,t',t''} \sum\limits_{j,j',r,r',r''} \text{Cov}(\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \},\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \})}{(ns(s-1)(n-1)s)^2} \]
+	There are $(ns(s-1)(n-1)s)^2$ covariance terms in the sum of nominator; however, most of them are actually $0$. $\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''}$ is a function of $\bx_{i,t}$, $\bx_{i,t'}$ and $\bx_{i',t''}$; therefore, is independent of any observations of subjects other than $i$ and $i'$. This implies $\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}$ is independent of $\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \}$ as long as $\{i,i'\} \cap \{j,j'\} = \emptyset$. As a consqeunce, there are $(4n-6)(s(s-1)s)=ns(s-1)(n-1)s-(n-2)s(s-1)(n-3)s$ combinations of $j,j',r,r',r''$ such that covariance between $\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}$ and $\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \}$ maybe non-zero. Furthermore, the covariance must be less $\frac{1}{4}$ due to the fact that they are indicator random variables. Therefore, we have 
+	\begin{eqnarray*} 
+		\text{Var}(\hat{D})&=& \frac{\sum\limits_{i,i',t,t',t''} \sum\limits_{j,j',r,r',r''} \text{Cov}(\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \},\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \})}{(ns(s-1)(n-1)s)^2} \\
+		&\leq& \frac{\sum\limits_{i,i',t,t',t''}  (4n-6)(s(s-1)s)}{4(ns(s-1)(n-1)s)^2} \\
+		&=& \frac{ (4n-6)(s(s-1)s)}{4ns(s-1)(n-1)s} \\
+		&=& \frac{4n-6}{4n(n-1)} \\
+		&\leq& \frac{1}{n}  \\
+		&\rightarrow& 0 \text{ , as $n\rightarrow \infty$} 
+	\end{eqnarray*}
+	As discussed above, this concludes that $\hat{D}$ converges to $D$ in probability. 
+\end{proof}
+
+\begin{proof}[Proof of Lemma 3]
+	By Lemma 1, we only need to bound $P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|)$. Under additive noise setting,
+	\begin{eqnarray*}
+		& &P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|) \\
+		&=&P(\|Z_{ij}-Z_{ik}\| < \|X_{i}+Z_{ij}-X_{p}-Z_{pq}\|) \\
+		&\leq&P(\|Z_{ij}-Z_{ik}\| < \|X_{i}-X_{p}\| + \|Z_{ij}-Z_{pq}\|) \\
+		&=& P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\|) \\
+		&=& \frac{1}{2}P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\||\|Z_{ij}-Z_{ik}\|<\|Z_{ij}-Z_{pq}\|) + \\ 
+		& &\frac{1}{2}P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\||\|Z_{ij}-Z_{ik}\|>\|Z_{ij}-Z_{pq}\|) \\
+		&=&\frac{1}{2} + \frac{1}{2}P(\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\|< \|X_{i}-X_{p}\||\|Z_{ij}-Z_{ik}\|>\|Z_{ij}-Z_{pq}\|) \\
+		&=& \frac{1}{2} + \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||< \|X_{i}-X_{p}\|) \\
+		&=& 1 - \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||> \|X_{i}-X_{p}\|)
+	\end{eqnarray*}
+	To bound the probability above, we bound the two terms on different sides of equation separately. We start with the term at the left side and compute its expectation.
+	\begin{eqnarray*}
+		& &E(\|X_{i}-X_{p}\|^2) \\
+		&=&E(X_{i}^T X_{i}+X_{p}^TX_{p} -2X_{i}^T X_{p}) \\
+		&=&2\sigma_2^2
+	\end{eqnarray*}
+	We then use Markov's Inequality to this term, 
+	\[P(\|X_{i}-X_{p}\| < t) \geq 1 - \frac{2 \sigma_2^2}{t^2} \]
+	Assume, 
+	\[E(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2) \geq a^2 \sigma_1^2\]
+	\[\frac{E^2(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2)}{E(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||)^4} \geq b \]
+	Then, we apply Paley-Zygmund Inequality,
+	\[P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2 > t^2 ) \geq b(1-\frac{t^2}{a^2 \sigma_1^2})^2 \]
+	Understand the fact that $X$s and $Z$s are independent, we can combine the two inequalities and get a bound on $P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|)$.
+	\begin{eqnarray*}
+		& &P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|) \\
+		&\leq& 1 - \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||> \|X_{i}-X_{p}\|)\\
+		&\leq& 1 - \frac{1}{2}P(|\|Z_{ij}-Z_{ik}\|-\|Z_{ij}-Z_{pq}\||^2 > t^2 )P(\|X_{i}-X_{p}\|^2 < t^2) \\
+		&\leq& 1- \frac{1}{2}b(1-\frac{t^2}{a^2 \sigma_1^2})^2(1 - \frac{2 \sigma_2^2}{t^2})
+	\end{eqnarray*}
+	Assume $a^2 \sigma_1^2 \geq 2 \sigma_2^2$ and set $k=\sqrt{2} a \sigma_1 \sigma_2$,
+	\begin{eqnarray*}
+		P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|) \leq  1- \frac{1}{2}b(1 - \frac{\sqrt{2} \sigma_2}{a\sigma_1})^3
+	\end{eqnarray*}
+	Denote $P(\|O_{ij}-O_{ik}\| < \|O_{ij}-O_{pq}\|)$ by $D$, we can  solve for and lower bound $\frac{ \sigma_2}{\sigma_1}$.
+	\[\frac{ \sigma_2}{\sigma_1} \geq\frac{a}{\sqrt{2}} (1-(\frac{2-2D}{b})^{1/3} )\]
+	
+	
+\end{proof}
+
+
+\begin{proof}[Proof of Lemma 4]
+	To compute Mahalanobis distance, we first compute weighted covariance matrix.
+	\begin{eqnarray*}
+		\text{Var}(O|Y=i) &=& \text{Var}(X|Y=i)+\text{Var}(Z|Y=i) \\
+		&=& \Sigma_i+\frac{1}{\lambda^2}\Sigma
+	\end{eqnarray*}
+	Therefore, the weighted covariance matrix of $O$s
+	\begin{eqnarray*}
+		\Sigma_\lambda&=&\pi_0\text{Var}(O|Y=0)+\pi_1\text{Var}(O|Y=1) \\
+		&=&\pi_0\Sigma_0+\pi_1\Sigma_1+\frac{1}{\lambda^2}\Sigma
+	\end{eqnarray*}
+	Then, apply Devijver and Kittler's result,
+	\[L_\lambda \leq \frac{2\pi_0\pi_1}{1+\pi_0\pi_1(\mu_0-\mu_1)^T\Sigma_\lambda^{-1}(\mu_0-\mu_1)}\]
+\end{proof}
 
 
 
