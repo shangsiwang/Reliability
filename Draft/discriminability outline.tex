@@ -20,16 +20,16 @@ Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vo
 
 \section{Introduction}
 
-In this era of big data, many scientific, government, and corporate groups are collecting and processing massive data sets. To obtain optimal quantitative answers to any inquiry about data requires making two decisions: (i) “how should the data be collected?”, and (ii) “how should the data be processed?”  When the downstream inference task is specified, a priori, we can collect and process data to optimize the performance of task. However, recently, across industry, governmental, and academic settings, certain datasets become benchmark or reference datasets. Such data sets are then used for a wide variety of different inferential problems. Collecting and processing these data sets requires massive institutional investments, and choices related to questions(i) and (ii) above have dramatic effects on all subsequent analyses. Optimally addressing experimental design decisions can yield significant savings in both the financial and human costs, and also improve accuracy of analytical results. Therefore, a theoretical framework to enable investigators to select from a set of possible design decisions in the absence of an explicit task or for multiple tasks could reap great rewards.
+In this era of big data, many scientific, government, and corporate groups are collecting and processing massive data sets \cite{manyika2011big}\cite{wu2014data}. To obtain optimal quantitative answers to any inquiry about data requires making two decisions: (i) “how should the data be collected?”, and (ii) “how should the data be processed?”  When the downstream inference task is specified, a priori, we can collect and process data to optimize the performance of task \cite{kohavi1995study}\cite{reiter2011mprophet}. However, recently, across industry, governmental, and academic settings, certain datasets become benchmark or reference datasets. Such data sets are then used for a wide variety of different inferential problems. Collecting and processing these data sets requires massive institutional investments, and choices related to questions(i) and (ii) above have dramatic effects on all subsequent analyses. Optimally addressing experimental design decisions can yield significant savings in both the financial and human costs, and also improve accuracy of analytical results\cite{ballou1985modeling}\cite{dale1999optimal}\cite{banga2008parameter}. Therefore, a theoretical framework to enable investigators to select from a set of possible design decisions in the absence of an explicit task or for multiple tasks could reap great rewards.
 
 
 
  
 To this end, we have proposed and developed a formal definition of discriminability to guide data collection and processing. Discriminability is a non-parametric statistical property of a joint distribution in a hierarchical model, to differentiate between classes of objects. We prove that discriminability (which may be more aptly called reliability), provides a lower bound on predictive accuracy for any downstream inference task, even if we have never seen the covariates to predict in the processing. We then design an estimator of discriminability computed from test-retest data set, demonstrate that it is unbiased, and derive our estimator’s asymptotic distribution. 
 
- Numerical simulations are conducted to demonstrate the basic property of our discriminability estimator in a variety of settings. Then, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to investigate functional connectomics. We start by finding the maximally discriminable threshold for converting correlation connectome matrices into binary graphs. Indeed, consistent with our theoretical and simulated results, maximizing the discriminability also maximizes performances on a suite of different downstream inference tasks. We then ask about a series of pre-processing steps: should one motion correct or not, and should one implement global signal regression or not, etc. We determine the optimal choice for each pre-processing steps, and find the maximally discriminable pipelines amongst 64 pre-processing pipelines.
+Numerical simulations are conducted to demonstrate the basic property of our discriminability estimator in a variety of settings. Then, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to investigate functional connectomics \cite{fox2005human}\cite{biswal2010toward}. We start by finding the maximally discriminable threshold for converting correlation connectome matrices into binary graphs. Indeed, consistent with our theoretical and simulated results, maximizing the discriminability also maximizes performances on a suite of different downstream inference tasks. We then ask about a series of pre-processing steps: should one motion correct or not, and should one implement global signal regression or not, etc. We determine the optimal choice for each pre-processing steps, and find the maximally discriminable pipelines amongst 64 pre-processing pipelines.
 
-Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and analyze datasets designed for discovery science. We expect this method to be useful in a wide variety of applications,
+Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and process data sets designed for discovery science. We expect this method to be useful in a wide variety of applications,
 and therefore have made all the code open source and available from http://openconnecto.me.
 
 
@@ -80,7 +80,7 @@ Consider the situation that the downstream inference task is classification, tha
 
 To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bv_i,\by_i)$ pair is sampled independently and identically from some distribution, $(\bv_i,\by_i) \iid F_{V,Y}$. The goal is to predict the binary-valued \emph{target} variable $\by_i$,  using $\bx_i$ as the \emph{predictor} variables. Given a classifier $C: \mc{X} \rightarrow \mc{Y}$, to quantify the performance of classifier, we define the loss function $L(C)$ to be the probability of making error in prediction that is
 \[L(C) = \PP(C(\bx_i) \neq \by_i) \]
-It is known that the minimal prediction error $L^*(\bx_i,\by_i)$ among all possible prediction function is achieved by Bayes classifier.
+It is known that the minimal prediction error $L^*(\bx_i,\by_i)$ among all possible prediction function is achieved by Bayes classifier \cite{devroye2013probabilistic}.
 \[L^*(\bx_i,\by_i) : = L(C^B)\]
 where $C^{B}$ is the Bayes classifier which is defined by
 \[C^{B}(\bx_i):= \underset{y \in \{0,1\} }{\text{argmax }} \PP(\by_i=y|\bx_i)\] 
@@ -112,7 +112,7 @@ In real applications, distribution of $\bx_{i,t}$ may never known to us; hence, 
 \[ \hat{D}_{i,t,t'} = \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{(n-1)s}\]
 where $\mathbb{I}\{ \cdot \} $ is the indicator function, $n$ is the number of subjects, and $s$ denotes the number of observations per subject. $\hat{D}_{i,t,t'}$ is the faction of observations from other subjects farther away from $x_{i,t}$ than $x_{i,t'}$. It approximates the probability that distances from observations of other subjects to the $t^{th}$ observation of subject $i$ is larger than the distance between $t^{th}$ and $t'^{th}$ trial of subject $i$. Then, we define the discriminability estimator $\hat{D}$ to be the mean of $\hat{D}_{i,t,t'}$ averaged over all pairs of observations from same subjects.
 \[ \hat{D} := \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t' \neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)} \]
-$\hat{D}$ is the sample discriminability which approximates discriminability or population discriminability. The next two lemmas asserts that the discriminability estimator $\hat{D}$ is unbiased and converges to $D$ as the number of subjects $n$ goes to infinity.
+$\hat{D}$ is the sample discriminability which approximates discriminability or population discriminability. The next two lemmas asserts that the discriminability estimator $\hat{D}$ is unbiased and converges to $D$ as the number of subjects $n$ goes to infinity \cite{bickel2015mathematical}.
 
 \begin{lem}	
 	$\hat{D}$ is an unbiased estimator of $D$, that is
@@ -145,7 +145,7 @@ We sample $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ independently from standard Gaussi
 \subsubsection{Parameter selection through discriminability  }
 In this simulation, we consider the task of projecting 2-dimensional observations linearly into 1-dimensional space. Again, we assume additive noise. In addition to $\bx_{i,t}$, there is a binary class label $\by_{i}$ associated with subject $i$. The true physical property is Gaussian distributed conditioned on $\by_i$,
 \[\bv_i|\by_i=1 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \text{ and, } \bv_i|\by_i=0 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}-1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \]
-The optimal linear projection should keep two classes separated which is just keep the first dimension of the observations. We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case is that $\mb{\epsilon}_{i,t}$ has larger variance in the first dimension; the other case is that $\mb{\epsilon}_{i,t}$ has larger variance in the second dimension. We use both discriminability and principal component analysis to find the optimal linear projection. The results of two cases are provided in two columns of figure ~\ref{fig:sel}. In the first case, both methods find the linear projection which separates two classes. However, in the second case only discriminability recovers the projection which separates two classes. 
+The optimal linear projection should keep two classes separated which is just keep the first dimension of the observations. We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case is that $\mb{\epsilon}_{i,t}$ has larger variance in the first dimension; the other case is that $\mb{\epsilon}_{i,t}$ has larger variance in the second dimension. We use both discriminability and principal component analysis \cite{jolliffe2002principal} to find the optimal linear projection. The results of two cases are provided in two columns of figure ~\ref{fig:sel}. In the first case, both methods find the linear projection which separates two classes. However, in the second case only discriminability recovers the projection which separates two classes. 
 
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/opt_proj.png}
@@ -158,9 +158,9 @@ The optimal linear projection should keep two classes separated which is just ke
 \subsection{Connectome Processing Applications}
 
 \subsubsection{Optimal discriminability yields optimal predictive accuracy}
-In this experiment, we are going to investigate the thresholding step in processing functional magnetic resonance imaging (fMRI). In fMRI processing, time series is first extracted for each region of interest of brain. Then, a pairwise connectivity matrix is estimated through computing absolute Pearson correlation. To remove noise and obtain a binary graph, the pairwise connectivity matrix needs to be thresholded by a value which lies in $[0,1]$. We would like to find the optimal value for the threshold. In addition to neuroimages, demographic information and a neuro factor are also collected from each subject. We also want to find the threshold which results graphs with the best prediction performance.  
+In this experiment, we are going to investigate the thresholding step in processing functional magnetic resonance imaging (fMRI). In fMRI processing, time series is first extracted for each region of interest of brain \cite{strother2006evaluating}. Then, a pairwise connectivity matrix is estimated through computing absolute Pearson correlation \cite{liang2012effects}. To remove noise and obtain a binary graph, the pairwise connectivity matrix needs to be thresholded by a value which lies in $[0,1]$ \cite{hampson2002detection}\cite{van2010exploring}. We would like to find the optimal value for the threshold. In addition to neuroimages, demographic information and a neuro factor \cite{costa1992revised} are also collected from each subject. We also want to find the threshold which results graphs with the best prediction performance.  
 
-HCP100 data set is used in this experiment. It has $461$ subjects with $4$ measurements per subject. We let the threshold vary from 0 to 1. For each value of threshold, the discriminability is computed; sex, age and the neuro factor are predicted using k-nearest neighbor classifier. As a comparison, another reliability statistics, namely image intraclass correlation coefficient (I2C2) is also computed. It is proposed by (Han Zhou et al.) which generalizes intraclass correlation coefficient for high dimensional observations. The discriminability, I2C2, and prediction errors are shown in figure ~\ref{fig:hcp}. The threshold which maximizes discriminability is close to the thresholds yielding smallest predicting errors for three covariates. 
+HCP100 data set is used in this experiment \cite{van2012human}. It has $461$ subjects with $4$ measurements per subject. We let the threshold vary from 0 to 1. For each value of threshold, the discriminability is computed; sex, age and the neuro factor are predicted using k-nearest neighbor classifier \cite{vapnik1998statistical}. As a comparison, another reliability statistics, namely image intraclass correlation coefficient is also computed which generalizes intraclass correlation coefficient for high dimensional observations \cite{shou2013quantifying}. The discriminability, I2C2, and prediction errors are shown in figure ~\ref{fig:hcp}. The threshold which maximizes discriminability is close to the thresholds yielding smallest predicting errors for three covariates. 
 
 
 
@@ -171,16 +171,16 @@ HCP100 data set is used in this experiment. It has $461$ subjects with $4$ measu
 \end{figure}
 
 \subsubsection{fMRI processing pipelines}
-In this experiment, we are going to investigate the pre-processing options in acquiring fMRI graphs. There have been a lot of steps proposed for pre-processing connectomes in the last decade. We could only study a subset of them. In particular, we are interested in options include atlas, anatomical registration, temporal filtering, motion correction and nuisance signal regression. We want to find the optimal pre-processing pipeline and the best decision for each option. We are going to index each pipeline by five letters which is explained in the table below.   
+In this experiment, we are going to investigate the pre-processing options in acquiring fMRI graphs \cite{huettel2004functional}. There have been a lot of steps proposed for pre-processing connectomes in the last decade. We could only study a subset of them. In particular, we are interested in options include atlas \cite{mai2015atlas}, anatomical registration \cite{klein2009evaluation}, temporal filtering \cite{smith1999investigation}, motion correction \cite{power2012spurious} and nuisance signal regression \cite{fox2009global}. We want to find the optimal pre-processing pipeline and the best decision for each option. We are going to index each pipeline by five letters which is explained in the table below.   
 \begin{center}
 	\begin{tabular}{ |c|c| } 
 		\hline
 		Option & Letter  \\ \hline
-		Atlas & C for CC200, H for HOX, A for AAL, D for DES  \\ \hline
-		Anatomical Registration & F for FSL, A for ANTS \\ \hline
-		Temporal Filtering & F for frequency filtering, X for not  \\ \hline
-		Motion Correction & S for scrubbing, X for not  \\ \hline
-		Nuisance Signal Regression & G for global signal regression, X for not  \\ \hline
+		Atlas & C for CC200, H for HOX, A for AAL, D for DES \cite{craddock2012whole}\cite{desikan2006automated} \\ \hline
+		Anatomical Registration & F for FSL, A for ANTS \cite{andersson2007non}\cite{avants2009advanced}\\ \hline
+		Temporal Filtering & F for frequency filtering, X for not  \cite{smith1999investigation}\\ \hline
+		Motion Correction & S for scrubbing, X for not  \cite{power2012spurious} \\ \hline
+		Nuisance Signal Regression & G for global signal regression , X for not \cite{fox2009global} \\ \hline
 	\end{tabular}
 \end{center}
 For example, the best pipeline found is CFXXG which means the data is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, no scrubbing and with global signal regression. There are $64$ possible combinations of options. We pre-processed $12$ data sets with the $64$ pipleines and compute discriminability thereafter. The result is shown in figure ~\ref{fig:pipes}. CFXXG turns out to be the best pipeline with maximal mean discriminability across all data sets. Furthermore, we carried out a multi-factor analysis of variance test to study each option. It turns out that FSL, no frequency filtering, no scrubbing and global signal regression is better than their alternatives in terms of mean discriminability. However, only no frequency filtering and global signal regression are statistical significantly better based on the test. Figure ~\ref{fig:decs} shows the distribution of paired difference in discriminability.
@@ -234,11 +234,11 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 
 \para{Summary} We propose a non-parametric statistics of discriminability which is define to be the probability that within subject distance is smaller than across subject distance.  We prove discriminability bounds Bayes prediction error. An estimator is designed to approximate the discriminability based on test-retest data set. We show the estimator is unbiased and converges to the discriminability asymptotically. We apply the discriminability framework under various setups in neuroimaging processing. We find the best processing pipeline for fMRI pre-processing and look into options in DTI processing. Furthermore, fMRI and DTI are shown to have comparable discriminability.
 
-\para{Related Work} Image intraclass correlation coefficient (I2C2) is proposed by Shou H et al to measure reliability. It generalizes classic image intraclass coefficient to high dimensional observations. It relies on the assumption that noise is additive and computes reliability estimates based on the traces of within subject and across subject covariance matrix. 
+\para{Related Work} There are some successful attempts to quantify reliabilty or reproducibility in neuraimaging studies \cite{shrout1979intraclass}\cite{strother2002quantitative}\cite{rizzo2010disco}\cite{zuo2010reliable}\cite{braun2012test}\cite{shou2013quantifying}\cite{yue2015estimating}. Here, we are going to review a subset of them which is more related to our approach. Image intraclass correlation coefficient (I2C2) is proposed by Shou et al. to measure reliability\cite{shou2013quantifying}. It generalizes classic image intraclass coefficient to high dimensional observations. It relies on the assumption that noise is additive and computes reliability estimates based on the traces of within subject and across subject covariance matrix. 
 
-Graphical intraclass correlation coefficient (GICC) is a reproducibility measure proposed by Chen Y et al. It is designed specifically for the case when data of interest are binary graphs. It takes a parametric approach by first assuming a probit link function and estimating latent edge feature vectors. Then, it computes GICC based on variation of latent edge feature vectors.
+Graphical intraclass correlation coefficient (GICC) is a reproducibility measure proposed by Yue et al. \cite{yue2015estimating}. It is designed specifically for the case when data of interest are binary graphs. It takes a parametric approach by first assuming a probit link function and estimating latent edge feature vectors. Then, it computes GICC based on variation of latent edge feature vectors.
 
-Distance components (DISCO) is proposed by MARIA L. RIZZO AND GÁBOR J. SZÉKELY as a measure of dispersion. It computes one distance statistic for multiple empirical distributions based on pairwise distances between samples. It can also be used to test the hypothesis that whether multiple sets of samples are drawn from the same distribution or not. 
+Distance components (DISCO) is proposed by Rizzo and Sz{\'e}kely as a measure of dispersion. It computes one distance statistic for multiple empirical distributions based on pairwise distances between samples. It can also be used to test the hypothesis that whether multiple sets of samples are drawn from the same distribution or not. 
 
 
 \para{Next Steps} First, more experiments should be carried out to analyze processing options. In particular, we could investigate processing of DTI more thoroughly given more data sets. Also, the effect of the number of ROI on discriminability is still not determined. Second, metrics other than Euclidean distance could be studied. Third, a testing procedure could be developed for comparing discriminability of multiple data sets.
@@ -285,7 +285,7 @@ Distance components (DISCO) is proposed by MARIA L. RIZZO AND GÁBOR J. SZÉKELY
 	Let $\sigma_1^2$ denote the trace of covariance matrix of ${\epsilon}_{i,t}$, and let $a$ and $b$ be two constants satisfy
 	\[\EE(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2) \geq a^2 \sigma_1^2\]
 	\[\frac{\EE^2(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2)}{\EE(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|)^4} \geq b \]
-	Then, we can apply Paley-Zygmund Inequality,
+	Then, we can apply Paley-Zygmund Inequality \cite{paley1932some},
 	\[\PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2 > t^2 ) \geq b(1-\frac{t^2}{a^2 \sigma_1^2})^2 \]
 	Understand the fact that $\bv$s and $\mb{\epsilon}$s are independent, we can combine the two inequalities and get a bound on $\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''})$.
 	\begin{eqnarray*}
@@ -303,7 +303,7 @@ Distance components (DISCO) is proposed by MARIA L. RIZZO AND GÁBOR J. SZÉKELY
 	\begin{equation}
 	\frac{ \sigma_2}{\sigma_1} \geq\frac{a}{\sqrt{2}} (1-(\frac{2-2D}{b})^{1/3} )
 	\end{equation}	
-	To obtain a bound on Bayes error, we apply Devijver and Kittler's result,
+	To obtain a bound on Bayes error, we apply Devijver and Kittler's result \cite{devijver1982pattern},
 	\[L \leq \frac{2\pi_0\pi_1}{1+\pi_0\pi_1\Delta\mu^T\Sigma^{-1}\Delta\mu}\]
 	Here, $\pi_0$ and $\pi_1$ are prior probabilities for two classes. $\Delta\mu$ is the difference between means of two classes. Since $\mb{\epsilon}$ is assumed to be independent of $\bx$ and $\by$,
 	\[\Delta\mu= \EE(\bx|\by=0)-\EE(\bx|\by=1)=\EE(\bv|\by=0)-\EE(\bv|\by=1)\]
@@ -380,8 +380,8 @@ Distance components (DISCO) is proposed by MARIA L. RIZZO AND GÁBOR J. SZÉKELY
 
 \newpage
 \small{
-\bibliography{biblio}
 \bibliographystyle{IEEEtran}
+\bibliography{citations}
 }
 
 
