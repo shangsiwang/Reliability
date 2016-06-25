@@ -132,11 +132,11 @@ In Lemma 1 and 2, we claim discriminability $\hat{D}$ is unbiased and converges 
 \begin{equation}
 \bx_{i,t} =g_{\bpsi} \big(f_{\bphi} (\bv_i) \big) =\bv_{i} + \mb{\epsilon}_{i,t}
 \end{equation}  
-We sample $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ independently from standard Gaussian distribution. That is $\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$ and $\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$. For each  subject, we sample two observations and let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times to estimate the distribution of $\hat{D}$. With this data generation scheme, we can compute the population discriminability $D$ through numerical integration. It turns out to be $0.6150$. The figure ~\ref{fig:conv} shows the difference $\hat{D}$ and $D$. We can see from the figure that sample discriminabiity $\hat{D}$ converges to $D$ as the number of subject increases.
+We sample $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ independently from standard Gaussian distribution. That is $\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$ and $\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1)$. For each  subject, we sample two observations and let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times to estimate the distribution of $\hat{D}$. With this data generation scheme, we can compute the population discriminability $D$ through numerical integration. It turns out to be $0.6150$. The figure ~\ref{fig:comb_simu} shows the difference $\hat{D}$ and $D$. We can see from the figure that sample discriminabiity $\hat{D}$ converges to $D$ as the number of subject increases.
 \begin{figure}[ht!]
-	\includegraphics[width=\linewidth]{../Figs/rel_conv.png}
-	\caption{{\bf Convergence of sample discriminability.} Distribution of difference between discriminability estimates and truth is ploted. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. }
-	\label{fig:conv}
+	\includegraphics[width=\linewidth]{../Figs/comb_simu.png}
+	\caption{{\bf Simulation results.} Distribution of difference between discriminability estimates and truth is ploted in the top panel. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. Linear projections are computed using PCA and optimizing discriminability. The results are shown in two columns. Maximizing discriminability yield separated samples which have Bayes optimal classification error.}
+	\label{fig:comb_simu}
 \end{figure}
 
 
@@ -145,13 +145,8 @@ We sample $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ independently from standard Gaussi
 \subsubsection{Parameter selection through discriminability  }
 In this simulation, we consider the task of projecting 2-dimensional observations linearly into 1-dimensional space. Again, we assume additive noise. In addition to $\bx_{i,t}$, there is a binary class label $\by_{i}$ associated with subject $i$. The true physical property is Gaussian distributed conditioned on $\by_i$,
 \[\bv_i|\by_i=1 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \text{ and, } \bv_i|\by_i=0 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}-1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \]
-The optimal linear projection should keep two classes separated which is just keep the first dimension of the observations. We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case is that $\mb{\epsilon}_{i,t}$ has larger variance in the first dimension; the other case is that $\mb{\epsilon}_{i,t}$ has larger variance in the second dimension. We use both discriminability and principal component analysis \cite{jolliffe2002principal} to find the optimal linear projection. The results of two cases are provided in two columns of figure ~\ref{fig:sel}. In the first case, both methods find the linear projection which separates two classes. However, in the second case only discriminability recovers the projection which separates two classes. 
+The optimal linear projection should keep two classes separated which is just keep the first dimension of the observations. We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case is that $\mb{\epsilon}_{i,t}$ has larger variance in the first dimension; the other case is that $\mb{\epsilon}_{i,t}$ has larger variance in the second dimension. We use both discriminability and principal component analysis \cite{jolliffe2002principal} to find the optimal linear projection. The results of two cases are provided in two columns of figure ~\ref{fig:comb_simu}. In the first case, both methods find the linear projection which separates two classes. However, in the second case only discriminability recovers the projection which separates two classes. 
 
-\begin{figure}[ht!]
-	\includegraphics[width=\linewidth]{../Figs/opt_proj.png}
-	\caption{{\bf Linear projection based on by PCA and Discriminability.} Linear projections are computed using PCA and optimizing Discriminability. Maximizing discriminability yield separated samples which have Bayes optimal classification error. }
-	\label{fig:sel}
-\end{figure}
 
 
 
@@ -183,16 +178,17 @@ In this experiment, we are going to investigate the pre-processing options in ac
 		Nuisance Signal Regression & G for global signal regression , X for not \cite{fox2009global} \\ \hline
 	\end{tabular}
 \end{center}
-For example, the best pipeline found is CFXXG which means the data is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, no scrubbing and with global signal regression. There are $64$ possible combinations of options. We pre-processed $12$ data sets with the $64$ pipleines and compute discriminability thereafter. The result is shown in figure ~\ref{fig:pipes}. CFXXG turns out to be the best pipeline with maximal mean discriminability across all data sets. Furthermore, we carried out a multi-factor analysis of variance test to study each option \cite{hair2009multivariate}. It turns out that FSL, no frequency filtering, no scrubbing and global signal regression is better than their alternatives in terms of mean discriminability. However, only no frequency filtering and global signal regression are statistical significantly better based on the test. Figure ~\ref{fig:decs} shows the distribution of paired difference in discriminability.
+For example, the best pipeline found is CFXXG which means the data is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, no scrubbing and with global signal regression. There are $64$ possible combinations of options. We pre-processed $12$ data sets with the $64$ pipleines and compute discriminability thereafter. The result is shown in the top panel of figure ~\ref{fig:pipes}. CFXXG turns out to be the best pipeline with maximal mean discriminability across all data sets. Furthermore, we carried out a multi-factor analysis of variance test to study each option \cite{hair2009multivariate}. It turns out that FSL, no frequency filtering, no scrubbing and global signal regression is better than their alternatives in terms of mean discriminability. However, only no frequency filtering and global signal regression are statistical significantly better based on the test. Figure ~\ref{fig:decs} shows the distribution of paired difference in discriminability.
 
 We also consider an extra rank conversion step which proves to be helpful in boosting discriminability. Rank conversion transforms a weighted undirected graph into a graph with rank weights. Specifically, in the previous experiment all edge weights are absolute correlations which lie in $[0,1]$. In rank conversion step, for each edge in a graph, its weight $w$ is replace by the rank of $w$ among all edge weights. If we denote a graph by a node set and an edge weight set pair $(V,E)$ with $E=\{w_{i,j}\}$, rank conversion is a function
 \[(V,E) \rightarrow (V,E') \text{ , where } E'= \{\text{rank}(w_{i,j})\} \]
 
-The rank conversion is supposed to improve signal to noise ratio by removing background noise. We carry out this step on the $12$ data sets pre-processed by $64$ pipleines. We compare the difference in discriminability with rank conversion and without rank conversion. Figure ~\ref{fig:rank} shows the results. To summarize, rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability. 
+The rank conversion is supposed to improve signal to noise ratio by removing background noise. We carry out this step on the $12$ data sets pre-processed by $64$ pipleines. We compare the difference in discriminability with rank conversion and without rank conversion. The bottom panel of figure ~\ref{fig:pipes} shows the results. To summarize, rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability. 
 
 \begin{figure}[ht!]
-	\includegraphics[width=\linewidth]{../Figs/64_pipelines_raw.png}
-	\caption{{\bf Discriminability of raw fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are computed. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data sets.}
+	\includegraphics[width=\linewidth]{../Figs/comb_mri.png}
+	\caption{{\bf Discriminability of raw and rank fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are computed and shown in the top panel. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data sets. 
+	Difference in discriminability for rank and raw fmri graphs are shown in the bottom panel. Discriminability of  rank and raw fmri graphs are computed for 12 data sets processed using 64 pipelines. Overall, rank fMRI graphs are more discriminable than raw fMRI graphs.}
 	\label{fig:pipes}
 \end{figure}
 
@@ -202,33 +198,25 @@ The rank conversion is supposed to improve signal to noise ratio by removing bac
 	\label{fig:decs}
 \end{figure}
 
-\begin{figure}[ht!]
-	\includegraphics[width=\linewidth]{../Figs/64_pipelines_differ.png}
-	\caption{{ \bf Paired difference in discriminability between rank and raw graphs.} Difference in discriminability for rank and raw fmri graphs are computed for 12 data sets processed using 64 pipelines. Overall, rank fMRI graphs are more discriminable than raw fMRI graphs.}
-	\label{fig:rank}
-\end{figure}
+
 
 
 
 
 \subsubsection{DTI processing pipelines}
-In this experiment, we consider the processing of diffusion tensor imaging (DTI) \cite{westin2002processing}. In particular, we are interested in finding the optimal number of region of interest (ROI), and the optimal approach to process edge weights. We process four DTI data sets using 15 atlases with the number of ROI ranging from 48 to 1875 \cite{mori2005mri}. For edge weights, we consider three options. First, raw edge weights are used which are fiber counts. Furthermore, we consider two alternatives: log weights and rank conversion. Figure ~\ref{fig:dti} shows the results. We see discriminability is stable across different atlases when using raw and log edge weights. When using the rank weights, discriminability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$. As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
+In this experiment, we consider the processing of diffusion tensor imaging (DTI) \cite{westin2002processing}. In particular, we are interested in finding the optimal number of region of interest (ROI), and the optimal approach to process edge weights. We process four DTI data sets using 15 atlases with the number of ROI ranging from 48 to 1875 \cite{mori2005mri}. For edge weights, we consider three options. First, raw edge weights are used which are fiber counts. Furthermore, we consider two alternatives: log weights and rank conversion. Top panel of figure ~\ref{fig:comb_dti} shows the results. We see discriminability is stable across different atlases when using raw and log edge weights. When using the rank weights, discriminability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$. As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
 
 
 \begin{figure}[ht!]
-	\includegraphics[width=\linewidth]{../Figs/four_dti.png}
-	\caption{{ \bf Discriminability of four DTI data sets.} Discriminability of BNU1, HNU1, SWU4 and KKI registered with 15 atlases are computed. Raw, rank and log edges weights are considered. }
+	\includegraphics[width=\linewidth]{../Figs/comb_dti.png}
+	\caption{{ \bf Discriminability of four DTI data sets.} Discriminability of BNU1, HNU1, SWU4 and KKI registered with 15 atlases are computed and shown in the top panel. Raw, rank and log edges weights are considered. Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The results are shown in the bottom panel. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets tend to be more discriminable than fMRI data sets.}
 	\label{fig:dti}
 \end{figure}
 
 \subsubsection{fMRI vs. DTI}
-In this experiment, we want to compare discriminanility of fMRI and DTI data sets. Four data sets with both fMRI and DTI measurements are selected for the comparison. In processing fMRI data sets, the most dicriminable pipeline (CFXXG) is used. In processing DTI data sets, some measurements fail to pass the processing pipeline or have a very small number of edges. In this case, these measurements are labeled as outliers and removed from discriminability calculation. The result is shown in figure ~\ref{fig:dtimri}. Our conclusion is that DTI data sets after outlier removal have comparable discriminability as fMRI data sets. Actually, DTI measurements are better than fMRI in three out of four data sets. 
+In this experiment, we want to compare discriminanility of fMRI and DTI data sets. Four data sets with both fMRI and DTI measurements are selected for the comparison. In processing fMRI data sets, the most dicriminable pipeline (CFXXG) is used. In processing DTI data sets, some measurements fail to pass the processing pipeline or have a very small number of edges. In this case, these measurements are labeled as outliers and removed from discriminability calculation. The result is shown in the bottom panel of figure ~\ref{fig:comb_dti}. Our conclusion is that DTI data sets after outlier removal have comparable discriminability as fMRI data sets. Actually, DTI measurements are better than fMRI in three out of four data sets. 
 
-\begin{figure}[ht!]
-	\includegraphics[width=\linewidth]{../Figs/dti_mri_differ.png}
-	\caption{{ \bf Paired difference in discriminability between dti and fmri data sets.} Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets are more discriminable than fMRI data sets.}
-	\label{fig:dtimri}
-\end{figure}
+
 
 \section{Discussion}
 
