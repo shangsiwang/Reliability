@@ -1,10 +1,19 @@
 ###############################################
 rm(list=ls())
 setwd('C:/Users/shang/Desktop/Desktop/shangsi/reliability/Data')
-load('Reliability_11_datasets.RData')
+load('rank_raw_rel.RData')
 ###############################################
 library(ggplot2)
-nfile<-ncol(data)
+
+nfile<-12
+nff<-rawrel[grepl('nff',datafiles)]
+frf<-rawrel[grepl('frf',datafiles)]
+fsl<-rawrel[grepl('FSL',datafiles)]
+ant<-rawrel[grepl('ANT',datafiles)]
+nsc<-rawrel[grepl('nsc',datafiles)]
+scr<-rawrel[grepl('scr',datafiles)]
+gsr<-rawrel[grepl('gsr',datafiles)]
+ngs<-rawrel[!grepl('gsr',datafiles)]
 df<-c(nff-frf, fsl-ant,nsc-scr,gsr-ngs)
 gi<-c(rep(1,nfile*32),rep(2,nfile*32),rep(3,nfile*32),rep(4,nfile*32))
 # ndf<-c(df,-df)
@@ -18,7 +27,7 @@ df$dec<-as.factor(df$dec)
 df$cg<-as.factor(df$cg)
 #theme_set(theme_grey(base_size = 14)) 
 p<-ggplot(data=df,aes(x=dec, y=df,fill=cg))+geom_violin(trim=T)+
-  labs(title="Plot of Diffenrence in Reliability",x="Decisions Compared", y = "Difference")+
+  labs(title="Distribution of Differences in Discriminability",x="Decisions Compared", y = "Difference")+
   scale_x_discrete(breaks=c("1", "2", "3",'4'),
                    labels=c('nff - frf', 'fsl - ant','nsc - scr','gsr - ngs')) +
   scale_fill_discrete(name="Decisions",
@@ -26,7 +35,8 @@ p<-ggplot(data=df,aes(x=dec, y=df,fill=cg))+geom_violin(trim=T)+
                     labels=c('nff - frf', 'fsl - ant','nsc - scr','gsr - ngs'))+
   stat_summary(fun.y=mean, geom="point",shape=18, size=4, color="black",show.legend = F)+
   geom_hline(yintercept=0,linetype=2)+
-  annotate("text", x = 1:4, y = 0.225, label = c("***","","","***"),size=6)
+  annotate("text", x = 1:4, y = 0.225, label = c("***","",".","***"),size=8)+
+  theme(text = element_text(size=15))
   
 p 
 
