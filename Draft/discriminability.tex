@@ -218,21 +218,24 @@ The rank conversion is designed to improve signal to noise ratio by removing bac
 
 
 
-
-
-
-\subsubsection{DTI processing pipelines}
-In this experiment, we consider the processing of diffusion tensor imaging (DTI) \cite{westin2002processing}. In particular, we are interested in finding the optimal number of ROI, and the optimal approach to process edge weights. BNU1, HNU1, SWU4 and KKI data sets are used in this experiment. We process four DTI data sets using 15 atlases with the number of ROI ranging from $48$ to $1875$ \cite{mori2005mri}. For edge weights, we consider three options. First, raw edge weights are used which are fiber counts. Furthermore, we consider two alternatives: log weights and rank weights as discussed in the previous experiment. Top panel of figure ~\ref{fig:comb_dti} shows the results. We see discriminability is basically stable across different atlases when raw and log edge weights are used. When using the rank weights, discriminability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$. As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
-
+\subsubsection{DTI experiment design}
+In this experiment, we consider the experiment design of collecting DTI data. In particular, we are interested the effect of b-value and number of directions on discriminability \cite{westin2002processing}. We pick four data sets with different b-value and number of directions and compute discriminability. The result is show in the right panel of figure ~\ref{fig:comb_dti}. We can see they have comparable discriminability. Given four data sets, we cannot conclude the optimal value for the parameters. It would be ideal if we could carry out a more controlled study with more data.
 
 \begin{figure}[H]
 	\includegraphics[width=\linewidth]{../Figs/comb_dti.png}
-	\caption{{ \bf Discriminability of four DTI data sets.} Discriminability of BNU1, HNU1, SWU4 and KKI registered with 15 atlases are computed and shown in the top panel. Raw, rank and log edges weights are considered. Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The results are shown in the bottom panel. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets tend to be more discriminable than fMRI data sets.}
+	\caption{{ \bf Discriminability of DTI data sets.} The top left plot shows the discriminability of BNU1, HNU1, SWU4 and KKI registered with 15 atlases are computed and shown in the top panel. Raw, rank and log edges weights are considered. Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The results are shown in the bottom left panel. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets tend to be more discriminable than fMRI data sets. The right column shows the result of discriminability of different data sets with different b-value and number of directions.}
 	\label{fig:comb_dti}
 \end{figure}
 
+
+\subsubsection{DTI processing pipelines}
+In this experiment, we consider the processing of diffusion tensor imaging (DTI) \cite{westin2002processing}. In particular, we are interested in finding the optimal number of ROI, and the optimal approach to process edge weights. BNU1, HNU1, SWU4 and KKI data sets are used in this experiment. We process four DTI data sets using 15 atlases with the number of ROI ranging from $48$ to $1875$ \cite{mori2005mri}. For edge weights, we consider three options. First, raw edge weights are used which are fiber counts. Furthermore, we consider two alternatives: log weights and rank weights as discussed in the previous experiment. Top left panel of figure ~\ref{fig:comb_dti} shows the results. We see discriminability is basically stable across different atlases when raw and log edge weights are used. When using the rank weights, discriminability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$. As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
+
+
+
+
 \subsubsection{fMRI vs. DTI}
-In this experiment, we want to compare discriminanility of fMRI and DTI data sets. Four data sets with both fMRI and DTI images are selected for the comparison. In processing fMRI data sets, the most dicriminable pipeline (*FXXG) is used. In processing DTI data sets, we use the raw edge weights. Some DTI measurements fail to pass the processing pipeline or have a dubious small number of edges. In this case, these measurements are labeled as outliers and removed from discriminability calculation. The result is shown in the bottom panel of figure ~\ref{fig:comb_dti}. Our conclusion is that DTI data sets after outlier removal have comparable discriminability as fMRI data sets. Actually, DTI measurements are better than fMRI in three out of four data sets. 
+In this experiment, we want to compare discriminanility of fMRI and DTI data sets. Four data sets with both fMRI and DTI images are selected for the comparison. In processing fMRI data sets, the most dicriminable pipeline (*FXXG) is used. In processing DTI data sets, we use the raw edge weights. Some DTI measurements fail to pass the processing pipeline or have a dubious small number of edges. In this case, these measurements are labeled as outliers and removed from discriminability calculation. The result is shown in the bottom left panel of figure ~\ref{fig:comb_dti}. Our conclusion is that DTI data sets after outlier removal have comparable discriminability as fMRI data sets. Actually, DTI measurements are better than fMRI in three out of four data sets. 
 
 
 
