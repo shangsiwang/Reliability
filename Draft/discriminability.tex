@@ -36,7 +36,7 @@ and therefore have made all the code open source and available from http://openc
 
 
 \section{Related Work}
-There are some successful attempts to quantify reliability or reproducibility in neuroimaging studies \cite{shrout1979intraclass,strother2002quantitative,rizzo2010disco,zuo2010reliable,braun2012test,shou2013quantifying,yue2015estimating}. We are going to review a subset of them which is related to our approach.
+There are some successful attempts to quantify reliability or reproducibility in neuroimaging studies \cite{shrout1979intraclass,strother2002quantitative,rizzo2010disco,zuo2010reliable,braun2012test,shou2013quantifying,yue2015estimating,yu2013stability}. We are going to review a subset of them which is related to our approach.
 \begin{itemize}
 	\item Intraclass correlation coefficient (ICC) is introduced to measure consistency or reproducibility of scalar quantitative measurements \cite{shrout1979intraclass}. In neuroimaging, people attempt to extract one or a few summary scalar statistics from each image and then evaluate the ICC of the statistics \cite{zuo2010reliable,braun2012test}. They report moderate-to-high test-retest reliability for different statistics. The problem with this approach is that the summary statistics may not be representative. Also, there is no principled approach to average over multiple ICCs. 
 	\item Image intraclass correlation coefficient (I2C2) is proposed by Shou et al. to measure reliability  \cite{shou2013quantifying}. It generalizes classic intraclass coefficient to high dimensional observations. It computes reliability estimates based on the traces of within subject and across subject covariance matrix. It relies on the critical assumption that noise is additive and observations lies in the space equipped with Euclidean distance. As a consequence, it is not suitable to apply to more general settings. 
@@ -44,6 +44,7 @@ There are some successful attempts to quantify reliability or reproducibility in
 	\item Distance components (DISCO) is proposed by Rizzo and Sz{\'e}kely as a measure of dispersion\cite{rizzo2010disco}. It computes one distance statistic for multiple empirical distributions based on pairwise distances between samples. It can also be used to test the hypothesis that whether multiple sets of samples are drawn from the same distribution or not. Our approach is similar to DISCO in the sense that we all rely on pairwise distance matrix. However, DISCO is designed for testing which requires a fixed number of subjects and a large amount of measurements from each subject. In our studies, we only have a few measurements from each subject which makes DISCO hard to apply.  
 	\item NPAIRS data analysis framework is proposed in \cite{strother2002quantitative}. It takes a resampling approach by splitting data in half. After performing a series of dimension reduction on the data, a label is predicted using Gaussian mixture model. Then, correlation between 
 	all pairs of spatially aligned voxels is calculated. A signal-to-noise ratio measure is computed based on the correlation.
+	\item A statistics called estimation stability (ES) is proposed in \cite{yu2013stability}. It is similar to a variance estimator computed through delete-d jacknife resampling. It is applied to smoothing parameter selection in Lasso and is shown to obtain a great reduction of model without sacrificing prediction performance in a task fMRI study.
 \end{itemize}
 
 
@@ -113,7 +114,7 @@ As a consequence, we expect the classification error to be small when the discri
 \end{coro}
 It tells us for any distribution of $\by$, we have a tighter bound on Bayes error using the more discriminable pipeline. When choosing from two processing pipelines $\bpsi_1$ and $\bpsi_2$, we should first compute $D(\bpsi_1)$ and $D(\bpsi_2)$. We then select the pipeline which yields larger discriminability to have lower bound on the Bayes classification error. This theorem justifies maximizing discriminability for subsequent classification tasks. Figure \ref{fig:fc} summarizes the framework to find the optimal processing pipeline. 
 
-\begin{figure}[ht!]
+\begin{figure}[H]
 	\includegraphics[width=\linewidth]{../Figs/flow_chart.png}
 	\caption{{\bf Decision Making Through Discriminability Framework.} Test-retest data is collected from multiple subjects. The data is processed by a set of pipelines. For each processing pipeline, pairwise distances between observations are computed and discriminability is estimated. }
 	\label{fig:fc}
@@ -147,7 +148,12 @@ In Lemma 1 and 2, we claim discriminability $\hat{D}$ is unbiased and converges 
 $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ are both independent and identically distributed standard Gaussian random variable， that is 
 \[\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1) \text{ and  }\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1)\] 
 In addition, $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ are assumed to be independent. \\
+<<<<<<< HEAD
 For each subject, we sample one true physical property $v_i$ and two noises $\epsilon_{i,t}$ with $t\in\{1,2\}$. Then, two measurements are generated by $x_{i,t} = v_{i} + \epsilon_{i,t}$. We let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times using Euclidean distance. It leaves us $100$ estimates of discriminability $\hat{D}$. With this data generation scheme, we can actually compute the population discriminability $D$ through numerical integration. It turns out to be $0.6150$. Subtracting $D$ from $100$ $\hat{D}$s, we can estimate the distribution of estimation error. The first row of Figure~\ref{fig:comb_simu} shows the difference between $\hat{D}$ and $D$. We can see that the mean of difference is centered around 0 and  discriminabiity estimates $\hat{D}$ tends to converge to $D$ as the number of subject increases.
+=======
+For each subject, we sample one true physical property $v_i$ and two noises $\epsilon_{i,t}$ with $t\in\{1,2\}$. Then, two measurements are generated by $x_{i,t} = v_{i} + \epsilon_{i,t}$. We let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times using Euclidean distance. It leaves us $100$ estimates of discriminability $\hat{D}$. With this data generation scheme, we can actually compute the population discriminability $D$ through numerical integration. It turns out to be $0.6150$. Subtracting $D$ from $100$ $\hat{D}$s, we can estimate the distribution of estimation error. The first row of figure ~\ref{fig:comb_simu} shows the difference between $\hat{D}$ and $D$. We can see that the mean of difference is centered around 0 and  discriminabiity estimates $\hat{D}$ tends to converge to $D$ as the number of subject increases.
+\newpage
+>>>>>>> 35944949620d067f6a4eac61bcf7688c9af0540b
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/comb_simu.png}
 	\caption{{\bf Simulation results.} Distribution of difference between discriminability estimates and truth is ploted in the top panel. The red dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability. Linear projections are computed using PCA and optimizing discriminability. The results are shown in two columns. Maximizing discriminability yield separated samples which have Bayes optimal classification error.}
@@ -175,7 +181,7 @@ HCP100 data set is used in this experiment \cite{van2012human}. It contains data
 
 
 
-\begin{figure}[ht!]
+\begin{figure}[H]
 \includegraphics[width=\linewidth]{../Figs/HCP_100.png}
 \caption{{\bf Optimizing discriminability yields optimal prediction accuracy for multiple covariates.} HCP100 is used to investigate optimal threshold to convert correlation graphs into binary graphs. Curves are scaled to have similar value range. For each statistic, the optimal threshold and value pair is indicated by a circle on the curve. The threshold maximizing discriminability is close to the optimal thresholds for predicting three covariates. }
 \label{fig:hcp}
@@ -199,16 +205,22 @@ As an example, the best pipeline found is CFXXG which means the data is pre-proc
 We also consider an extra rank conversion step which proves to be helpful in boosting discriminability. Rank conversion transforms a weighted undirected graph into a graph with rank weights. Specifically, in the previous experiment all edge weights are absolute correlations which lie in $[0,1]$. In rank conversion step, for each edge in a graph, its weight $w$ is replaced by the rank of $w$ among all edge weights. If we denote a graph by a node set and an edge weight set pair $(V,E)$ with $E=\{w_{i,j}\}$, rank conversion is a function
 \[(V,E) \rightarrow (V,E') \text{ , where } E'= \{\text{rank}(w_{i,j})\} \]
 
+<<<<<<< HEAD
 The rank conversion is designed to improve signal to noise ratio by removing background noise. We carry out this step on the $12$ data sets pre-processed by $64$ pipelines. We compare the difference in discriminability with rank conversion and without rank conversion. The bottom panel of Figure~\ref{fig:pipes} shows the results. To summarize, rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability. 
 
 \begin{figure}[ht!]
+=======
+The rank conversion is designed to improve signal to noise ratio by removing background noise. We carry out this step on the $12$ data sets pre-processed by $64$ pipelines. We compare the difference in discriminability with rank conversion and without rank conversion. The bottom panel of figure ~\ref{fig:pipes} shows the results. To summarize, rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability. 
+\newpage
+\begin{figure}[H]
+>>>>>>> 35944949620d067f6a4eac61bcf7688c9af0540b
 	\includegraphics[width=\linewidth]{../Figs/comb_mri.png}
 	\caption{{\bf Discriminability of raw and rank fmri graphs from 12 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are computed and shown in the top panel. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the mean discriminability across 12 data sets. CFXXG pipeline has the best mean discriminability across data sets. 
 	Difference in discriminability for rank and raw fmri graphs are shown in the bottom panel. Discriminability of  rank and raw fmri graphs are computed for 12 data sets processed using 64 pipelines. Overall, rank fMRI graphs are more discriminable than raw fMRI graphs.}
 	\label{fig:pipes}
 \end{figure}
 
-\begin{figure}[ht!]
+\begin{figure}[H]
 	\includegraphics[width=\linewidth]{../Figs/mri_decs_violin.png}
 	\caption{{ \bf Paired difference in discriminability of pre-processing options.} Difference in discriminability for each option is compared by fixing the other options and the data set. The symbols at top indicates the significance. No frequency filtering and global signal regression are statistical significantly better than their alternatives at level $0.01$. FSL and no scrubbing are not significantly better. }
 	\label{fig:decs}
@@ -216,21 +228,32 @@ The rank conversion is designed to improve signal to noise ratio by removing bac
 
 
 
+\subsubsection{DTI experiment design}
+In this experiment, we consider the experiment design of collecting DTI data. In particular, we are interested the effect of b-value and number of directions on discriminability \cite{westin2002processing}. We pick four data sets with different b-value and number of directions and compute discriminability. The result is show in the right panel of figure ~\ref{fig:comb_dti}. We can see they have comparable discriminability. Given four data sets, we cannot conclude the optimal value for the parameters. It would be ideal if we could carry out a more controlled study with more data.
 
-
-
-\subsubsection{DTI processing pipelines}
-In this experiment, we consider the processing of diffusion tensor imaging (DTI) \cite{westin2002processing}. In particular, we are interested in finding the optimal number of ROI, and the optimal approach to process edge weights. BNU1, HNU1, SWU4 and KKI data sets are used in this experiment. We process four DTI data sets using 15 atlases with the number of ROI ranging from $48$ to $1875$ \cite{mori2005mri}. For edge weights, we consider three options. First, raw edge weights are used which are fiber counts. Furthermore, we consider two alternatives: log weights and rank weights as discussed in the previous experiment. Top panel of Figure~\ref{fig:comb_dti} shows the results. We see discriminability is basically stable across different atlases when raw and log edge weights are used. When using the rank weights, discriminability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$. As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
-
-
-\begin{figure}[ht!]
+\begin{figure}[H]
 	\includegraphics[width=\linewidth]{../Figs/comb_dti.png}
-	\caption{{ \bf Discriminability of four DTI data sets.} Discriminability of BNU1, HNU1, SWU4 and KKI registered with 15 atlases are computed and shown in the top panel. Raw, rank and log edges weights are considered. Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The results are shown in the bottom panel. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets tend to be more discriminable than fMRI data sets.}
+	\caption{{ \bf Discriminability of DTI data sets.} The top left plot shows the discriminability of BNU1, HNU1, SWU4 and KKI registered with 15 atlases are computed and shown in the top panel. Raw, rank and log edges weights are considered. Discriminability of DTI and fMRI graphs are computed for BNU1, HNU1, SWU4 and KKI data set. The results are shown in the bottom left panel. The number at the top indicates the percentage of outliers in DTI data sets. After removing outliers, DTI data sets tend to be more discriminable than fMRI data sets. The right column shows the result of discriminability of different data sets with different b-value and number of directions.}
 	\label{fig:comb_dti}
 \end{figure}
 
+
+\subsubsection{DTI processing pipelines}
+<<<<<<< HEAD
+In this experiment, we consider the processing of diffusion tensor imaging (DTI) \cite{westin2002processing}. In particular, we are interested in finding the optimal number of ROI, and the optimal approach to process edge weights. BNU1, HNU1, SWU4 and KKI data sets are used in this experiment. We process four DTI data sets using 15 atlases with the number of ROI ranging from $48$ to $1875$ \cite{mori2005mri}. For edge weights, we consider three options. First, raw edge weights are used which are fiber counts. Furthermore, we consider two alternatives: log weights and rank weights as discussed in the previous experiment. Top panel of Figure~\ref{fig:comb_dti} shows the results. We see discriminability is basically stable across different atlases when raw and log edge weights are used. When using the rank weights, discriminability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$. As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
+=======
+In this experiment, we consider the processing of diffusion tensor imaging (DTI) \cite{westin2002processing}. In particular, we are interested in finding the optimal number of ROI, and the optimal approach to process edge weights. BNU1, HNU1, SWU4 and KKI data sets are used in this experiment. We process four DTI data sets using 15 atlases with the number of ROI ranging from $48$ to $1875$ \cite{mori2005mri}. For edge weights, we consider three options. First, raw edge weights are used which are fiber counts. Furthermore, we consider two alternatives: log weights and rank weights as discussed in the previous experiment. Top left panel of figure ~\ref{fig:comb_dti} shows the results. We see discriminability is basically stable across different atlases when raw and log edge weights are used. When using the rank weights, discriminability is low when the number of ROI is small. For three out of four data sets, the discriminability is very close to $1$. As a consequence, we cannot find any statistical relationship between the number of ROI and discriminability.
+
+>>>>>>> 35944949620d067f6a4eac61bcf7688c9af0540b
+
+
+
 \subsubsection{fMRI vs. DTI}
+<<<<<<< HEAD
 In this experiment, we want to compare discriminanility of fMRI and DTI data sets. Four data sets with both fMRI and DTI images are selected for the comparison. In processing fMRI data sets, the most dicriminable pipeline (*FXXG) is used. In processing DTI data sets, we use the raw edge weights. Some DTI measurements fail to pass the processing pipeline or have a dubious small number of edges. In this case, these measurements are labeled as outliers and removed from discriminability calculation. The result is shown in the bottom panel of Figure~\ref{fig:comb_dti}. Our conclusion is that DTI data sets after outlier removal have comparable discriminability as fMRI data sets. Actually, DTI measurements are better than fMRI in three out of four data sets. 
+=======
+In this experiment, we want to compare discriminanility of fMRI and DTI data sets. Four data sets with both fMRI and DTI images are selected for the comparison. In processing fMRI data sets, the most dicriminable pipeline (*FXXG) is used. In processing DTI data sets, we use the raw edge weights. Some DTI measurements fail to pass the processing pipeline or have a dubious small number of edges. In this case, these measurements are labeled as outliers and removed from discriminability calculation. The result is shown in the bottom left panel of figure ~\ref{fig:comb_dti}. Our conclusion is that DTI data sets after outlier removal have comparable discriminability as fMRI data sets. Actually, DTI measurements are better than fMRI in three out of four data sets. 
+>>>>>>> 35944949620d067f6a4eac61bcf7688c9af0540b
 
 
 
