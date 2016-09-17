@@ -289,28 +289,87 @@ these slides: <http://docs.neurodata.io/discriminability>
 
 
 ---
-class: center, middle
 
 #### Decision making is key for downstream inference
 
-which scanner to use?
+<br><br>
 
-which scanner sequence?
 
-which preprocessing algorithms?
+1. which scanner to use?
+2. which scanner sequence?
+3. which preprocessing algorithms?
 
+--
 
 #### All impact bias and variance
 
 
+---
+
+### Statistical Decision Theory
+
+<br><br>
+
+Given predictors X, and a desire to predict Y with minimal error, 
+
+we seek the function f  that satisfies
+
+$$\arg \min_f E || f(x) - y || $$
+
+$$ \arg \min_f \sum_x \sum_y || f(x) - y || p(x,y) $$
+
+--
+
+Note, expectation is with respect to the *joint* distribution of x and y
+
+
 
 ---
-class: center, middle
 
-## Design Goals
 
-statistical framework 
+#### Limitations of Statistical Decision Theory
 
+<br><br>
+
+
+1. must specify Y and loss function (e.g. || . ||)
+2. requires knowing or estimating the joint distribution P(X,Y), which can be very high dimensional
+
+
+--
+
+<br><br>
+
+
+In **reference datasets**, the predictors might be used for a wide variety of inference tasks! 
+
+---
+
+
+## Goal
+
+
+Devise a statistical framework for guiding decision making with the following properties:
+
+1. does not require knowing Y a priori
+2. does not make any parametric assumptions
+3. can operate on any kind of data, vectors, images, graphs,  etc.
+4. has strong theoretical support
+5. simulations reify theoretical claims
+7. works as expected in real data applications
+6. is statistically and computationall efficient
+
+
+---
+
+### Discriminability
+
+Assume we have T measurements from each of S samples.
+
+Let x<sup>i</sup><sub>j</sub> denote the j-th measurement of sample i
+
+
+$$d(i,t,t')=\frac{1}{(S-1)T} \sum_{s' \not s}^n \sum_{t''=1}^s  I\{ \delta(x^s_t, x^s_t') \leq \delta(x^s_t, x^{s'}_{t''})}$$
 
 ---
 class: center, middle
