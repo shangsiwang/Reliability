@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="http://jovo.me/fonts/arnhem/arnhem.css">
 
 
-    <title>MGC</title>
+    <title>Discriminability</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
 
@@ -16,54 +16,37 @@
         font-family: 'gentona'; /* Varela Round */
         font-size: 1.0em;
       }
-      /*      h1, h2, h3, h4, h5, h6 {
-        font-family: 'quadon';
-      }      */
       h1, h2, h3, h4, h5, h6 {
         font-family: 'quadon';
         font-weight: 400;
         margin-bottom: 0;
-        /*color: #6cace4;*/
-        /*color: #4a484c;*/ /*light-gray*/
-        color: #d5ad6d;
-/*        color:  #D5AD6D; /*if no support for background-clip*/
-
-        /*background: -webkit-linear-gradient(transparent, transparent),*/
-             /*-webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);*/
-        /*background: -o-linear-gradient(transparent, transparent);*/
-  /*-webkit-background-clip: text;*/
-  /*-webkit-text-fill-color: transparent;*/
-
+        color: #a6bcd7;
+        text-align: center;
+        /*text-shadow: 2px 2px gray; /*#ff0000;*/*/
       }
+
       .remark-slide-content {
         font-size: 1.5em;
         background: #28282e;
-/*        background: #272822;*/
         background: radial-gradient(circle, #28282e, #15120e, black); /* Standard syntax */
         background: -webkit-radial-gradient(circle, #28282e, #15120e, black); /* Safari */
         background: -o-radial-gradient(circle, #28282e, #15120e, black); /* Opera 11.6 to 12.0 */
         background: -moz-radial-gradient(circle, #272822, #15120e, black); /* Firefox 3.6 to 15 */
         background: radial-gradient(circle, #28282e, #15120e, black); /* Standard syntax */
 
-        color: #ebd8b9;
-        /*#f4e9d8;*/ /*#debe8b;*/ /*#6dd5ad;*/ /*rgba(213,173,109,1);*/ /*rgba(163,126,67,1);*/ /*rgba(226,186,120,1);*/ /*rgba(213,173,109,1);*/ /*#6dd5ad;*/
-        /*background: #3B263C;*/
-  /*        color:  #FFFF00; /*#DDA0DD;*/  /*#A565D6;*/ /* #DF9BFF;*/ /*#FFFF00;*/*/
-      }
-
-      h1, h2, h3, h4 {
-        text-align: center;
-        /*text-shadow: 2px 2px gray; /*#ff0000;*/*/
+        color: #dfd6c2;
       }
 
       .remark-slide-content h1 { font-size: 3em; }
       .remark-slide-content h2 { font-size: 2em; }
       .remark-slide-content h3 { font-size: 1.6em; }
       .remark-slide-content h4 { font-size: 1.4em; }
+      .remark-slide-content h5 { font-size: 1.2em; }
       .footnote {
         position: absolute;
         bottom: 3em;
       }
+
       .navbar {
         position: absolute;
         float: center;
@@ -111,15 +94,13 @@
       .pink { color: #FF87F3;}
       .orange { color: #FFA500;}
       .g { color: #00CC00; }
+      .s {color :#318dde;}
       .blue { color: #75E9FF;}
       .purple { color: #A149A9;}
       .large { font-size: 2em; }
       .black { color: black; background-color: white;}
       a, a > code {
-        color:  rgb(249, 38, 114);
-        color: white;
-        color: #bdbcbc;
-        /*color: #b1b1b1;*/
+        color:#318dde;
         text-decoration: none; /*underline*/
       }
 
@@ -258,6 +239,11 @@
         font-size: 0.9em;
         padding-top: 0.6em;
       }
+      .center
+      {
+      text-align:center;
+      display:block;
+      }
 
   }
     </style>
@@ -271,26 +257,25 @@ class: center, middle
 
 name:opening
 
-## Optimal Decisions for Discovery Science via Maximizing Discriminability:
-### Applications in Neuroimaging
+## Optimal Decisions for Discovery Science
+
+<br>
+<br>
 
 Shangsi Wang, Zhi Yang, Xi-Nian Zuo, Michael Milham, Cameron Craddock,  
 Greg Kiar, William Gray Roncal, Eric Bridgeford,
 Consortium for Reliability and Reproducibility,  Carey E Priebe,  [Joshua T Vogelstein](mailto:jovo@jhu.edu)
 
 <br>
-
-.center[
 <br>
-these slides: <http://docs.neurodata.io/discriminability>
 
-]
+these slides: <http://docs.neurodata.io/discriminability>
 
 
 
 ---
 
-#### Decision making is key for downstream inference
+### Decision making is key 
 
 <br><br>
 
@@ -301,7 +286,9 @@ these slides: <http://docs.neurodata.io/discriminability>
 
 --
 
-#### All impact bias and variance
+<br>
+
+#### All impact bias and variance for downstream inference
 
 
 ---
@@ -314,9 +301,9 @@ Given predictors X, and a desire to predict Y with minimal error,
 
 we seek the function f  that satisfies
 
-$$\arg \min_f E || f(x) - y || $$
+<center><img src="slide-images/sdt.png" style="height: 60px;"/></center>
 
-$$ \arg \min_f \sum_x \sum_y || f(x) - y || p(x,y) $$
+
 
 --
 
@@ -348,6 +335,7 @@ In **reference datasets**, the predictors might be used for a wide variety of in
 
 ## Goal
 
+<br><br>
 
 Devise a statistical framework for guiding decision making with the following properties:
 
@@ -362,159 +350,137 @@ Devise a statistical framework for guiding decision making with the following pr
 
 ---
 
-### Discriminability
+## Discriminability
 
-Assume we have T measurements from each of S samples.
+<br><br>
 
-Let x<sup>i</sup><sub>j</sub> denote the j-th measurement of sample i
+Assume we have M measurements from each of S subjects.
 
-
-$$d(i,t,t')=\frac{1}{(S-1)T} \sum_{s' \not s}^n \sum_{t''=1}^s  I\{ \delta(x^s_t, x^s_t') \leq \delta(x^s_t, x^{s'}_{t''})}$$
-
----
-class: center, middle
-
-Generalized Correlation Coefficient
-
-$$a_{ij} = \sigma(x_i,x_j)$$
-
-$$b_{ij} = \sigma(y_i,y_j)$$
-
-$$C = A \circ B$$
-
-$$ c = \sum_{ij} C $$
-
-permutation test to obtain p-value
+<!-- How frequently are multiple measurements from the same subject more similar to one another than they are to measurements from other subjects. -->
 
 
+How frequent are within-subject differences smaller than between-subject differences?
+
+Let x<sup>s</sup><sub>m</sub> denote the m-th measurement of subject s
+
+
+<img src="slide-images/ditt.png" style="height: 160px;"/>
+
+
+<!-- \hat{d}(s,m,m')&=\frac{1}{M(S-1)} \sum_{s' \neq s}^S \sum_{m''=1}^M  \mathbb{I} \{ \delta(x^s_m, x^s_{m'}) < \delta(x^s_m, x^{s'}_{m''})   \} \\
+\hat{d}&=\frac{1}{SM(S-1)} \sum_{s=1}^S \sum_{m=1}^M  \sum_{m'=1}^M  \hat{d}(s,m,m')-->
 
 ---
-class:  middle
+
+### Why We Want Discriminability
 
 
-### Challenges
+<br><br>
 
-1. high-dimensional
-2. structured data (eg, sequences, images, networks, shapes, text)
-3. low sample-sizes
-4. nonlinear relationships
-5. computational efficiency
-6. nature of dependence
+Assume the following generative model for each subject:
 
+- z is the true  property of subject
+- x is the noisily measured and processed predictor
+- y is a thing we want to predict 
 
 
-
----
-class: center, middle
-
-### Our intuition
-
-.center[
-<img src="images/spiral.png" alt="Drawing" style="width: 550px;"/>
-]
-
-
-
----
-class: center, middle
-
-### Multiscale Generalized Correlation (MGC)
-
-
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/FigA.png" alt="Drawing" style="width: 900px;"/>
-
-
-
----
-class: center, middle
-
-### 20 Different Functions (1D version)
-
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/FigSimVisual.png" alt="Drawing" style="width: 900px;"/>
-
-
----
-class: center, middle
-
-### Oracle & Sample MGC Outperform Benchmarks
-
-
-.center[
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/FigHDPower.png" alt="Drawing" style="width: 900px;"/>
-]
-
----
-class: center, middle
-
-### MGC Empirically Dominates Global Methods
-
-.center[
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/FigSlope.png" alt="Drawing" style="width: 900px;"/>
-]
-
----
-class: center, middle
-
-### MGC Reveals Scales of Dependence
-
-.center[
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/FigHDHeat.png" alt="Drawing" style="width: 900px;"/>
-]
-
----
-class: center
-
-
-### Computational Complexity
-
-
-<br><br><br><br><br>
-
-- Dcorr:  n^2
-- HHG:  n^2 log n
-- MGC:  n^2 log n
-
-
----
-class: center, middle
-
-Thm 1: $$\beta_n(c_t^*) \rightarrow 1 \text{ as } n \to \infty$$
-<!-- Oracle MGC is consistent whenever Global Counterpart is
-<br>
+<!-- - z ~ f_z 
+- x = g(z) 
+- y = f(x)
  -->
 
+To ensure our prediction of y is *stable*/*reproducible*, so should our estimate of x
 
----
-class: center, middle
-
-Thm 2: If x is linearly dependent on y, then for any n it always holds that
-
-$$\beta_n(c_t^*) = \beta_n(c_t)$$
-
----
-class: center, middle
-
-
-Thm 3: There exists f and n such that
-
-$$\beta( c^{k,l}_{t} ) > \beta(c_t) $$
+In other words, the more *discriminable* x is, the more we can trust its predictions
 
 
 ---
-class: center, middle
+
+#### Discriminability Bounds
+
+<br><br>
+
+- d = 0.5 
+<!-- multiple measurements of subject s are **no** more similar to one another as they are to other subjects' measurements -->
+- subject level predictions will be at chance, .s[regardless of y]
 
 
-#### Thm 4: Oracle MGC dominates its global counterpart
+--
+
+
+<br><br>
+
+- d = 1
+<!-- multiple measurements of subject s are **always** more similar to one another as they are to other subjects' measurements -->
+- subject level predictions can be optimal, .s[regardless of y]
+
+
+
 
 
 ---
-class: center, middle
 
-### MGC Discovers Relationships between Brain & Mental Properties
+### Theoretical Bounds
 
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/FigReal.png" alt="Drawing" style="width: 900px;"/>
+<br><br>
 
-<img src="images/table.png" alt="Drawing" style="width: 900px;"/>
+Theorem 1: Discriminability of x=g(z) bounds the best possible performance .s[regardless of y] (under suitable assumptions)
+
+<br>
+
+<center><img src="slide-images/bound.png" style="height: 120px;"/></center>
+
+
+---
+
+### Making Decisions
+
+<br><br>
+
+Corollary 1: If x is more discriminable than x', and its best predictive accuracy is better than possible for x', then it has a better bound
+
+<br>
+
+<center><img src="slide-images/comp.png" style="height: 40px;"/></center>
+
+
+---
+
+#### Discriminability Finds Optimal Projection
+
+
+<center><img src="https://github.com/neurodata/discriminability/raw/master/Figs/simu2.png" style="width: 700px;"/></center>
+
+
+---
+
+####  Discriminability Finds Optimal Threshold
+
+<br>
+
+<center><img src="https://github.com/neurodata/discriminability/raw/master/Figs/HCP_100.png" style="width: 700px;"/></center>
+
+
+---
+
+####  Discriminability Makes Optimal Decisions
+
+<br>
+
+<center><img src="https://github.com/neurodata/discriminability/raw/master/Figs/mri_decs.png" style="width: 700px;"/></center>
+
+
+---
+
+####  Discriminability Finds Optimal Pipeline
+
+<br>
+
+<center><img src="https://github.com/neurodata/discriminability/raw/master/Figs/fmri_rank_pv.png" style="width: 700px;"/></center>
+
+
+
+
 
 ---
 class:   middle, center
@@ -531,30 +497,9 @@ e: [jovo@neurodata.io](mailto:jovo@neurodata.io)
 
 w: [brainx.io](http://brainx.io)
 
-
-
----
-
-### 1D Power All
-
-
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/Fig1DPowerAll.png" alt="Drawing" style="width: 800px;"/>
-
+a: DARPA SIMPLEX
 
 ---
-
-### HD Power All
-
-
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/FigHDPowerAll.png" alt="Drawing" style="width: 800px;"/>
-
-
----
-
-### 1D Heat
-
-<img src="https://github.com/neurodata/MGC/raw/master/Figures/Fig1DHeat.png" alt="Drawing" style="width: 800px;"/>
-
 
 
     </textarea>
