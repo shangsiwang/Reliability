@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="http://jovo.me/fonts/titling-gothic/titling-gothic.css">
     <link rel="stylesheet" href="http://jovo.me/fonts/quadon/quadon.css">
     <link rel="stylesheet" href="http://jovo.me/fonts/arnhem/arnhem.css">
+    <!-- endbower -->
 
-
-    <title>Discriminability</title>
+    <title>MGC</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
 
@@ -24,11 +24,10 @@
         text-align: center;
         /*text-shadow: 2px 2px gray; /*#ff0000;*/*/
       }
-
       .remark-slide-content {
         font-size: 1.5em;
         background: #28282e;
-        background: radial-gradient(circle, #28282e, #15120e, black); /* Standard syntax */
+\        background: radial-gradient(circle, #28282e, #15120e, black); /* Standard syntax */
         background: -webkit-radial-gradient(circle, #28282e, #15120e, black); /* Safari */
         background: -o-radial-gradient(circle, #28282e, #15120e, black); /* Opera 11.6 to 12.0 */
         background: -moz-radial-gradient(circle, #272822, #15120e, black); /* Firefox 3.6 to 15 */
@@ -37,16 +36,15 @@
         color: #dfd6c2;
       }
 
+
       .remark-slide-content h1 { font-size: 3em; }
       .remark-slide-content h2 { font-size: 2em; }
       .remark-slide-content h3 { font-size: 1.6em; }
       .remark-slide-content h4 { font-size: 1.4em; }
-      .remark-slide-content h5 { font-size: 1.2em; }
       .footnote {
         position: absolute;
         bottom: 3em;
       }
-
       .navbar {
         position: absolute;
         float: center;
@@ -94,8 +92,8 @@
       .pink { color: #FF87F3;}
       .orange { color: #FFA500;}
       .g { color: #00CC00; }
-      .s {color :#318dde;}
       .blue { color: #75E9FF;}
+      .s {color :#318dde;}
       .purple { color: #A149A9;}
       .large { font-size: 2em; }
       .black { color: black; background-color: white;}
@@ -239,18 +237,12 @@
         font-size: 0.9em;
         padding-top: 0.6em;
       }
-      .center
-      {
-      text-align:center;
-      display:block;
-      }
 
   }
     </style>
   </head>
   <body onload="var slideshow = remark.create();">
     <textarea id="source">
-
 
 
 class: center, middle
@@ -501,27 +493,76 @@ Corollary 1: If x is more discriminable than x', and its best predictive accurac
 
 
 ---
+class: center, middle
 
 ### How we did it
 
 
-<br><br>
 
-1. all the data we used in this work is [open data](http://fcon_1000.projects.nitrc.org/indi/CoRR/html/samples.html)
-2. we organized our data into [BIDS standard](http://bids.neuroimaging.io/)
-3. our [pipeline](https://github.com/neurodata/ndmg) and [discriminability](https://github.com/neurodata/discriminability) code are open source
-4. tutorials for [running pipeline](http://docs.neurodata.io/nddocs/mrgraphs/tutorials.html)
-5. pipeline in [docker container](https://hub.docker.com/u/bids/)
-6. that has been tested already on mac, ubuntu, and using singularity
-7. all data derivatives are saved back to the original bucket
 
 ---
-class: middle, center
 
+1) all the data we used in this work is [open data](http://fcon_1000.projects.nitrc.org/indi/CoRR/html/samples.html)
+
+<br>
+
+
+<center><img src="slide-images/corr.png" style="width: 800px;"/></center>
+
+
+---
+
+
+2) we organized our data into [BIDS standard](http://bids.neuroimaging.io/)
+
+<br>
+
+
+<center><img src="slide-images/bids2.png" style="width: 800px;"/></center>
+
+
+---
+
+
+3) our [pipeline](https://github.com/neurodata/ndmg) and [discriminability](https://github.com/neurodata/discriminability) code are open source
+
+<br>
+
+
+<center><img src="slide-images/pipeline2.png" style="width: 800px;"/></center>
+
+
+---
+
+
+
+4) tutorials for [running pipeline](http://docs.neurodata.io/nddocs/mrgraphs/tutorials.html)
+
+
+<center><img src="slide-images/tutorial.png" style="width: 800px;"/></center>
+
+
+---
+
+
+5) pipeline in [docker container](https://hub.docker.com/u/bids/)
+
+6) that has been tested already on mac, ubuntu, and using singularity
+
+7) all data derivatives are saved back to the original bucket
 
 <br>
 
 <center><img src="slide-images/bids.png" style="width: 800px;"/></center>
+
+
+
+
+---
+
+### Next Steps
+
+
 
 
 ---
@@ -542,6 +583,7 @@ w: [brainx.io](http://brainx.io)
 a: DARPA SIMPLEX
 
 ---
+
 
 
     </textarea>
