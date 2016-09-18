@@ -278,9 +278,9 @@ these slides: <http://docs.neurodata.io/discriminability>
 <br><br>
 
 
-1. which scanner to use?
-2. which scanner sequence?
-3. which preprocessing algorithms?
+1. which scanner?
+2. which sequence?
+3. which algorithms?
 
 --
 
@@ -477,9 +477,51 @@ Corollary 1: If x is more discriminable than x', and its best predictive accurac
 <center><img src="https://github.com/neurodata/discriminability/raw/master/Figs/fmri_rank_pv.png" style="width: 700px;"/></center>
 
 
+---
+
+####  Discriminability for DTI Data
+
+<br>
+
+<center><img src="https://github.com/neurodata/discriminability/raw/master/Figs/comb_dti.png" style="width: 700px;"/></center>
 
 
 ---
+
+### Reproducability Recommendations
+
+<br><br>
+
+1. open data
+2. data stored in standard specifications
+3. open source code
+4. code documented sufficiently to run
+5. software dependencies
+6. hardware dependencies
+
+
+---
+
+### How we did it
+
+
+<br><br>
+
+1. all the data we used in this work is [open data](http://fcon_1000.projects.nitrc.org/indi/CoRR/html/samples.html)
+2. we organized our data into [BIDS standard](http://bids.neuroimaging.io/)
+3. our [pipeline](https://github.com/neurodata/ndmg) and [discriminability](https://github.com/neurodata/discriminability) code are open source
+4. tutorials for [running pipeline](http://docs.neurodata.io/nddocs/mrgraphs/tutorials.html)
+5. pipeline in [docker container](https://hub.docker.com/u/bids/)
+6. that has been tested already on mac, ubuntu, and using singularity
+7. all data derivatives are saved back to the original bucket
+
+---
+class: middle, center
+
+
+<br>
+
+<center><img src="slide-images/bids.png" style="width: 800px;"/></center>
 
 
 ---
