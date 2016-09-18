@@ -259,7 +259,7 @@ Shangsi Wang,  Greg Kiar,  Eric Bridgeford, Krzysztof J Gorgolewski, Dean Kleiss
 <br>
 <br>
 
-these slides: <http://docs.neurodata.io/discriminability>
+these slides: <http://docs.neurodata.io/discriminability/Talks/brainhack-vienna>
 
 
 
@@ -278,7 +278,7 @@ these slides: <http://docs.neurodata.io/discriminability>
 
 <br>
 
-#### All impact bias and variance for downstream inference
+####  Impact  downstream inference
 
 
 ---
@@ -289,7 +289,7 @@ these slides: <http://docs.neurodata.io/discriminability>
 
 Given predictors X, and a desire to predict Y with minimal error, 
 
-we seek the function f  that satisfies
+we seek a function f  that satisfies
 
 <center><img src="sdt.png" style="height: 60px;"/></center>
 
@@ -310,7 +310,7 @@ Note, expectation is with respect to the *joint* distribution of x and y
 
 
 1. must specify Y and loss function (e.g. || . ||)
-2. requires knowing or estimating the joint distribution P(X,Y), which can be very high dimensional
+2. requires knowing or estimating the joint distribution P(X,Y)
 
 
 --
@@ -327,15 +327,15 @@ In **reference datasets**, the predictors might be used for a wide variety of in
 
 <br><br>
 
-Devise a statistical framework for guiding decision making with the following properties:
+Devise a statistical framework for  decision making with the following properties:
 
 1. does not require knowing Y a priori
 2. does not make any parametric assumptions
-3. can operate on any kind of data, vectors, images, graphs,  etc.
+3. can operate on any kind of data: vectors, images, graphs,  etc.
 4. has strong theoretical support
+6. is statistically and computationally efficient
 5. simulations reify theoretical claims
 7. works as expected in real data applications
-6. is statistically and computationall efficient
 
 
 ---
@@ -351,7 +351,7 @@ Assume we have M measurements from each of S subjects.
 
 How frequent are within-subject differences smaller than between-subject differences?
 
-Let x<sup>s</sup><sub>m</sub> denote the m-th measurement of subject s
+Let x<sup>s</sup><sub>m</sub> denote measurement m of subject s
 
 
 <img src="ditt.png" style="height: 160px;"/>
@@ -379,7 +379,7 @@ Assume the following generative model for each subject:
 - y = f(x)
  -->
 
-To ensure our prediction of y is *stable*/*reproducible*, so should our estimate of x
+To ensure our prediction of y is *stable*/*reproducible*, so should our representation of z be.
 
 In other words, the more *discriminable* x is, the more we can trust its predictions
 
@@ -390,7 +390,7 @@ In other words, the more *discriminable* x is, the more we can trust its predict
 
 <br><br>
 
-- d = 0.5 
+- d = 0.5  (chance)
 <!-- multiple measurements of subject s are **no** more similar to one another as they are to other subjects' measurements -->
 - subject level predictions will be at chance, .s[regardless of y]
 
@@ -400,7 +400,7 @@ In other words, the more *discriminable* x is, the more we can trust its predict
 
 <br><br>
 
-- d = 1
+- d = 1 (perfect)
 <!-- multiple measurements of subject s are **always** more similar to one another as they are to other subjects' measurements -->
 - subject level predictions can be optimal, .s[regardless of y]
 
@@ -427,7 +427,8 @@ Theorem 1: Discriminability of x=g(z) bounds the best possible performance .s[re
 
 <br><br>
 
-Corollary 1: If x is more discriminable than x', and its best predictive accuracy is better than possible for x', then it has a better bound
+Corollary 1: If x is more discriminable than x', then there can be a range of possible predictive accuracies that x can achieve that x' cannot, but not vice versa
+
 
 <br>
 
