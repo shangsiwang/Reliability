@@ -140,12 +140,42 @@ $\hat{D}$ is the sample discriminability which approximates discriminability or 
 	\label{lem:lem2}
 \end{lem}
 
-\subsubsection{Testing discriminability}
-In applications, we sometimes are interested in whether there is any subject specific information in the data. In other words, we want to know whether $\bx_{i,t}$ is independent of $\bv_i$. Formally, it is equivalent to test the hypothesis that $\bx_{i,t}$ is independent of $\bv_i$. If we fail to reject the hypothesis, it implies the measurement $\bx_{i,t}$ reveals no information of true physical property $\bv_i$. As a consequence, there is no hope in predicting any phenotype $\by_i$ based on $\bx_{i,t}$. If this is the case, the researchers should probably collect more data or process data differently. Since $\bv_i$ is unobserved, a direct independence test is not applicable. We consider a test through discriminability. If measurements are independent of physical properties, $\bx_{i,t}$ and $\bx_{i',t'}$ should follow the same distribution. In this case, within subject distances should not differ across subject in distribution; therefore, discriminability should be around $0.5$. That is in order to know whether $\bx_{i,t}$ is independent of $\bv_i$, we can test the null hypothesis that discriminability is $0.5$,
+\subsubsection{One Sample Testing Discriminability}
+In applications, we sometimes are interested in whether there is any subject specific information in the data. In other words, we want to know whether $\bx_{i,t}$ is independent of $\bv_i$. Formally, it is equivalent to test the hypothesis that $\bx_{i,t}$ is independent of $\bv_i$. If we fail to reject the hypothesis, it implies the measurement $\bx_{i,t}$ reveals no information of true physical property $\bv_i$. As a consequence, there is no hope in predicting any phenotype $\by_i$ based on $\bx_{i,t}$. If this is the case, the researchers should probably collect more data or process data differently. Since $\bv_i$ is unobserved, a direct independence test is not applicable. We consider a test through discriminability. If measurements are independent of physical properties, $\bx_{i,t}$ and $\bx_{i',t'}$ should follow the same distribution. In this case, within subject distances should not differ across subject in distribution; therefore, discriminability should be around $0.5$. That is in order to know whether $\bx_{i,t}$ is independent of $\bv_i$, we can test the null hypothesis that discriminability is $0.5$.
 \[ H_0 \text{ : } D = 0.5 \]
 \[ H_A \text{ : } D > 0.5 \]
-We have two valid approaches to test this through discriminability estimate $\hat{D}$. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of $\hat{D}$ is less than $\frac{1}{n}$. Based on Chebyshev's inequality, we can derive a 95 percent confidence interval $(\hat{D}-\frac{2\sqrt{5}}{\sqrt{n}},\hat{D}+\frac{2\sqrt{5}}{\sqrt{n}})$. If $0.5$ lies in the confidence interval, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach is computationally simple; however, generally has much smaller level and power due to the bound on variance is not tight. The second approach based on estimating a null distribution for $\hat{D}$ through permutation. In particular, we randomly permute subject labels for each trial and then estimate discriminability based on permuted labels. We repeat this procedure a large number of times and find the $95^{th}$ quantile of permuted discriminability estimates. If $\hat{D}$ is less than the $95^{th}$ quantile, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach has larger power, the only downside is that estimating discriminability for permuted samples takes sometime. In most applications, with less than a few hundred measurements, we recommend using the second approach. 
+We have two valid approaches to test this through discriminability estimate $\hat{D}$. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of $\hat{D}$ is less than or equal to $1/n$. Based on Chebyshev's inequality, we can derive a 95 percent confidence interval $(\hat{D}-\frac{2\sqrt{5}}{\sqrt{n}},\hat{D}+\frac{2\sqrt{5}}{\sqrt{n}})$. If $0.5$ lies in the confidence interval, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach is computationally simple; however, generally has much smaller level and power due to the bound on variance is not tight. The second approach based on estimating a null distribution for $\hat{D}$ through permutation. In particular, we randomly permute subject labels for each trial and then estimate discriminability based on permuted labels. We repeat this procedure a large number of times and find the $95^{th}$ quantile of permuted discriminability estimates. If $\hat{D}$ is less than the $95^{th}$ quantile, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach has larger power, the only downside is that estimating discriminability for permuted samples takes sometime. In most applications, with less than a few hundred measurements, we recommend using the second approach. 
 
+\subsubsection{Two Sample Testing Discriminability}
+In many applications, we want to know whether one data processing pipeline $\bpsi_1$ yields more discriminable data set than another pipeline $\bpsi_2$. Based on the theory, by choosing the processing pipeline with larger discriminability, we can have a lower bound on Bayes prediction error. To achieve this, we consider testing the null hypothesis that two discriminabilities are equal.
+\[H_0 \text{ : } D(\bpsi_1) = D(\bpsi_2)\] 
+\[H_A \text{ : } D(\bpsi_1) > D(\bpsi_2)\] 
+However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to test this through estimators $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. We have two valid approaches to test this through discriminability. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of discriminability estimate is bounded by $1/n$. Therefore, we can derive two confidence intervals centered at $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. Then, the null hypothesis is rejected if two confidence intervals does not overlap. Unfortunately, due to the fact that inequalities are not tight, this approach has very low power. For this method to work, the number of subjects $n$ usually needs to be larger than a thousand. The second approach estimates null distribution of $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ through bootstrapping. We can bootstrap copies of the original data set which have the same number of subjects and the number of measurements per subject to approximate the null distribution. Let $\hat{D}^{(i)}(\bpsi_1)$ denote the discriminability estimate for $i$th bootstrapped copy with data processed by pipeline $1$. If the null hypothesis is true, $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ should have similar distribution as $\hat{D}^{(i)}(\bpsi_1)-\hat{D}^{(i')}(\bpsi_1)$. One problem left is how we bootstrap a copy of a data set. In case we have a data set with more subjects and more measurements per subject than the data set under consideration, we can first bootstrap subjects without replacement, and then bootstrap measurements without replacement. If the data set we are bootstrapping from have fewer subjects or fewer measurements per subject, we can take random linear convex combination of the data set to make it larger. The algorithm \ref{alg:1} summarizes the steps to estimate p-value for testing $D(\bpsi_1) = D(\bpsi_2)$. 
+
+\begin{algorithm}                      % enter the algorithm environment
+	\caption{Test the null hypothesis $D(\bpsi_1) = D(\bpsi_2)$ in data set 1}          % give the algorithm a caption
+	\label{alg:1}                           % and a label for \ref{} commands later in the document
+	\begin{algorithmic}                    % enter the algorithmic environment
+		\REQUIRE Data set 1, Data set 2, Pipeline $\bpsi_1$, Pipeline $\bpsi_2$
+		\ENSURE Reject or do not reject the null hypothesis
+		\STATE Process data set 1 with pipelines $\bpsi_1$ and $\bpsi_2$
+		\STATE Compute $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$ in data set 1
+		\STATE Process data set 2 with pipelines $\bpsi_1$
+		\FOR{i in 1 through number of repeats} 
+				\IF{data set 2 has fewer subjects than data set 1}
+				\STATE Randomly combine subjects to create new subjects
+				\ENDIF
+				\IF{data set 2 has fewer measurments per subject than data set 1}
+				\STATE Randomly combine measurements to create new measurements
+				\ENDIF
+				\STATE In data set 2, bootstrap subjects without replacement 
+				\STATE For each subject, bootstrap measurements
+				\STATE Compute $\hat{D}^{(i)}(\bpsi_1)$
+		\ENDFOR
+		\STATE Compute p-value which is the faction of times that $\hat{D}(\bpsi_1)-\hat{D}(\bpsi_2)>\hat{D}^{(i)}(\bpsi_1)-\hat{D}^{(i')}(\bpsi_1)$ 
+		\STATE Reject the null hypothesis if p-value is less than $0.05$.
+	\end{algorithmic}
+\end{algorithm}
 
 \subsection{Simulations}
 \subsubsection{Convergence of discriminability estimator}
@@ -393,9 +423,10 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 \end{proof}
 
 
-
-
-
+\begin{table}
+\input{related/dis_data_table.tex}
+\caption{Discriminability of $13$ data sets and their weighted means processed by 64 pipelines. }
+\end{table}
 
 \newpage
 \small{
