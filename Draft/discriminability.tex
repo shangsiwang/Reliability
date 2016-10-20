@@ -150,29 +150,26 @@ We have two valid approaches to test this through discriminability estimate $\ha
 In many applications, we want to know whether one data processing pipeline $\bpsi_1$ yields more discriminable data set than another pipeline $\bpsi_2$. Based on the theory, by choosing the processing pipeline with larger discriminability, we can have a lower bound on Bayes prediction error. To achieve this, we consider testing the null hypothesis that two discriminabilities are equal.
 \[H_0 \text{ : } D(\bpsi_1) = D(\bpsi_2)\] 
 \[H_A \text{ : } D(\bpsi_1) > D(\bpsi_2)\] 
-However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to test this through estimators $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. We have two valid approaches to test this through discriminability. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of discriminability estimate is bounded by $1/n$. Therefore, we can derive two confidence intervals centered at $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. Then, the null hypothesis is rejected if two confidence intervals does not overlap. Unfortunately, due to the fact that inequalities are not tight, this approach has very low power. For this method to work, the number of subjects $n$ usually needs to be larger than a thousand. The second approach estimates null distribution of $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ through bootstrapping. We can bootstrap copies of the original data set which have the same number of subjects and the number of measurements per subject to approximate the null distribution. Let $\hat{D}^{(i)}(\bpsi_1)$ denote the discriminability estimate for $i$th bootstrapped copy with data processed by pipeline $1$. If the null hypothesis is true, $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ should have similar distribution as $\hat{D}^{(i)}(\bpsi_1)-\hat{D}^{(i')}(\bpsi_1)$. One problem left is how we bootstrap a copy of a data set. In case we have a data set with more subjects and more measurements per subject than the data set under consideration, we can first bootstrap subjects without replacement, and then bootstrap measurements without replacement. If the data set we are bootstrapping from have fewer subjects or fewer measurements per subject, we can take random linear convex combination of the data set to make it larger. The algorithm \ref{alg:1} summarizes the steps to estimate p-value for testing $D(\bpsi_1) = D(\bpsi_2)$. 
+However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide based on estimators $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. We have two valid approaches to test this. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of discriminability estimate is bounded by $1/n$. Therefore, we can derive two confidence intervals centered at $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. Then, the null hypothesis is rejected if two confidence intervals does not overlap. Unfortunately, due to the fact that inequalities are not tight, this approach has very low power. For this method to work, the number of subjects $n$ usually needs to be larger than a thousand. It is impractical for most of the data set. The second approach estimates null distribution of $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ through bootstrapping. We can bootstrap copies of the original data set and compute discriminability on bootstrapped data set to approximate the null distribution. Specifically, let $\hat{D}^{(i)}(\bpsi_j)$ denote the discriminability estimate for $i$th bootstrapped copy with data processed by pipeline $j$. If the null hypothesis is true, $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ should have similar distribution as $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$. To bootstrap a copy of original data set, we need to make sure the copy have the same number of subjects and number of measurements per as the original data set. To bootstrap measurements for a subject, we first randomly choose two subjects from original data sets, and then take a random convex linear combination of measurements of these two subjects. We keep repeating this step until the bootstrapped data set has the same number of subjects as the original data set, and discriminability $\hat{D}^{(i)}(\bpsi_j)$ is estimated. To approximate the null distribution, a large number of bootstrapped discriminabilities are computed, and their pairwise differences $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ are used to compute a p-value for $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$. We should notice that bootstrapped data tends to be less discriminable than the original data due to the fact bootstrapped subjects are closer to each other. However, only differences in bootstrapped discriminability are used. The algorithm \ref{alg:1} summarizes the steps to estimate p-value for testing $D(\bpsi_1) = D(\bpsi_2)$. 
 
 \begin{algorithm}                      % enter the algorithm environment
-	\caption{Test the null hypothesis $D(\bpsi_1) = D(\bpsi_2)$ in data set 1}          % give the algorithm a caption
+	\caption{Test the null hypothesis $D(\bpsi_1) = D(\bpsi_2)$}          % give the algorithm a caption
 	\label{alg:1}                           % and a label for \ref{} commands later in the document
 	\begin{algorithmic}                    % enter the algorithmic environment
-		\REQUIRE Data set 1, Data set 2, Pipeline $\bpsi_1$, Pipeline $\bpsi_2$
+		\REQUIRE Data set, Pipeline $\bpsi_1$, Pipeline $\bpsi_2$
 		\ENSURE Reject or do not reject the null hypothesis
-		\STATE Process data set 1 with pipelines $\bpsi_1$ and $\bpsi_2$
-		\STATE Compute $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$ in data set 1
-		\STATE Process data set 2 with pipelines $\bpsi_1$
+		\STATE Process the data set with pipelines $\bpsi_1$ and $\bpsi_2$
+		\STATE Compute $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$
 		\FOR{i in 1 through number of repeats} 
-				\IF{data set 2 has fewer subjects than data set 1}
-				\STATE Randomly combine subjects to create new subjects
-				\ENDIF
-				\IF{data set 2 has fewer measurments per subject than data set 1}
-				\STATE Randomly combine measurements to create new measurements
-				\ENDIF
-				\STATE In data set 2, bootstrap subjects without replacement 
-				\STATE For each subject, bootstrap measurements
-				\STATE Compute $\hat{D}^{(i)}(\bpsi_1)$
+				\FOR{j in 1 through number of subjects} 
+					\STATE Randomly select two subjects from data set 
+					\STATE Linearly combine measurements of these subjects
+				\ENDFOR
+				\STATE Form two bootstrapped data sets processed by $\bpsi_1$ and $\bpsi_2$
+				\STATE Compute $\hat{D}^{(i)}(\bpsi_1)$ and $\hat{D}^{(i)}(\bpsi_2)$
 		\ENDFOR
-		\STATE Compute p-value which is the faction of times that $\hat{D}(\bpsi_1)-\hat{D}(\bpsi_2)>\hat{D}^{(i)}(\bpsi_1)-\hat{D}^{(i')}(\bpsi_1)$ 
+		\STATE Compute pairwise differences $\hat{D}^{(i)}(\bpsi_1)-\hat{D}^{(i')}(\bpsi_1)$ and $\hat{D}^{(i)}(\bpsi_2)-\hat{D}^{(i')}(\bpsi_2)$
+		\STATE Compute p-value which is the faction of times that $\hat{D}(\bpsi_1)-\hat{D}(\bpsi_2)>\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ 
 		\STATE Reject the null hypothesis if p-value is less than $0.05$.
 	\end{algorithmic}
 \end{algorithm}
