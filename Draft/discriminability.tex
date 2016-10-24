@@ -132,6 +132,7 @@ $\hat{D}$ is the sample discriminability which approximates discriminability or 
 \begin{lem}	
 	$\hat{D}$ is an unbiased estimator of $D$, that is
 	\[ \EE(\hat{D}) = D\]
+	\label{lem:lem1}
 \end{lem}
 
 \begin{lem}	
@@ -141,15 +142,19 @@ $\hat{D}$ is the sample discriminability which approximates discriminability or 
 \end{lem}
 
 \subsubsection{One Sample Testing Discriminability}
-In applications, we sometimes are interested in whether there is any subject specific information in the data. In other words, we want to know whether $\bx_{i,t}$ is independent of $\bv_i$. Formally, it is equivalent to test the hypothesis that $\bx_{i,t}$ is independent of $\bv_i$. If we fail to reject the hypothesis, it implies the measurement $\bx_{i,t}$ reveals no information of true physical property $\bv_i$. As a consequence, there is no hope in predicting any phenotype $\by_i$ based on $\bx_{i,t}$. If this is the case, the researchers should probably collect more data or process data differently. Since $\bv_i$ is unobserved, a direct independence test is not applicable. We consider a test through discriminability. If measurements are independent of physical properties, $\bx_{i,t}$ and $\bx_{i',t'}$ should follow the same distribution. In this case, within subject distances should not differ across subject in distribution; therefore, discriminability should be around $0.5$. That is in order to know whether $\bx_{i,t}$ is independent of $\bv_i$, we can test the null hypothesis that discriminability is $0.5$.
-\[ H_0 \text{ : } D = 0.5 \]
-\[ H_A \text{ : } D > 0.5 \]
-We have two valid approaches to test this through discriminability estimate $\hat{D}$. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of $\hat{D}$ is less than or equal to $1/n$. Based on Chebyshev's inequality, we can derive a 95 percent confidence interval $(\hat{D}-\frac{2\sqrt{5}}{\sqrt{n}},\hat{D}+\frac{2\sqrt{5}}{\sqrt{n}})$. If $0.5$ lies in the confidence interval, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach is computationally simple; however, generally has much smaller level and power due to the bound on variance is not tight. The second approach based on estimating a null distribution for $\hat{D}$ through permutation. In particular, we randomly permute subject labels for each trial and then estimate discriminability based on permuted labels. We repeat this procedure a large number of times and find the $95^{th}$ quantile of permuted discriminability estimates. If $\hat{D}$ is less than the $95^{th}$ quantile, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach has larger power, the only downside is that estimating discriminability for permuted samples takes sometime. In most applications, with less than a few hundred measurements, we recommend using the second approach. 
+In applications, we sometimes are interested in whether there is any subject specific information in the data. In other words, we want to know whether $\bx_{i,t}$ is independent of $\bv_i$. Formally, it is equivalent to test the hypothesis that $\bx_{i,t}$ is independent of $\bv_i$. If we fail to reject the hypothesis, it implies the measurement $\bx_{i,t}$ reveals no information of true physical property $\bv_i$. As a consequence, $\bx_{i,t}$ is independent of any phenotype $\by_i$, and there is no hope in predicting $\by_i$ based on $\bx_{i,t}$. If this is the case, the researchers should consider collecting more data or processing data differently. Since $\bv_i$ is unobserved and $\by_i$ is unknown, a direct independence test is not applicable. We consider a test through discriminability. If measurements are independent of physical properties, $\bx_{i,t}$ and $\bx_{i',t'}$ should follow the same distribution. In this case, within subject distances should not differ across subject distances in distribution; therefore, discriminability should be $0.5$. Conversely, we have the following lemma.
+\begin{lem}	
+	Under additive noise model, disrcriminability is $0.5$ implies measurements are independent of physical property, that is 
+	\[D=0.5 \Rightarrow \bx \perp \bv  .  \]
+	\label{lem:lem3}
+\end{lem}
+An immediate consequence of the lemma is that we can test the null hypothesis that measurements $\bx_{i,t}$ are independent of any phenotype $\by_i$ through testing the hypothesis whether discriminability is $0.5$. Specifically, we reject the following null hypothesis when there is strong evidence suggesting that $D > 0.5$.
+\[ H_0 \text{ : } \bx \perp \by \text{ ,and } H_A \text{ : } \bx \not\perp \by \]
+We have two valid approaches to determine $D > 0.5$ through discriminability estimate $\hat{D}$. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of $\hat{D}$ is less than or equal to $1/n$. Based on Chebyshev's inequality, we can derive a 95 percent confidence interval $(\hat{D}-\frac{2\sqrt{5}}{\sqrt{n}},\hat{D}+\frac{2\sqrt{5}}{\sqrt{n}})$. If $0.5$ lies in the confidence interval, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach is computationally simple; however, generally has much smaller level and power due to the bound on variance is not tight. The second approach based on estimating a null distribution for $\hat{D}$ through permutation. In particular, we randomly permute subject labels for each trial and then estimate discriminability based on permuted labels. We repeat this procedure a large number of times and find the $95^{th}$ quantile of permuted discriminability estimates. If $\hat{D}$ is less than the $95^{th}$ quantile, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach has larger power, the only downside is that estimating discriminability for permuted samples takes sometime. In most applications, with less than a few hundred measurements, we recommend using the second approach. 
 
 \subsubsection{Two Sample Testing Discriminability}
 In many applications, we want to know whether one data processing pipeline $\bpsi_1$ yields more discriminable data set than another pipeline $\bpsi_2$. Based on the theory, by choosing the processing pipeline with larger discriminability, we can have a lower bound on Bayes prediction error. To achieve this, we consider testing the null hypothesis that two discriminabilities are equal.
-\[H_0 \text{ : } D(\bpsi_1) = D(\bpsi_2)\] 
-\[H_A \text{ : } D(\bpsi_1) > D(\bpsi_2)\] 
+\[H_0 \text{ : } D(\bpsi_1) = D(\bpsi_2) \text{ ,and }  H_A \text{ : } D(\bpsi_1) > D(\bpsi_2)\] 
 However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide based on estimators $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. We have two valid approaches to test this. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of discriminability estimate is bounded by $1/n$. Therefore, we can derive two confidence intervals centered at $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. Then, the null hypothesis is rejected if two confidence intervals does not overlap. Unfortunately, due to the fact that inequalities are not tight, this approach has very low power. For this method to work, the number of subjects $n$ usually needs to be larger than a thousand. It is impractical for most of the data set. The second approach estimates null distribution of $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ through bootstrapping. We can bootstrap copies of the original data set and compute discriminability on bootstrapped data set to approximate the null distribution. Specifically, let $\hat{D}^{(i)}(\bpsi_j)$ denote the discriminability estimate for $i$th bootstrapped copy with data processed by pipeline $j$. If the null hypothesis is true, $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ should have similar distribution as $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$. To bootstrap a copy of original data set, we need to make sure the copy have the same number of subjects and number of measurements per as the original data set. To bootstrap measurements for a subject, we first randomly choose two subjects from original data sets, and then take a random convex linear combination of measurements of these two subjects. We keep repeating this step until the bootstrapped data set has the same number of subjects as the original data set, and discriminability $\hat{D}^{(i)}(\bpsi_j)$ is estimated. To approximate the null distribution, a large number of bootstrapped discriminabilities are computed, and their pairwise differences $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ are used to compute a p-value for $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$. We should notice that bootstrapped data tends to be less discriminable than the original data due to the fact bootstrapped subjects are closer to each other. However, only differences in bootstrapped discriminability are used. The algorithm \ref{alg:1} summarizes the steps to estimate p-value for testing $D(\bpsi_1) = D(\bpsi_2)$. 
 
 \begin{algorithm}                      % enter the algorithm environment
@@ -176,7 +181,7 @@ However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide ba
 
 \subsection{Simulations}
 \subsubsection{Convergence of discriminability estimator}
-In Lemma 1 and 2, we claim discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate these two lemmas through simulation. We consider a simple case that $g_{\bpsi}$ and $f_{\bphi}$ together introduce independent additive Gaussian noise $\epsilon$, that is
+In Lemma \ref{lem:lem1} and  \ref{lem:lem2}, we claim discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate these two lemmas through simulation. We consider a simple case that $g_{\bpsi}$ and $f_{\bphi}$ together introduce independent additive Gaussian noise $\epsilon$, that is
 \begin{equation}
 \bx_{i,t} =g_{\bpsi} \big(f_{\bphi} (\bv_i) \big) =\bv_{i} + \mb{\epsilon}_{i,t}
 \end{equation}  
@@ -278,11 +283,11 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 
 \section{Discussion}
 
-\para{Summary} We propose a non-parametric statistics of discriminability which is define to be the probability that within subject distance is smaller than across subject distance.  We prove discriminability bounds Bayes prediction error. An estimator is designed to approximate the discriminability based on test-retest data set. We show the estimator is unbiased and converges to the discriminability asymptotically. We apply the discriminability framework under various setups in neuroimaging processing. We find the best processing pipeline for fMRI pre-processing and look into options in DTI processing. Furthermore, fMRI and DTI are shown to have comparable discriminability.
+\para{Summary} We propose a non-parametric statistics of discriminability which is define to be the probability that within subject distance is smaller than across subject distance.  We prove discriminability bounds Bayes prediction error. An estimator is designed to estimate the discriminability based on test-retest data set. We show the estimator is unbiased and converges to the discriminability asymptotically. Furthermore, we developed one sample and two sample tests for discriminability, which can be used to detect signal in real data set and compare discriminability of different processing pipelines. We apply the discriminability framework under various setups in neuroimaging processing. We find the best processing pipeline for fMRI pre-processing and look into options in DTI processing. Furthermore, fMRI and DTI are shown to have comparable discriminability.
 
 
 
-\para{Next Steps} First, more experiments should be carried out to analyze processing options. In particular, we could investigate processing of DTI more thoroughly given more data sets. Also, the effect of the number of ROI on discriminability is still not determined. Second, metrics other than Euclidean distance could be studied. Third, a testing procedure could be developed for comparing discriminability of multiple data sets.
+\para{Next Steps} From theoretical point of view, most of our theories require the noise to be additive and independent of subjects. The effects of subject specific noise on discriminability are left uninvestigated. As for applications, more experiments should be carried out to analyze processing options. In particular, we could investigate processing of DTI more thoroughly given more data sets. Also, the effect of the number of ROI on discriminability is still not determined. Second, metrics other than Euclidean distance could be studied. Third, a testing procedure could be developed for comparing discriminability of multiple data sets.
 
 
 
@@ -307,11 +312,11 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 	\label{fig:raw}
 \end{figure}
 \begin{proof}[Proof of Theorem 1]
-	Consider the additive noise setting, that is $\bv_{i} + \mb{\epsilon}_{i,t}$,  
+	Consider the additive noise setting, that is $\bx_{i,t}=\bv_{i} + \mb{\epsilon}_{i,t}$,  
 	\begin{eqnarray*}
 		& &\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''}) \\
 		&=&\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|) \\
-		&=&P(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\bv_{i}+\mb{\epsilon}_{i,t}-\bv_{i'}+\mb{\epsilon}_{i',t''}\|) \\
+		&=&\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\bv_{i}+\mb{\epsilon}_{i,t}-\bv_{i'}-\mb{\epsilon}_{i',t''}\|) \\
 		&\leq&\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\bv_{i}-\bv_{i'}\| + \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|) \\
 		&=& \PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|< \|\bv_{i}-\bv_{i'}\|) \\
 		&=& \frac{1}{2}\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|< \|\bv_{i}-\bv_{i'}\||\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|<0) + \\ 
@@ -418,6 +423,36 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 	\end{eqnarray*}
 	As discussed before, this concludes that $\hat{D}$ converges to $D$ in probability. 
 \end{proof}
+
+
+\begin{proof}[Proof of Lemma 3]
+	Consider the additive noise setting, that is $\bx_{i,t}=\lambda \bv_{i} + \mb{\epsilon}_{i,t}$. We further assume  $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ have continuous distributions. We will show that $D=0.5$ implies $\lambda = 0$, hence $\bx_{i,t} = \mb{\epsilon}_{i,t}$ which is independent of physical property $\bv_{i}$ and any phenotype $\by_{i}$. First, we rewrite the definition of discriminability.
+	\begin{eqnarray*}
+		& &\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''}) \\
+		&=&\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|) \\
+		&=&\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\lambda \bv_{i}+\mb{\epsilon}_{i,t}-\lambda \bv_{i'} - \mb{\epsilon}_{i',t''}\|) \\
+		&=& \EE (\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|)|\|\lambda \bv_{i} - \lambda \bv_{i'}=v)
+	\end{eqnarray*}
+	We will to show for any $v \neq 0$,   \[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) > 0.5\]
+	Therefore, $D=0.5$ implies $\lambda \bv_{i} - \lambda \bv_{i'}= 0$. Since $\bv_{i}$ is not constant, we have $\lambda = 0$. Due to $\mb{\epsilon}$ being i.i.d., we have 
+	\[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) =  \PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i,t'}\|)\]
+	Consider the sum of these two probabilities, we will show it is greater than $1$. Let $A$ and $B$ denote the set where the conditions of two events hold respectively.
+	\begin{eqnarray*}
+			& &\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) +  \PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i,t'}\|)\\
+			&=&\PP(A) + \PP(B) \\
+			&=& 2\PP(A \cap B ) + \PP(A \cap B^c ) + \PP(B \cap A^c ) \\
+			&=& 1+\PP(A \cap B )- \PP(A^c \cap B^c )
+	\end{eqnarray*}
+	We first notice that $A^c \cap B^c$ implies $\|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i,t'}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i',t''}\|$ and $\|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i',t''}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i,t'}\|$. In addition, due to symmetry
+	\[\PP(A \cap B ) = 
+	\PP(\|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i,t'}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i',t''}\| \text{ ,and } \|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i',t''}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i,t'}\|) .\] 
+	As a consequence, we have $ \PP(A^c \cap B^c) < \PP(A \cap B ) $. This shows 
+	\[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) +  \PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i,t'}\|) > 1 .\]
+	Hence,
+	\[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) > 0.5\]
+	As discussed previously, this concludes the proof for the lemma.
+\end{proof}
+
 
 
 \begin{table}
