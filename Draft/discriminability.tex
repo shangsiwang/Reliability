@@ -118,7 +118,7 @@ It tells us for any distribution of $\by$, we have a tighter bound on Bayes erro
 	\includegraphics[width=\linewidth]{../Figs/flow_simu.png}
 	\caption{{\bf Decision Making Through Discriminability Framework.} The top panel shows the decision framework of discriminability. Test-retest data set is collected under experiment design options $phi$ and processed by pipeline $\psi$. The pairwise distances of all measurements are computed using a metric $\delta(\cdot,\cdot)$. For each pair of measurements of the same subject, we estimate the probability of across subject distances being larger than the within subject distance. Discriminability is the mean of estimated probabilities. Select the option and pipeline with maximum discriminability. 
 	\newline {\bf Convergence of $\hat{D}$.} Distribution of difference between discriminability estimates and truth is shown in the bottom left panel. The physical property and noise are generated from standard Gaussian distribution as described in the simulation section. The black dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability.
-	\newline {\bf Discriminability Test Power.} Test power of discriminability with varying sample size is shown in the bottom right panel. The physical property and noise are generated from standard Gaussian distribution as described in the simulation section. At level of $0.05$, the power is estimated based on $100$ repeats. The test power becomes close to $1$ with more than $50$ samples.}
+	\newline {\bf Discriminability Test Power.} One sample and two sample test power of discriminability with varying sample size is shown in the bottom right panel. The physical property and additive noise are generated from standard Gaussian distribution as described in the simulation section. At level of $0.05$, the power is estimated based on $100$ repeats. The test power becomes close to $1$ with more than $100$ samples.}
 	\label{fig:fc}
 \end{figure}
 
@@ -141,7 +141,7 @@ $\hat{D}$ is the sample discriminability which approximates discriminability or 
 	\label{lem:lem2}
 \end{lem}
 
-\subsubsection{One Sample Testing Discriminability}
+\subsubsection{One sample test for discriminability}
 In applications, we sometimes are interested in whether there is any subject specific information in the data. In other words, we want to know whether $\bx_{i,t}$ is independent of $\bv_i$. Formally, it is equivalent to test the hypothesis that $\bx_{i,t}$ is independent of $\bv_i$. If we fail to reject the hypothesis, it implies the measurement $\bx_{i,t}$ reveals no information of true physical property $\bv_i$. As a consequence, $\bx_{i,t}$ is independent of any phenotype $\by_i$, and there is no hope in predicting $\by_i$ based on $\bx_{i,t}$. If this is the case, the researchers should consider collecting more data or processing data differently. Since $\bv_i$ is unobserved and $\by_i$ is unknown, a direct independence test is not applicable. We consider a test through discriminability. If measurements are independent of physical properties, $\bx_{i,t}$ and $\bx_{i',t'}$ should follow the same distribution. In this case, within subject distances should not differ across subject distances in distribution; therefore, discriminability should be $0.5$. Conversely, we have the following lemma.
 \begin{lem}	
 	Under additive noise model, disrcriminability is $0.5$ implies measurements are independent of physical property, that is 
@@ -152,7 +152,7 @@ An immediate consequence of the lemma is that we can test the null hypothesis th
 \[ H_0 \text{ : } \bx \perp \by \text{ ,and } H_A \text{ : } \bx \not\perp \by \]
 We have two valid approaches to determine $D > 0.5$ through discriminability estimate $\hat{D}$. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of $\hat{D}$ is less than or equal to $1/n$. Based on Chebyshev's inequality, we can derive a 95 percent confidence interval $(\hat{D}-\frac{2\sqrt{5}}{\sqrt{n}},\hat{D}+\frac{2\sqrt{5}}{\sqrt{n}})$. If $0.5$ lies in the confidence interval, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach is computationally simple; however, generally has much smaller level and power due to the bound on variance is not tight. The second approach based on estimating a null distribution for $\hat{D}$ through permutation. In particular, we randomly permute subject labels for each trial and then estimate discriminability based on permuted labels. We repeat this procedure a large number of times and find the $95^{th}$ quantile of permuted discriminability estimates. If $\hat{D}$ is less than the $95^{th}$ quantile, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach has larger power, the only downside is that estimating discriminability for permuted samples takes sometime. In most applications, with less than a few hundred measurements, we recommend using the second approach. 
 
-\subsubsection{Two Sample Testing Discriminability}
+\subsubsection{Two sample test for discriminability}
 In many applications, we want to know whether one data processing pipeline $\bpsi_1$ yields more discriminable data set than another pipeline $\bpsi_2$. Based on the theory, by choosing the processing pipeline with larger discriminability, we can have a lower bound on Bayes prediction error. To achieve this, we consider testing the null hypothesis that two discriminabilities are equal.
 \[H_0 \text{ : } D(\bpsi_1) = D(\bpsi_2) \text{ ,and }  H_A \text{ : } D(\bpsi_1) > D(\bpsi_2)\] 
 However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide based on estimators $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. We have two valid approaches to test this. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of discriminability estimate is bounded by $1/n$. Therefore, we can derive two confidence intervals centered at $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. Then, the null hypothesis is rejected if two confidence intervals does not overlap. Unfortunately, due to the fact that inequalities are not tight, this approach has very low power. For this method to work, the number of subjects $n$ usually needs to be larger than a thousand. It is impractical for most of the data set. The second approach estimates null distribution of $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ through bootstrapping. We can bootstrap copies of the original data set and compute discriminability on bootstrapped data set to approximate the null distribution. Specifically, let $\hat{D}^{(i)}(\bpsi_j)$ denote the discriminability estimate for $i$th bootstrapped copy with data processed by pipeline $j$. If the null hypothesis is true, $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ should have similar distribution as $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$. To bootstrap a copy of original data set, we need to make sure the copy have the same number of subjects and number of measurements per as the original data set. To bootstrap measurements for a subject, we first randomly choose two subjects from original data sets, and then take a random convex linear combination of measurements of these two subjects. We keep repeating this step until the bootstrapped data set has the same number of subjects as the original data set, and discriminability $\hat{D}^{(i)}(\bpsi_j)$ is estimated. To approximate the null distribution, a large number of bootstrapped discriminabilities are computed, and their pairwise differences $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ are used to compute a p-value for $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$. We should notice that bootstrapped data tends to be less discriminable than the original data due to the fact bootstrapped subjects are closer to each other. However, only differences in bootstrapped discriminability are used. The algorithm \ref{alg:1} summarizes the steps to estimate p-value for testing $D(\bpsi_1) = D(\bpsi_2)$. 
@@ -174,14 +174,14 @@ However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide ba
 				\STATE Compute $\hat{D}^{(i)}(\bpsi_1)$ and $\hat{D}^{(i)}(\bpsi_2)$
 		\ENDFOR
 		\STATE Compute pairwise differences $\hat{D}^{(i)}(\bpsi_1)-\hat{D}^{(i')}(\bpsi_1)$ and $\hat{D}^{(i)}(\bpsi_2)-\hat{D}^{(i')}(\bpsi_2)$
-		\STATE Compute p-value which is the faction of times that $\hat{D}(\bpsi_1)-\hat{D}(\bpsi_2)>\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ 
+		\STATE Compute p-value which is the fraction of times that $\hat{D}(\bpsi_1)-\hat{D}(\bpsi_2)>\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ 
 		\STATE Reject the null hypothesis if p-value is less than $0.05$.
 	\end{algorithmic}
 \end{algorithm}
 
 \subsection{Simulations}
 \subsubsection{Convergence of discriminability estimator}
-In Lemma \ref{lem:lem1} and  \ref{lem:lem2}, we claim discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate these two lemmas through simulation. We consider a simple case that $g_{\bpsi}$ and $f_{\bphi}$ together introduce independent additive Gaussian noise $\epsilon$, that is
+In Lemma \ref{lem:lem1} and  \ref{lem:lem2}, we claim discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate these two lemmas through simulation. We consider a simple case that $g_{\bpsi}$ and $f_{\bphi}$ together introduce independent additive Gaussian noise $\epsilon$, that is,
 \begin{equation}
 \bx_{i,t} =g_{\bpsi} \big(f_{\bphi} (\bv_i) \big) =\bv_{i} + \mb{\epsilon}_{i,t}
 \end{equation}  
@@ -190,13 +190,14 @@ $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ are both independent and identically distrib
 In addition, $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ are assumed to be independent. \\
 For each subject, we sample one true physical property $v_i$ and two noises $\epsilon_{i,t}$ with $t\in\{1,2\}$. Then, two measurements are generated by $x_{i,t} = v_{i} + \epsilon_{i,t}$. We let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times using Euclidean distance. It leaves us $100$ estimates of discriminability $\hat{D}$. With this data generation scheme, we can actually compute the population discriminability $D$ through numerical integration. It turns out to be $0.6150$. Subtracting $D$ from $100$ $\hat{D}$s, we can estimate the distribution of estimation error. The figure ~\ref{fig:simu1} shows the difference between $\hat{D}$ and $D$. We can see that the mean of difference is centered around 0 and  discriminabiity estimates $\hat{D}$ tends to converge to $D$ as the number of subject increases.
 
-\begin{figure}[ht!]
-	\includegraphics[width=\linewidth]{../Figs/simu2.png}
-	\caption{{\bf Finding the Oprimal Projection.} Linear projections are computed using PCA and optimizing discriminability. Physical properties $\bv_i$ of $200$ subjects are sampled from 2-D two class conditional Gaussian distribution. $2$ measurements are sampled for each subject with additive Gaussian noise. Noise could have large variance in x-coordinate or y-coordinate. The details of generating data can be found in simulations section. The results for two cases are shown in two columns. Maximizing discriminability yields separated samples which have Bayes optimal classification error.}
-	\label{fig:simu2}
-\end{figure}
+\subsubsection{Test power of discriminability}
+In this section, we investigate the power of one sample and two sample test for discriminability through simulation. For one sample test for discriminability, we consider the simple additive noise case as in the previous section, that is,
+\[\bx_{i,t}= \bv_{i} + \mb{\epsilon}_{i,t}; \bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1); \mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1). \]
+Again, we let the number of subjects $n$ to increase from $10$ to $200$, and for each subject we sample two observations. For each generated data set, we first estimate discriminability, and a p-value is computed based on $100$ permutations. The null hypothesis that $D=0.5$ is rejected when p-value is less than $0.5$. Under this data generation scheme, the true discriminability is $0.6150$; therefore, rejecting the null hypothesis is preferred. For each value of $n$, we independently generate $100$ data sets and perform the one sample test. The fraction of times in which the null hypothesis is rejected with its standard error is shown in the bottom right panel of Figure \ref{fig:fc}. The test power quickly increases as the number of subjects increases, and is close to $1$ with more than $50$ subjects.
 
-
+For two sample test for discriminability, we generate two sets of measurements ${\bx_{i,t}^1}$ and ${\bx_{i,t}^2}$. The superscript is to denote the pipeline which the measurements come from. The noise is still Gaussian and additive; however, the pipeline $1$ has smaller noise level compared to pipeline $2$. Specifically,
+\[\bx_{i,t}^1= \bv_{i} + \mb{\epsilon}_{i,t}^1; \bx_{i,t}^2= \bv_{i} + \mb{\epsilon}_{i,t}^2; \bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1); \mb{\epsilon}_{i,t}^1 \overset{i.i.d.}{\sim} \mathbb{G}(0,0.5^2);\mb{\epsilon}_{i,t}^1 \overset{i.i.d.}{\sim} \mathbb{G}(0,2). \]
+We let the number of subjects $n$ to increase from $10$ to $200$, and for each subject we sample two observations. We generate measurements for both pipelines, and apply the two sample test procedure as described in Algorithm \ref{alg:1}. Under this data generation scheme, the true discriminability of pipeline $1$ is larger than that of pipeline $2$; therefore, rejecting the null hypothesis is preferred. For each value of $n$, we independently generate $100$ pairs of data sets and perform the two sample test. The fraction of times in which the null hypothesis is rejected with its standard error is shown in the bottom right panel of Figure \ref{fig:fc}. The test power quickly increases as the  number of subjects increases, and is close to $1$ with more than $100$ subjects.
 
 
 \subsubsection{Parameter selection through discriminability  }
@@ -207,7 +208,11 @@ We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case
 \[ \text{Case 2: } \mb{\epsilon}_{i,t} \sim \mathbb{G}(\begin{bmatrix}0\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 4\end{bmatrix}) \]
 The noise is assumed to be independent of $\bv_i$ and $\by_i$. The figure ~\ref{fig:simu2} shows the scatter plot of measurements. Under this generation scheme, the class signal only exists in the first coordinate. Therefore, the optimal linear projection should only keep the first coordinate. \\
 We sample $200$ subjects with $v_i$ from each class conditional distribution. Furthermore, $2$ measurements are sampled for each subject. We use both discriminability and principal component analysis (PCA) \cite{jolliffe2002principal} to find the optimal linear projection. After finding the projection, we estimate two class conditional distribution through a kernel density estimator \cite{silverman1986density}. The results of two cases are provided in two columns of figure ~\ref{fig:simu2}. In the first case, both methods find the optimal linear projection which separates two classes. However, in the second case only discriminability recovers the optimal projection. PCA finds linear projection with little class signal.
-
+\begin{figure}[ht!]
+	\includegraphics[width=\linewidth]{../Figs/simu2.png}
+	\caption{{\bf Finding the Oprimal Projection.} Linear projections are computed using PCA and optimizing discriminability. Physical properties $\bv_i$ of $200$ subjects are sampled from 2-D two class conditional Gaussian distribution. $2$ measurements are sampled for each subject with additive Gaussian noise. Noise could have large variance in x-coordinate or y-coordinate. The details of generating data can be found in simulations section. The results for two cases are shown in two columns. Maximizing discriminability yields separated samples which have Bayes optimal classification error.}
+	\label{fig:simu2}
+\end{figure}
 
 
 
@@ -241,14 +246,14 @@ In this experiment, we are going to investigate the pre-processing options in ac
 \end{center}
 As an example, the best pipeline found is CFXSG which means the data is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, with scrubbing and with global signal regression. There are $4$ possible choices for atlas and $2$ possible choices for other options. This leaves us $64$ different combinations of options. We select $13$ test-retest fMRI data sets with the number of measurements ranging from $50$ to $300$. These data sets are pre-processed by the $64$ pipelines through the configurable pipeline for the analysis of connectomes (c-pac) \cite{sikka2014towards}. We also consider an extra rank conversion step which proves to be helpful in boosting discriminability. Rank conversion transforms a weighted undirected graph into a graph with rank weights. Specifically, in the previous experiment all edge weights are absolute correlations which lie in $[0,1]$. In rank conversion step, for each edge in a graph, its weight $w$ is replaced by the rank of $w$ among all edge weights. If we denote a graph by a node set and an edge weight set pair $(V,E)$ with $E=\{w_{i,j}\}$, rank conversion is a function
 \[(V,E) \rightarrow (V,E') \text{ , where } E'= \{\text{rank}(w_{i,j})\} \]
-The rank conversion is designed to improve signal to noise ratio by removing background noise. We carry out this step on the $13$ data sets pre-processed by $64$ pipelines and compare the difference in discriminability with rank conversion and without rank conversion. The figure ~\ref{fig:pipes} shows the discriminability of rank fMRI graphs and the discriminability of raw fMRI graphs are provided in appendix. It turns out that the rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability.
+The rank conversion is designed to improve signal to noise ratio by removing background noise. We carry out this step on the $13$ data sets pre-processed by $64$ pipelines and compare the difference in discriminability with and without rank conversion. It turns out that the rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability. The Figure ~\ref{fig:pipes} shows the discriminability of rank fMRI graphs and the discriminability of raw fMRI graphs are provided in \ref{fig:raw} which is included in appendix. 
 
-There is notable variation in discriminability. The mean discriminability across $13$ data sets can vary from $0.77$ to $1.00$. CFXSG turns out to be the best pipeline with maximum mean discriminability. Furthermore, we carried out a multi-factor analysis of variance test to study each option \cite{hair2009multivariate}. Specifically, we fix decision for all options except one, and attempts to see whether there is significant difference in discriminability. It turns out that FSL, no frequency filtering, no scrubbing, global signal regression and rank conversion is better than their alternatives in terms of mean discriminability. However, fsl and no scrubbing is not statistical significantly better at level $0.05$. No frequency filtering, global signal regression and rank conversion is better than their alternatives at level $0.001$. Figure ~\ref{fig:decs} shows the distribution of paired difference in discriminability.
+There is notable variation in discriminability. The discriminability of $13$ data sets processed by $64$ pipelines vary from $0.732$ to $0.997$. The sample-size weighted mean discriminability of  $64$ pipelines vary from $0.868$ to $0.966$. CFXSG turns out to be the best pipeline with maximum mean discriminability. In Figure \ref{fig:pipes}, for each data set, we compare $CFXSG$ to all the other pipelines using the two sample test. We combine the p-values through Fisher's method \cite{fisher1925statistical}, then we order pipelines by the magnitude of their p-values and mean discriminability. Furthermore, we carried out a multi-factor analysis of variance test to study each option \cite{hair2009multivariate}. Specifically, we fix decisions for all options except one, and investigates whether there is significant difference in discriminability. It turns out that FSL, no frequency filtering, no scrubbing, global signal regression and rank conversion is better than their alternatives in terms of mean discriminability. However, fsl and no scrubbing is not statistical significantly better at level $0.05$. No frequency filtering, global signal regression and rank conversion is better than their alternatives at level $0.001$. Figure ~\ref{fig:decs} shows the distribution of paired difference in discriminability.
  
 \newpage
 \begin{figure}[H]
-	\includegraphics[width=\linewidth]{../Figs/fmri_rank_pv.png}
-	\caption{{\bf Discriminability of rank fmri graphs from 13 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1,HNU1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are computed and shown in the top panel. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the weighted mean discriminability across 13 data sets. The pipelines are first grouped by p-values when comparing to pipeline CFXXG using Wilcoxon signed-rank test. Within each group, the pipelines are ordered by the mean discriminability. CFXSG pipeline has the best mean discriminability across data sets.}
+	\includegraphics[width=\linewidth]{../Figs/fmri_rank_pv_v2.png}
+	\caption{{\bf Discriminability of rank fmri graphs from 13 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1,HNU1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are shown in the plot. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the weighted mean discriminability across 13 data sets.  For each data set, all pipelines are compared to the pipeline CFXSG using two sample test, and a single p-value is calculated by Fisher's method. The pipelines are first grouped by p-values. The number at the top indicates the range of the p-values. Within each group, the pipelines are ordered by the mean discriminability. CFXSG pipeline has the best mean discriminability across data sets.}
 	\label{fig:pipes}
 \end{figure}
 
@@ -306,11 +311,7 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 
 
 \appendix
-\begin{figure}[H]
-	\includegraphics[width=\linewidth]{../Figs/fmri_raw.png}
-	\caption{{\bf Discriminability of raw fmri graphs from 13 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, HNU1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are computed and shown in the top panel. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the weighted mean discriminability across 13 data sets. CFXXG pipeline has the best mean discriminability across data sets.}
-	\label{fig:raw}
-\end{figure}
+\noindent\bf{Proofs}
 \begin{proof}[Proof of Theorem 1]
 	Consider the additive noise setting, that is $\bx_{i,t}=\bv_{i} + \mb{\epsilon}_{i,t}$,  
 	\begin{eqnarray*}
@@ -453,11 +454,39 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 	As discussed previously, this concludes the proof for the lemma.
 \end{proof}
 
+\noindent\bf{Discriminability of Raw fMRI Graphs}
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{../Figs/fmri_raw.png}
+	\caption{{\bf Discriminability of raw fmri graphs from 13 data sets processed 64 ways.}  Discriminability of BNU1, BNU2, DC1, HNU1, IACAS, IBATRT, IPCAS, JHNU, NYU1, SWU1, UM, UWM and XHCUMS pre-processed by 64 pipelines are computed and shown in the top panel. Color of each dot indicates data set and size indicates the number of measurements in data set. The black square indicates the weighted mean discriminability across 13 data sets. CFXXG pipeline has the best mean discriminability across data sets.}
+	\label{fig:raw}
+\end{figure}
 
-
+\noindent\bf{Discriminability Data of Rank fMRI Graphs}
 \begin{table}
 \input{related/dis_data_table.tex}
 \caption{Discriminability of $13$ data sets and their weighted means processed by 64 pipelines. }
+\end{table}
+
+\newpage
+\noindent\bf{Configurations of DTI Processing Pipelines}
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|l|p{3cm}|p{4cm}|}
+		\hline
+		\multicolumn{5}{|l|}{Registration} \\ \hline
+Step       &Package & Function        & Parameters                & Description    \\ \hline
+DTI De-noising     & FSL    & eddy-correct  &None specified (defaults) &   \\ \hline
+MPRAGE Skull-stripping  & FSL   & bet     &`-B ` &reduction of image bias and neck voxels  \\ \hline
+DTI align to MPRAGE  &FSL   &epi-reg   & None specified (defaults) &  \\ \hline
+MPRAGE align to MNI 1mm & FSL   & flirt  & `-cost mutualinfo`;  `-bins 256`; `-dof 12`; `-searchrx -180 180`; `-searchry -180 180`; `-searchrz -180 180`& evaluated with mutual information, using 256 bin histograms of intensity, a 12 degree of freedom model, and searching the entire physical space for possible alignments \\ \hline
+Apply MPRAGE transform to DTI & FSL &flirt  & `-interp trilinear`;  `-applyxfm& applying the transforms computed with trilinear interpolation \\ \hline
+Resample aligned DTI  & nilearn &resample-img & `interpolation ="nearest"`& resampling with nearest-neighbour interpolation \\ \hline
+\multicolumn{5}{|l|}{Diffusion processing} \\ \hline
+Step    & Package & Function   & Parameters  & Description \\ \hline
+Tensor Fitting   & dipy & TensorModel & None specified (defaults) & \\ \hline
+Tractography     &dipy& EuDX   & `a-low=0.1` & FA stopping threshold for fiber tracking \\ 
+		\hline
+	\end{tabular}
 \end{table}
 
 \newpage
