@@ -144,7 +144,7 @@ $\hat{D}$ is the sample discriminability which approximates discriminability or 
 \subsubsection{One sample test for discriminability}
 In applications, we sometimes are interested in whether there is any subject specific information in the data. In other words, we want to know whether $\bx_{i,t}$ is independent of $\bv_i$. Formally, it is equivalent to test the hypothesis that $\bx_{i,t}$ is independent of $\bv_i$. If we fail to reject the hypothesis, it implies the measurement $\bx_{i,t}$ reveals no information of true physical property $\bv_i$. As a consequence, $\bx_{i,t}$ is independent of any phenotype $\by_i$, and there is no hope in predicting $\by_i$ based on $\bx_{i,t}$. If this is the case, the researchers should consider collecting more data or processing data differently. Since $\bv_i$ is unobserved and $\by_i$ is unknown, a direct independence test is not applicable. We consider a test through discriminability. If measurements are independent of physical properties, $\bx_{i,t}$ and $\bx_{i',t'}$ should follow the same distribution. In this case, within subject distances should not differ across subject distances in distribution; therefore, discriminability should be $0.5$. Conversely, we have the following lemma.
 \begin{lem}	
-	Under additive noise model, disrcriminability is $0.5$ implies measurements are independent of physical property, that is 
+	Under additive noise model with some regularity conditions, disrcriminability is $0.5$ implies measurements are independent of physical property, that is 
 	\[D=0.5 \Rightarrow \bx \perp \bv  .  \]
 	\label{lem:lem3}
 \end{lem}
@@ -427,31 +427,38 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 
 
 \begin{proof}[Proof of Lemma 3]
-	Consider the additive noise setting, that is $\bx_{i,t}=\lambda \bv_{i} + \mb{\epsilon}_{i,t}$. We further assume  $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ have continuous distributions. We will show that $D=0.5$ implies $\lambda = 0$, hence $\bx_{i,t} = \mb{\epsilon}_{i,t}$ which is independent of physical property $\bv_{i}$ and any phenotype $\by_{i}$. First, we rewrite the definition of discriminability.
+	Consider the additive noise setting, that is $\bx_{i,t}=\lambda \bv_{i} + \mb{\epsilon}_{i,t}$. We further assume  $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ have continuous distributions; in addition,  $\bv_{i} $ has spherical distribution. We will show that $D=0.5$ implies $\lambda = 0$, hence $\bx_{i,t} = \mb{\epsilon}_{i,t}$ which is independent of physical property $\bv_{i}$ and any phenotype $\by_{i}$. First, we rewrite the definition of discriminability.
 	\begin{eqnarray*}
 		& &\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''}) \\
 		&=&\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|) \\
 		&=&\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\lambda \bv_{i}+\mb{\epsilon}_{i,t}-\lambda \bv_{i'} - \mb{\epsilon}_{i',t''}\|) \\
-		&=& \EE (\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|)|\|\lambda \bv_{i} - \lambda \bv_{i'}=v)
+		&=& \EE (\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\lambda \bv_{i} - \lambda \bv_{i'}+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|)|\|\lambda \bv_{i} - \lambda \bv_{i'} \|=v)
 	\end{eqnarray*}
-	We will to show for any $v \neq 0$,   \[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) > 0.5\]
-	Therefore, $D=0.5$ implies $\lambda \bv_{i} - \lambda \bv_{i'}= 0$. Since $\bv_{i}$ is not constant, we have $\lambda = 0$. Due to $\mb{\epsilon}$ being i.i.d., we have 
-	\[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) =  \PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i,t'}\|)\]
-	Consider the sum of these two probabilities, we will show it is greater than $1$. Let $A$ and $B$ denote the set where the conditions of two events hold respectively.
+	Let $\bA_1$, $\bA_2$ and $\bV$ denote the $\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}$, $\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}$ and $\lambda \bv_{i} - \lambda \bv_{i'}$ respectively. Due to the assumption that $\bv_{i}$ is spherically distributed, 
+	\[\PP(\| \bA_1 \| < \|\bA_2+\bV\||\|\bV \|=v) = \int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|) dS / Area(\mathbb{S}^{d-1}),\]
+	where $\mathbb{S}^{d-1}$ is the ball in $\mathbb{R}^{d}$ with radius $v$. We are going to show the expression above is greater than $0.5$ as long as $v > 0$. Therefore, $D=0.5$ implies $\lambda \bv_{i} - \lambda \bv_{i'}= 0$. Since $\bv_{i}$ is not constant, we have $\lambda = 0$. Due to symmetry in $\bA_1$ and $\bA_2$, we have
 	\begin{eqnarray*}
-			& &\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) +  \PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i,t'}\|)\\
-			&=&\PP(A) + \PP(B) \\
-			&=& 2\PP(A \cap B ) + \PP(A \cap B^c ) + \PP(B \cap A^c ) \\
-			&=& 1+\PP(A \cap B )- \PP(A^c \cap B^c )
+		2\int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|)dS &=& \int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|)dS +  \int_{ \mathbb{S}^{d-1}} \PP(\| \bA_2 \| < \|\bA_1+t\|)dS \\
+		&=& \int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|) + \PP(\| \bA_2 \| < \|\bA_1+t\||) dS \\
+		&=& \int_{\mathbb{S}^{d-1}} \int_{} \II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||)d\PP(a_1,a_2) dS \\
+		&=&  \int_{} \int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||) dS d\PP(a_1,a_2)\\
 	\end{eqnarray*}
-	We first notice that $A^c \cap B^c$ implies $\|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i,t'}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i',t''}\|$ and $\|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i',t''}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i,t'}\|$. In addition, due to symmetry
-	\[\PP(A \cap B ) = 
-	\PP(\|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i,t'}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i',t''}\| \text{ ,and } \|-\mb{\epsilon}_{i,t}+\mb{\epsilon}_{i',t''}\| < \|v-\mb{\epsilon}_{i,t} + \mb{\epsilon}_{i,t'}\|) .\] 
-	As a consequence, we have $ \PP(A^c \cap B^c) < \PP(A \cap B ) $. This shows 
-	\[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) +  \PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i,t'}\|) > 1 .\]
-	Hence,
-	\[\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|v+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|) > 0.5\]
-	As discussed previously, this concludes the proof for the lemma.
+	Let us consider the inner integral $\int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||) dS$ and denote its value by $V$, we are going to show it is greater than or equal to $Area(\mathbb{S}^{d-1})$ for any $a_1$ and $a_2$. First, let us project 
+	$t$ on the plane spanned by $a_1$ and $a_2$, there are three cases:
+	\begin{itemize}
+		\item[Case (1): ]$\|t\| \leq |\|a_1\| - \|a_2\||$, $V = Area(\mathbb{S}^{1})$
+		\item[Case (2): ]$ |\|a_1\| - \|a_2\|| < \|t\| \leq |\|a_1\| + \|a_2\||$, $V = Area(\mathbb{S}^{1})$
+		\item[Case (3): ]$\|t\| > |\|a_1\| + \|a_2\||$, $V =2 Area(\mathbb{S}^{1})$
+	\end{itemize}
+	If we don't project $t$, it only adds positive norm to the left side of the inequality of $\II(\| a_1 \| < \|a_2+t\|$ and $\II(\| a_2 \| < \|a_1+t\||)$. Therefore, the three cases become
+		\begin{itemize}
+			\item[Case (1): ]$\|t\| \leq |\|a_1\| - \|a_2\||$, $V = Area(\mathbb{S}^{d-1})$
+			\item[Case (2): ]$ |\|a_1\| - \|a_2\|| < \|t\| \leq |\|a_1\| + \|a_2\||$, $V > Area(\mathbb{S}^{d-1})$
+			\item[Case (3): ]$\|t\| > |\|a_1\| + \|a_2\||$, $V =2 Area(\mathbb{S}^{d-1})$
+		\end{itemize}
+	This shows $V$ always greater than  $Area(\mathbb{S}^{d-1})$. $\bA_1$ and $\bA_2$ have positive mass at any open ball centered at origin, which makes case (3) happens with positive probability. As a consequence, 
+	\[\int_{} \int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||) dS d\PP(a_1,a_2) >Area(\mathbb{S}^{d-1}) \]
+	This shows $\PP(\| \bA_1 \| < \|\bA_2+\bV\||\|\bV \|=v) > 0.5$. As discussed above, this concludes the proof.
 \end{proof}
 
 \noindent\bf{Discriminability of Raw fMRI Graphs}
@@ -471,7 +478,7 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 \noindent\bf{Configurations of DTI Processing Pipelines}
 \begin{table}[]
 	\centering
-	\begin{tabular}{|l|l|l|p{3cm}|p{4cm}|}
+	\begin{tabular}{|l|l|l|p{3cm}|p{3cm}|}
 		\hline
 		\multicolumn{5}{|l|}{Registration} \\ \hline
 Step       &Package & Function        & Parameters                & Description    \\ \hline
