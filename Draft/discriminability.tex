@@ -20,16 +20,13 @@ Consortium for Reliability and Reproducibility, \\ Carey E.~Priebe, Joshua T. Vo
 
 \section{Introduction}
 
-In this era of big data, many scientific, government, and corporate groups are collecting and processing massive data sets \cite{manyika2011big,wu2014data}. To obtain optimal quantitative answers to any inquiry about data requires making two decisions: (i) “how should the data be collected?”, and (ii) “how should the data be processed?”  When the downstream inference task is specified, a priori, we can collect and process data to optimize the performance of task \cite{kohavi1995study,reiter2011mprophet}. However, recently, across industry, governmental, and academic settings, certain datasets become benchmark or reference datasets. Such data sets are then used for a wide variety of different inferential problems. Collecting and processing these data sets requires massive institutional investments, and choices related to questions(i) and (ii) above have dramatic effects on all subsequent analyses. Optimally addressing experimental design decisions can yield significant savings in both the financial and human costs, and also improve accuracy of analytical results \cite{ballou1985modeling,dale1999optimal,banga2008parameter}. Therefore, a theoretical framework to enable investigators to select from a set of possible design decisions in the absence of an explicit task or for multiple tasks could reap great rewards.
+In this era of big data, many scientific, government, and corporate groups are collecting and processing massive data sets \cite{manyika2011big,wu2014data}. To obtain optimal quantitative answers to any inquiry about data requires making two decisions: (i) “how should the data be collected?”, and (ii) “how should the data be processed?”  When the downstream inference task is specified, a priori, we can collect and process data to optimize the performance of task \cite{kohavi1995study,reiter2011mprophet}. However, recently, across industry, governmental, and academic settings, certain data sets become benchmark or reference data sets. Such data sets are then used for a wide variety of different inferential problems. Collecting and processing these data sets requires massive institutional investments, and choices related to questions(i) and (ii) above have dramatic effects on all subsequent analyses. Optimally addressing experimental design decisions can yield significant savings in both the financial and human costs, and also improve accuracy of analytical results \cite{ballou1985modeling,dale1999optimal,banga2008parameter}. Therefore, a theoretical framework to enable investigators to select from a set of possible design decisions in the absence of an explicit task or for multiple tasks could reap great rewards.
 
-This frame work should provide a measure of discriminability (or reliabiliity) which is intuitive to understand and easy to implement. It should be non-parametric and robust; therefore, it is ready to be applied under a variety of settings. It should not be computationally expensive and can be applied to large data sets. Furthermore, it should be simple and unified; as a consequence, we can easily compare it across data sets. Lastly, theories and real data experiments should provide solid support to use discriminability to guide data collection and processing. 
+This framework should provide a measure of consistency of data collection and processing, which is intuitive to understand and easy to implement. It should be non-parametric and robust; therefore, it is ready to be applied under a variety of settings. It should not be computationally expensive and can be applied to large data sets. Furthermore, it should be simple and unified; as a consequence, we can easily compare it across data sets. Lastly, theories and real data experiments should provide solid support to use this measure to guide data collection and processing. 
  
-To this end, we have proposed and developed a formal definition of discriminability to guide data collection and processing. Discriminability is a non-parametric statistical property of a joint distribution in a hierarchical model, to differentiate between classes of objects. We prove that discriminability (which may be more aptly called reliability), provides a lower bound on predictive accuracy for any downstream inference task, even if we have never seen the covariates to predict in the processing. We then design an estimator of discriminability computed from test-retest data set, demonstrate that it is unbiased, and derive our estimator’s asymptotic distribution. 
+To this end, we have proposed and developed a formal definition of discriminability to guide data collection and processing. Discriminability is a non-parametric statistical property of a joint distribution in a hierarchical model, which can be used to differentiate between classes of objects. We prove that discriminability (which may be more aptly called reliability), provides a lower bound on predictive accuracy for any downstream inference task, even if we have never seen the covariates to predict in the processing. We then design an estimator of discriminability computed from test-retest data set, demonstrate that it is unbiased, and derive our estimator’s asymptotic distribution. Furthermore, one sample and two sample tests for discriminability are developed. These tests determines the statistical significance of hypothesis of interest based on the discriminability estimator.
 
-
-
-
-Numerical simulations are conducted to demonstrate the basic property of our discriminability estimator in a variety of settings. Then, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to investigate functional connectomics \cite{fox2005human,biswal2010toward}. We start by finding the maximally discriminable threshold for converting correlation connectome matrices into binary graphs. Indeed, consistent with our theoretical and simulated results, maximizing the discriminability also maximizes performances on a suite of different downstream inference tasks. We then ask about a series of pre-processing steps: should one motion correct or not, and should one implement global signal regression or not, etc. We determine the optimal choice for each pre-processing steps, and find the maximally discriminable pipelines amongst 64 pre-processing pipelines.
+Numerical simulations are conducted to demonstrate the basic property of our discriminability estimator and tests in a variety of settings. Then, we apply our approach to choose amongst a set of choices one must make when designing a neuroimaging study to investigate functional connectomics \cite{fox2005human,biswal2010toward}. We start by finding the most discriminable threshold for converting correlation connectome matrices into binary graphs. Indeed, consistent with our theoretical and simulated results, maximizing the discriminability also maximizes performances on a suite of different downstream inference tasks. We then ask about a series of pre-processing steps: should one motion correct or not, should one perform frequency filtering or not, and should one implement global signal regression or not, etc. We determine the optimal choice for each pre-processing steps, and find the most discriminable pipelines amongst 64 pre-processing pipelines.
 
 Thus, in total, our discriminability analysis is a powerful tool for making decisions about how to collect and process data sets designed for discovery science. We expect this method to be useful in a wide variety of applications,
 and therefore have made all the code open source and available from http://openconnecto.me.
@@ -39,7 +36,7 @@ and therefore have made all the code open source and available from http://openc
 There are some successful attempts to quantify reliability or reproducibility in neuroimaging studies \cite{shrout1979intraclass,strother2002quantitative,rizzo2010disco,zuo2010reliable,braun2012test,shou2013quantifying,yue2015estimating,yu2013stability}. We are going to review a subset of them which is related to our approach.
 \begin{itemize}
 	\item Intraclass correlation coefficient (ICC) is introduced to measure consistency or reproducibility of scalar quantitative measurements \cite{shrout1979intraclass}. In neuroimaging, people attempt to extract one or a few summary scalar statistics from each image and then evaluate the ICC of the statistics \cite{zuo2010reliable,braun2012test}. They report moderate-to-high test-retest reliability for different statistics. The problem with this approach is that the summary statistics may not be representative. Also, there is no principled approach to average over multiple ICCs. 
-	\item Image intraclass correlation coefficient (I2C2) is proposed by Shou et al. to measure reliability  \cite{shou2013quantifying}. It generalizes classic intraclass coefficient to high dimensional observations. It computes reliability estimates based on the traces of within subject and across subject covariance matrix. It relies on the critical assumption that noise is additive and observations lies in the space equipped with Euclidean distance. As a consequence, it is not suitable to apply to more general settings. 
+	\item Image intraclass correlation coefficient (I2C2) is proposed by Shou et al. to measure reliability  \cite{shou2013quantifying}. It generalizes classic intraclass coefficient to high dimensional observations. It computes reliability estimates based on the traces of within subject and across subject covariance matrix. It relies on the assumption that noise is additive and observations lies in the space equipped with Euclidean distance. As a consequence, it is not suitable to apply to more general settings. 
 	\item Graphical intraclass correlation coefficient (GICC) is a reproducibility measure proposed by Yue et al. \cite{yue2015estimating}. It is designed specifically for the case when data of interest are binary graphs. It takes a parametric approach by first assuming a probit link function and estimating latent edge feature vectors. Then, it computes GICC based on variation of latent edge feature vectors. In practice, its assumptions is hard to justify and it is computationally expensive to estimate latent features for graphs of moderate size. 
 	\item Distance components (DISCO) is proposed by Rizzo and Sz{\'e}kely as a measure of dispersion\cite{rizzo2010disco}. It computes one distance statistic for multiple empirical distributions based on pairwise distances between samples. It can also be used to test the hypothesis that whether multiple sets of samples are drawn from the same distribution or not. Our approach is similar to DISCO in the sense that we all rely on pairwise distance matrix. However, DISCO is designed for testing which requires a fixed number of subjects and a large amount of measurements from each subject. In our studies, we only have a few measurements from each subject which makes DISCO hard to apply.  
 	\item NPAIRS data analysis framework is proposed in \cite{strother2002quantitative}. It takes a resampling approach by splitting data in half. After performing a series of dimension reduction on the data, a label is predicted using Gaussian mixture model. Then, correlation between 
@@ -52,110 +49,111 @@ There are some successful attempts to quantify reliability or reproducibility in
 \subsection{Theory}
 
 \subsubsection{Discriminability as a framework to guide processing}
-Discriminability measures the overall consistency and differentiability of observations. For example, if a subject is measured twice under the same conditions, two observations should be close to each other given the measure is consistent. In addition, one should be able to tell these two observations come from the same subject when compared to observations from other subjects given the measure is differentiable. We quantify this idea of consistency and differentiability through discriminability. 
+Discriminability measures the overall consistency and differentiability of observations. For example, if a subject is measured twice under the same conditions, two observations should be close to each other given the measure is consistent. In addition, one should be able to tell these two observations come from the same subject when compared to observations from other subjects given the measure is differentiable. We quantify this idea of consistency and differentiability through discriminability.
 
 To formalize the definition of discriminability, consider the following generative process. For each sample $i$, there exists some true physical property $\bv_i$. Unfortunately, we do not get directly to observe $\bv_i$, rather, we measure it with some device, that transforms the truth from $\bv_i$ to $\bw_i$ via $f_{\bphi}$. The parameter $\bphi \in \bPhi$ characterizes all options in the measurement, including, for example, which scanner to use, which resolution, the number of images, sampling rate, etc.  The output of $f_{\bphi}$ is the  ``raw'' observation data $\bw_i$, but it is corrupt in various ways, including movement or intensity artifacts introduced by the measurement process.  Therefore, rather than operating directly on $\bw_i$, we intentionally ``pre-process'' the data, in an effort to remove a number of nuisance variables.  This pre-processing procedure further transforms the data from $\bw_i$ to $\bx_i$ via $g_{\bpsi}$.   The parameter $\bpsi \in \bPsi$ indexes all pre-processing options. In neuroimaing, these options may include whether to perform motion correction, which motion correction, deconvolution, etc.  More specifically, the entire code base, including dependencies, and even the hardware the pre-processing is running on, could count as $\bpsi$. For brevity, we define $\bx_i:= g_{\bpsi} \big(f_{\bphi} (\bv_i) \big)$. We should notice that $g_{\bpsi}$ and $f_{\bphi}$ by their natures are random functions which means even if we measure the same physical property $\bv_i$ twice the results could be different.
 
-Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bx_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$ and $\bpsi$, which encodes all the details of the measurement and pre-processing. If both $g_{\bpsi}$ and $f_{\bphi}$ together do not introduce too much noise, then we would expect that $\bx_{i,t}$ and $\bx_{i,t'}$ are \emph{closer} to one another than either are to any other subject's measurement, $\bx_{i',t''}$. Define $\delta$ to be a metric computing the distance between two measurements, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) \leq \delta(\bx_{i,t},\bx_{i',t''})$, for most combinations of $i,i'\neq i,t,t' \neq t,t''$.  
+Let $i$ denote the sample's unique \emph{identity} (hereafter, referred to as the \emph{subject}) and $t$ denote the trial number.  Thus, there is a single $\bv_i$ for subject $i$, but we have $\bx_{i,t}$, which is the $t^{th}$ trial, implicitly also a function of $\bphi$ and $\bpsi$, which encodes all the details of the measurement and pre-processing. If both $g_{\bpsi}$ and $f_{\bphi}$ together do not introduce too much noise, then we would expect that $\bx_{i,t}$ and $\bx_{i,t'}$ are \emph{closer} to one another than either are to any other subject's measurement, $\bx_{i',t''}$. Define $\delta$ to be a metric computing the distance between two measurements, $\delta \from \mc{X} \times \mc{X} \to \Real_+$.  Formally, we expect that $\delta(\bx_{i,t},\bx_{i,t'}) < \delta(\bx_{i,t},\bx_{i',t''})$, for most combinations of $i,i'\neq i,t,t' \neq t,t''$.  
 For brevity, let $\delta_{i,t,t'}:=\delta(\bx_{i,t}, \bx_{i,t'})$ and 
 $\delta_{i,i',t,t''}:=\delta(\bx_{i,t}, \bx_{i',t''})$.  
 This intuition leads to our definition of discriminability:
 \begin{align}
-	D(\bpsi,\bphi) = \PP( \delta_{i,t,t'} \leq \delta_{i,i',t,t''})
+	\label{eq:def}
+	D(\bpsi,\bphi) = \PP( \delta_{i,t,t'} < \delta_{i,i',t,t''}).
 \end{align}
-In words, discriminability is the probability that within subject distance is smaller than across subject distance. $D(\bpsi,\bphi)$ depends on three matters, namely measurement options $f_{\bphi}$, processing options $g_{\bpsi}$ and the distribution of true physical property $\bv$. To understand the equation 1 better, we can expand it
+In words, discriminability is the probability that within subject distance is smaller than across subject distance. $D(\bpsi,\bphi)$ depends on three matters, namely measurement options $f_{\bphi}$, processing options $g_{\bpsi}$ and the distribution of true physical property $\bv$. To understand the equation \ref{eq:def} better, we can expand it,
 \begin{align}
-	D(\bpsi,\bphi) = \EE(\PP (\delta(g_{\bpsi} (f_{\bphi} (\bv_i) )_t,g_{\bpsi} (f_{\bphi} (\bv_i) )_{t'}) \leq \delta(g_{\bpsi} (f_{\bphi} (\bv_i) )_t,g_{\bpsi} (f_{\bphi} (\bv_{i'}) )_{t''})|\bv_i,\bv_{i'}))
+	D(\bpsi,\bphi) = \EE(\PP (\delta(g_{\bpsi} (f_{\bphi} (\bv_i) )_t,g_{\bpsi} (f_{\bphi} (\bv_i) )_{t'})  < \delta(g_{\bpsi} (f_{\bphi} (\bv_i) )_t,g_{\bpsi} (f_{\bphi} (\bv_{i'}) )_{t''})|\bv_i,\bv_{i'})).
 \end{align}
-
-
 The distribution of $\bv$ is usually out of the control of researchers. However, we want to find the best data collection and processing options. To achieve this, we consider maximizing the discriminability of processed data, that is  
 \begin{equation} 
 \begin{aligned}
 & \underset{\bpsi \in \bPsi,\bphi \in \bPhi}{\text{maximize}}
-& & D(\bpsi,\bphi)
+& & D(\bpsi,\bphi).
 \end{aligned}
 \end{equation}
-It is often the case that data collection is out of control of researchers, that is $\bphi$ is a fixed element in $\bPhi$. Therefore, we are only interested in finding the best processing routine encoded by $\bpsi$. This is also the focus of this paper, since we do not have opportunity to make decision on data collection choices. In this case, we drop $\bphi$ in our notation and only maximize the discriminability over set $\bPsi$
+It is often the case that data collection is also out of control of researchers, that is $\bphi$ is a fixed element in $\bPhi$. Therefore, we are only interested in finding the best processing routine encoded by $\bpsi$. This is also the focus of this paper, since we do not have opportunity to make decisions on the data collection choices. In this case, we drop $\bphi$ in our notation and only maximize the discriminability over set $\bPsi$
 \begin{equation} 
 \begin{aligned}
 & \underset{\bpsi \in \bPsi}{\text{maximize}}
 & & D(\bpsi)
 \end{aligned}
 \end{equation}
-This approach is intuitive and easy to understand. We will show that maximizing discriminability leads to good prediction performance. In addition, an unbiased estimator is designed to compute discriminability from test-retest data set. In the simulation and application section, we will demonstrate the utility of discriminability through data experiments.
+This approach is intuitive and easy to understand. We will show that maximizing discriminability leads to good prediction performance. In addition, an unbiased estimator is designed to compute discriminability from test-retest data set. Furthermore, we have developed a one sample test procedure to determine whether there are subject specific information in the data, and a two sample test procedure to compare two processing pipelines.  In the simulation and application section, we will demonstrate the utility of discriminability through data experiments.
 
 
 
 \subsubsection{Optimizing discriminability optimizes bound on performance for any task}
 
-Consider the situation that the downstream inference task is classification, that is in addition to $\bv_i$, there are other properties of sample $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data. In this paper, we focus on binary classification problem that is $\mc{Y}=\{0,1\}$. The goal of experimental design, in this context, is to choose $\bpsi \in \bPsi$ to make good prediction of $\by_i$ based on observation $\bx_i$. In this section, we will see that given two pipelines $\bpsi_1$ and $\bpsi_2$, the one with larger discriminability is more likely to have better prediction performance.  
+Consider the situation that the downstream inference task is classification, that is in addition to $\bv_i$, there are other properties of subject $i$ of interest; we call all of them $\by_i \in \mc{Y}$.  These may include, for example, the phenotype of the subject, including personality tests, demographic information, and genetic data. In this paper, we focus on binary classification problem that is $\mc{Y}=\{0,1\}$. The goal of experimental design, in this context, is to choose $\bpsi \in \bPsi$ to make good prediction of $\by_i$ based on observation $\bx_i$. In this section, we will see that given two pipelines $\bpsi_1$ and $\bpsi_2$, the one with larger discriminability is more likely to have better prediction performance.  
 
 To quantify the performance of our choice, we introduce some assumptions.  First, assume that each $(\bv_i,\by_i)$ pair is sampled independently and identically from some distribution, $(\bv_i,\by_i) \iid F_{V,Y}$. The goal is to predict the binary-valued \emph{target} variable $\by_i$,  using $\bx_i$ as the \emph{predictor} variables. Given a classifier $C: \mc{X} \rightarrow \mc{Y}$, to quantify the performance of classifier, we define the loss function $L(C)$ to be the probability of making error in prediction that is
-\[L(C) = \PP(C(\bx_i) \neq \by_i) \]
-It is known that the minimal prediction error $L^*(\bx_i,\by_i)$ among all possible prediction function is achieved by Bayes classifier \cite{devroye2013probabilistic}.
-\[L^*(\bx_i,\by_i) : = L(C^B)\]
+\[L(C) = \PP(C(\bx_i) \neq \by_i). \]
+It is known that the minimal prediction error $L^*(\bx_i,\by_i)$ among all possible prediction function is achieved by Bayes classifier \cite{devroye2013probabilistic}
+\[L^*(\bx_i,\by_i) : = L(C^B),\]
 where $C^{B}$ is the Bayes classifier which is defined by
-\[C^{B}(\bx_i):= \underset{y \in \{0,1\} }{\text{argmax }} \PP(\by_i=y|\bx_i)\] 
-Since $\bx_i$ depends on pipeline $\bpsi$, we denote the loss of pipeline $\bpsi$ by $\ell(\bpsi)$ which is the Bayes prediction error of $(\bx_i, \by_i)$.
-\[\ell(\bpsi):= L^*(\bx_i,\by_i) = L^*(g_{\bpsi} (f_{\bphi} (\bv_i) ),\by) \] 
+\[C^{B}(\bx_i):= \underset{y \in \{0,1\} }{\text{argmax }} \PP(\by_i=y|\bx_i).\] 
+Since $\bx_i$ depends on pipeline $\bpsi$, we denote the loss of pipeline $\bpsi$ by $\ell(\bpsi)$ which is the Bayes prediction error of $(\bx_i, \by_i)$,
+\[\ell(\bpsi):= L^*(\bx_i,\by_i) = L^*(g_{\bpsi} (f_{\bphi} (\bv_i) ),\by). \] 
 The next theorem shows the relationship between Bayes classification error and discriminability. Under assumptions that the noise is additive, we can prove theorem 1 which asserts that Bayes classification error is bounded by a decreasing function of discriminability. 
 \begin{thm}	
 	There is a decreasing function $h$ which only depends on $\bv$ and $\by$, such that
-	\[\ell(\bpsi) \leq h(D(\bpsi)) \]
+	\[\ell(\bpsi) \leq h(D(\bpsi)) .\]
 \end{thm}
 As a consequence, we expect the classification error to be small when the discriminability is large. An immediate corollary justifies using discriminability to select the optimal processing pipeline. 
 \begin{coro}	
 	Given two processing pipelines $\bpsi_1$ and $\bpsi_2$, suppose $\bpsi_1$ is more discriminable than $\bpsi_2$, that is $D(\bpsi_1) > D(\bpsi_2)$. If $\ell(\bpsi_2) \geq h(D(\bpsi_1))$, then
-	\[ \ell(\bpsi_1) \leq \ell(\bpsi_2) \] 
+	\[ \ell(\bpsi_1) \leq \ell(\bpsi_2). \] 
 	Also, we must have
-	\[ \ell(\bpsi_1) \leq h(D(\bpsi_2)) \]
+	\[ \ell(\bpsi_1) \leq h(D(\bpsi_2)). \]
 	
 \end{coro}
 It tells us for any distribution of $\by$, we have a tighter bound on Bayes error using the more discriminable pipeline. When choosing from two processing pipelines $\bpsi_1$ and $\bpsi_2$, we should first compute $D(\bpsi_1)$ and $D(\bpsi_2)$. We then select the pipeline which yields larger discriminability to have lower bound on the Bayes classification error. This theorem justifies maximizing discriminability for subsequent classification tasks. Figure \ref{fig:fc} summarizes the framework to find the optimal processing pipeline. 
 
 \begin{figure}[H]
 	\includegraphics[width=\linewidth]{../Figs/flow_simu.png}
-	\caption{{\bf Decision Making Through Discriminability Framework.} The top panel shows the decision framework of discriminability. Test-retest data set is collected under experiment design options $phi$ and processed by pipeline $\psi$. The pairwise distances of all measurements are computed using a metric $\delta(\cdot,\cdot)$. For each pair of measurements of the same subject, we estimate the probability of across subject distances being larger than the within subject distance. Discriminability is the mean of estimated probabilities. Select the option and pipeline with maximum discriminability. 
+	\caption{{\bf Decision Making Through Discriminability Framework.} The top panel shows the decision framework of discriminability. Test-retest data set is collected under experiment design options $/phi$ and processed by pipeline $\psi$. The pairwise distances of all measurements are computed using a metric $\delta(\cdot,\cdot)$. For each pair of measurements of the same subject, we estimate the probability of across subject distances being larger than the within subject distance. Discriminability is the mean of estimated probabilities. Select the option and pipeline with maximum discriminability. 
 	\newline {\bf Convergence of $\hat{D}$.} Distribution of difference between discriminability estimates and truth is shown in the bottom left panel. The physical property and noise are generated from standard Gaussian distribution as described in the simulation section. The black dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability.
-	\newline {\bf Discriminability Test Power.} One sample and two sample test power of discriminability with varying sample size is shown in the bottom right panel. The physical property and additive noise are generated from standard Gaussian distribution as described in the simulation section. At level of $0.05$, the power is estimated based on $100$ repeats. The test power becomes close to $1$ with more than $100$ samples.}
+	\newline {\bf Discriminability Test Power.} One sample and two sample test power of discriminability with varying sample size is shown in the bottom right panel. The physical property and additive noise are generated from standard Gaussian distribution as described in the simulation section. At level of $0.05$, the power is estimated based on $100$ repeats. The power of two tests become close to $1$ with more than $100$ samples.}
 	\label{fig:fc}
 \end{figure}
 
 \subsubsection{Estimating discriminability}
 In real applications, distribution of $\bx_{i,t}$ may never known to us; hence, it is not possible to compute discriminability $D(\bpsi)$ or $D$ in short when there is no ambiguity in processing pipelines under consideration. However, samples $x_{i,t}$ are observed, and we can approximate true discriminability $D$ using an estimator $\hat{D}$ which is a function of observed samples. For each pair of observations $x_{i,t}$ and $x_{i,t'}$ from subject $i$, we first define
-\[ \hat{D}_{i,t,t'} = \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{(n-1)s}\]
-where $\mathbb{I}\{ \cdot \} $ is the indicator function, $n$ is the number of subjects, and $s$ denotes the number of observations per subject. $\hat{D}_{i,t,t'}$ is the faction of observations from other subjects farther away from $x_{i,t}$ than $x_{i,t'}$. It approximates the probability that distances from observations of other subjects to the $t^{th}$ observation of subject $i$ is larger than the distance between $t^{th}$ and $t'^{th}$ trial of subject $i$. Then, we define the discriminability estimator $\hat{D}$ to be the mean of $\hat{D}_{i,t,t'}$ averaged over all pairs of observations from same subjects.
-\[ \hat{D} := \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t' \neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)} \]
+\[ \hat{D}_{i,t,t'} = \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \} }{(n-1)s},\]
+where $\mathbb{I}\{ \cdot \} $ is the indicator function, $n$ is the number of subjects, and $s$ denotes the number of observations per subject. $\hat{D}_{i,t,t'}$ is the faction of observations from other subjects farther away from $x_{i,t}$ than $x_{i,t'}$. It approximates the probability that distances from observations of other subjects to the $t^{th}$ observation of subject $i$ is larger than the distance between $t^{th}$ and $t'^{th}$ trial of subject $i$. Then, we define the discriminability estimator $\hat{D}$ to be the mean of $\hat{D}_{i,t,t'}$ averaged over all pairs of observations from same subjects,
+\[ \hat{D} := \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t' \neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)} .\]
 $\hat{D}$ is the sample discriminability which approximates discriminability or population discriminability. The next two lemmas asserts that the discriminability estimator $\hat{D}$ is unbiased and converges to $D$ as the number of subjects $n$ goes to infinity \cite{bickel2015mathematical}.
 
 \begin{lem}	
 	$\hat{D}$ is an unbiased estimator of $D$, that is
-	\[ \EE(\hat{D}) = D\]
+	\[ \EE(\hat{D}) = D.\]
 	\label{lem:lem1}
 \end{lem}
 
 \begin{lem}	
 	As $n \rightarrow \infty$, $\hat{D}$ converges to $D$ in probability, that is
-	\[\hat{D} \overset{p}{\rightarrow} D \]
+	\[\hat{D} \overset{p}{\rightarrow} D .\]
 	\label{lem:lem2}
 \end{lem}
 
 \subsubsection{One sample test for discriminability}
 In applications, we sometimes are interested in whether there is any subject specific information in the data. In other words, we want to know whether $\bx_{i,t}$ is independent of $\bv_i$. Formally, it is equivalent to test the hypothesis that $\bx_{i,t}$ is independent of $\bv_i$. If we fail to reject the hypothesis, it implies the measurement $\bx_{i,t}$ reveals no information of true physical property $\bv_i$. As a consequence, $\bx_{i,t}$ is independent of any phenotype $\by_i$, and there is no hope in predicting $\by_i$ based on $\bx_{i,t}$. If this is the case, the researchers should consider collecting more data or processing data differently. Since $\bv_i$ is unobserved and $\by_i$ is unknown, a direct independence test is not applicable. We consider a test through discriminability. If measurements are independent of physical properties, $\bx_{i,t}$ and $\bx_{i',t'}$ should follow the same distribution. In this case, within subject distances should not differ across subject distances in distribution; therefore, discriminability should be $0.5$. Conversely, we have the following lemma.
 \begin{lem}	
-	Under additive noise model with some regularity conditions, disrcriminability is $0.5$ implies measurements are independent of physical property, that is 
+	Under some regularity conditions, disrcriminability is $0.5$ implies measurements are independent of physical property, that is 
 	\[D=0.5 \Rightarrow \bx \perp \bv  .  \]
 	\label{lem:lem3}
 \end{lem}
-An immediate consequence of the lemma is that we can test the null hypothesis that measurements $\bx_{i,t}$ are independent of any phenotype $\by_i$ through testing the hypothesis whether discriminability is $0.5$. Specifically, we reject the following null hypothesis when there is strong evidence suggesting that $D > 0.5$.
-\[ H_0 \text{ : } \bx \perp \by \text{ ,and } H_A \text{ : } \bx \not\perp \by \]
-We have two valid approaches to determine $D > 0.5$ through discriminability estimate $\hat{D}$. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of $\hat{D}$ is less than or equal to $1/n$. Based on Chebyshev's inequality, we can derive a 95 percent confidence interval $(\hat{D}-\frac{2\sqrt{5}}{\sqrt{n}},\hat{D}+\frac{2\sqrt{5}}{\sqrt{n}})$. If $0.5$ lies in the confidence interval, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach is computationally simple; however, generally has much smaller level and power due to the bound on variance is not tight. The second approach based on estimating a null distribution for $\hat{D}$ through permutation. In particular, we randomly permute subject labels for each trial and then estimate discriminability based on permuted labels. We repeat this procedure a large number of times and find the $95^{th}$ quantile of permuted discriminability estimates. If $\hat{D}$ is less than the $95^{th}$ quantile, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach has larger power, the only downside is that estimating discriminability for permuted samples takes sometime. In most applications, with less than a few hundred measurements, we recommend using the second approach. 
+An immediate consequence of the lemma is that we can test the null hypothesis that measurements $\bx_{i,t}$ are independent of any phenotype $\by_i$ through testing the hypothesis whether discriminability is $0.5$.
+\[ H_0 \text{ : } \bx \perp \by \text{ , and } H_A \text{ : } \bx \not\perp \by . \]
+We reject the null hypothesis above when there are strong evidences suggesting that $D > 0.5$.
+
+We have two valid approaches to determine $D > 0.5$ through discriminability estimate $\hat{D}$. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of $\hat{D}$ is less than or equal to $1/n$. Based on Chebyshev's inequality, we can derive a 95 percent confidence interval $(\hat{D}-\frac{2\sqrt{5}}{\sqrt{n}},\hat{D}+\frac{2\sqrt{5}}{\sqrt{n}})$. If $0.5$ lies in the confidence interval, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach is computationally simple; however, generally has small power due to the bound on variance is not tight. The second approach based on estimating a null distribution for $\hat{D}$ through permutation. In particular, we randomly permute subject labels for each trial and then estimate discriminability based on permuted labels. We repeat this procedure a large number of times and find the $95^{th}$ quantile of permuted discriminability estimates. If $\hat{D}$ is less than the $95^{th}$ quantile, we do not reject the null hypothesis; otherwise, we reject the null hypothesis. This approach has larger power than the first approach, the only downside is that estimating discriminability for permuted samples takes sometime. In most applications, with less than a few hundred measurements, we recommend using the second approach. 
 
 \subsubsection{Two sample test for discriminability}
-In many applications, we want to know whether one data processing pipeline $\bpsi_1$ yields more discriminable data set than another pipeline $\bpsi_2$. Based on the theory, by choosing the processing pipeline with larger discriminability, we can have a lower bound on Bayes prediction error. To achieve this, we consider testing the null hypothesis that two discriminabilities are equal.
-\[H_0 \text{ : } D(\bpsi_1) = D(\bpsi_2) \text{ ,and }  H_A \text{ : } D(\bpsi_1) > D(\bpsi_2)\] 
-However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide based on estimators $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. We have two valid approaches to test this. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of discriminability estimate is bounded by $1/n$. Therefore, we can derive two confidence intervals centered at $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. Then, the null hypothesis is rejected if two confidence intervals does not overlap. Unfortunately, due to the fact that inequalities are not tight, this approach has very low power. For this method to work, the number of subjects $n$ usually needs to be larger than a thousand. It is impractical for most of the data set. The second approach estimates null distribution of $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ through bootstrapping. We can bootstrap copies of the original data set and compute discriminability on bootstrapped data set to approximate the null distribution. Specifically, let $\hat{D}^{(i)}(\bpsi_j)$ denote the discriminability estimate for $i$th bootstrapped copy with data processed by pipeline $j$. If the null hypothesis is true, $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ should have similar distribution as $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$. To bootstrap a copy of original data set, we need to make sure the copy have the same number of subjects and number of measurements per as the original data set. To bootstrap measurements for a subject, we first randomly choose two subjects from original data sets, and then take a random convex linear combination of measurements of these two subjects. We keep repeating this step until the bootstrapped data set has the same number of subjects as the original data set, and discriminability $\hat{D}^{(i)}(\bpsi_j)$ is estimated. To approximate the null distribution, a large number of bootstrapped discriminabilities are computed, and their pairwise differences $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ are used to compute a p-value for $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$. We should notice that bootstrapped data tends to be less discriminable than the original data due to the fact bootstrapped subjects are closer to each other. However, only differences in bootstrapped discriminability are used. The algorithm \ref{alg:1} summarizes the steps to estimate p-value for testing $D(\bpsi_1) = D(\bpsi_2)$. 
+In many applications, we want to know whether one data processing pipeline $\bpsi_1$ yields more discriminable data set than another pipeline $\bpsi_2$. Based on the theory, by choosing the processing pipeline with larger discriminability, we can have a lower bound on Bayes prediction error. To achieve this, we consider testing the null hypothesis that two discriminabilities are equal:
+\[H_0 \text{ : } D(\bpsi_1) = D(\bpsi_2) \text{ , and }  H_A \text{ : } D(\bpsi_1) > D(\bpsi_2).\] 
+However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide based on estimators $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. We have two valid approaches to test this. The first approach takes the advantage of the bound on variance of $\hat{D}$ which we derived in proving Lemma ~\ref{lem:lem2}. Specifically, we show that the variance of discriminability estimate is bounded by $1/n$. Therefore, we can derive two confidence intervals centered at $\hat{D}(\bpsi_1)$ and $\hat{D}(\bpsi_2)$. Then, the null hypothesis is rejected if two confidence intervals does not overlap. Unfortunately, due to the fact that inequalities are not tight, this approach has very low power. For this method to work, the number of subjects $n$ usually needs to be larger than a thousand. It is impractical for most of the data set. The second approach estimates null distribution of $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ through bootstrapping. We can bootstrap copies of the original data set and compute discriminability on bootstrapped data set to approximate the null distribution. Specifically, let $\hat{D}^{(i)}(\bpsi_j)$ denote the discriminability estimate for $i$th bootstrapped copy with data processed by pipeline $j$. If the null hypothesis is true, $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$ should have similar distribution as $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$. To bootstrap a copy of original data set, we need to make sure that the copy have the same number of subjects and number of measurements per subject as the original data set. To bootstrap measurements for a subject, we first randomly choose two subjects from original data sets, and then take a random convex linear combination of measurements of these two subjects. We keep repeating this step until the bootstrapped data set has the same number of subjects as the original data set, and discriminability $\hat{D}^{(i)}(\bpsi_j)$ is estimated. To approximate the null distribution, a large number of bootstrapped discriminabilities are computed, and their pairwise differences $\hat{D}^{(i)}(\bpsi_j)-\hat{D}^{(i')}(\bpsi_j)$ are used to compute a p-value for $\hat{D}(\bpsi_1) - \hat{D}(\bpsi_2)$. We should notice that bootstrapped data tends to be less discriminable than the original data due to the fact bootstrapped subjects are closer to each other. However, we only use differences in bootstrapped discriminability. The algorithm \ref{alg:1} summarizes the steps to estimate p-value for testing $D(\bpsi_1) = D(\bpsi_2)$. 
 
 \begin{algorithm}                      % enter the algorithm environment
 	\caption{Test the null hypothesis $D(\bpsi_1) = D(\bpsi_2)$}          % give the algorithm a caption
@@ -181,28 +179,27 @@ However, $D(\bpsi_1)$ and $D(\bpsi_2)$ are not known to us, we have to decide ba
 
 \subsection{Simulations}
 \subsubsection{Convergence of discriminability estimator}
-In Lemma \ref{lem:lem1} and  \ref{lem:lem2}, we claim discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate these two lemmas through simulation. We consider a simple case that $g_{\bpsi}$ and $f_{\bphi}$ together introduce independent additive Gaussian noise $\epsilon$, that is,
+In Lemma \ref{lem:lem1} and  \ref{lem:lem2}, we claim discriminability $\hat{D}$ is unbiased and converges to  the true population discriminability in probability. We demonstrate these two lemmas through simulation. We consider a simple case that $g_{\bpsi}$ and $f_{\bphi}$ together introduce independent additive Gaussian noise $\epsilon$, that is
 \begin{equation}
-\bx_{i,t} =g_{\bpsi} \big(f_{\bphi} (\bv_i) \big) =\bv_{i} + \mb{\epsilon}_{i,t}
+\bx_{i,t} =g_{\bpsi} \big(f_{\bphi} (\bv_i) \big) =\bv_{i} + \mb{\epsilon}_{i,t}.
 \end{equation}  
 $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ are both independent and identically distributed standard Gaussian random variable， that is 
-\[\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1) \text{ and  }\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1)\] 
-In addition, $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ are assumed to be independent. \\
-For each subject, we sample one true physical property $v_i$ and two noises $\epsilon_{i,t}$ with $t\in\{1,2\}$. Then, two measurements are generated by $x_{i,t} = v_{i} + \epsilon_{i,t}$. We let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times using Euclidean distance. It leaves us $100$ estimates of discriminability $\hat{D}$. With this data generation scheme, we can actually compute the population discriminability $D$ through numerical integration. It turns out to be $0.6150$. Subtracting $D$ from $100$ $\hat{D}$s, we can estimate the distribution of estimation error. The figure ~\ref{fig:simu1} shows the difference between $\hat{D}$ and $D$. We can see that the mean of difference is centered around 0 and  discriminabiity estimates $\hat{D}$ tends to converge to $D$ as the number of subject increases.
+\[\bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1) \text{ , and  }\mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1).\] 
+In addition, $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ are assumed to be independent. For each subject, we sample one true physical property $v_i$ and two noises $\epsilon_{i,t}$ with $t\in\{1,2\}$. Then, two measurements are generated by $x_{i,t} = v_{i} + \epsilon_{i,t}$. We let the number of subjects $n$ vary from $10$ to $200$. For each value of $n$, we repeatedly generate data and compute discriminability $100$ times using Euclidean distance. It leaves us $100$ estimates of discriminability $\hat{D}$. With this data generation scheme, we can actually compute the population discriminability $D$ through numerical integration, which turns out to be $0.615$. Subtracting $D$ from $100$ $\hat{D}$s, we can estimate the distribution of estimation error. The bottom left panel of figure \ref{fig:fc} shows the difference between $\hat{D}$ and $D$. We can see that the mean of difference is centered around $0$, and  discriminabiity estimates $\hat{D}$ converge to $D$ as the number of subject increases.
 
 \subsubsection{Test power of discriminability}
-In this section, we investigate the power of one sample and two sample test for discriminability through simulation. For one sample test for discriminability, we consider the simple additive noise case as in the previous section, that is,
-\[\bx_{i,t}= \bv_{i} + \mb{\epsilon}_{i,t}; \bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1); \mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1). \]
-Again, we let the number of subjects $n$ to increase from $10$ to $200$, and for each subject we sample two observations. For each generated data set, we first estimate discriminability, and a p-value is computed based on $100$ permutations. The null hypothesis that $D=0.5$ is rejected when p-value is less than $0.5$. Under this data generation scheme, the true discriminability is $0.6150$; therefore, rejecting the null hypothesis is preferred. For each value of $n$, we independently generate $100$ data sets and perform the one sample test. The fraction of times in which the null hypothesis is rejected with its standard error is shown in the bottom right panel of Figure \ref{fig:fc}. The test power quickly increases as the number of subjects increases, and is close to $1$ with more than $50$ subjects.
+In this section, we investigate the power of one sample and two sample tests for discriminability through simulation. For one sample test for discriminability, we consider the simple additive noise case as in the previous section, that is,
+\[\bx_{i,t}= \bv_{i} + \mb{\epsilon}_{i,t}, \bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1) ; \mb{\epsilon}_{i,t} \overset{i.i.d.}{\sim} \mathbb{G}(0,1). \]
+Again, we let the number of subjects $n$ to increase from $10$ to $200$, and for each subject we sample two observations. For each generated data set, we first estimate discriminability, and a p-value is computed based on $100$ permutations. The null hypothesis that $D=0.5$ is rejected when p-value is less than $0.5$. Under this data generation scheme, the true discriminability is $0.615$; therefore, rejecting the null hypothesis is preferred. For each value of $n$, we independently generate $100$ data sets and perform the one sample test. The fraction of times in which the null hypothesis is rejected with its standard error is shown in the bottom right panel of Figure \ref{fig:fc}. The power of the test quickly increases as the number of subjects increases, and is close to $1$ with more than $50$ subjects.
 
 For two sample test for discriminability, we generate two sets of measurements ${\bx_{i,t}^1}$ and ${\bx_{i,t}^2}$. The superscript is to denote the pipeline which the measurements come from. The noise is still Gaussian and additive; however, the pipeline $1$ has smaller noise level compared to pipeline $2$. Specifically,
-\[\bx_{i,t}^1= \bv_{i} + \mb{\epsilon}_{i,t}^1; \bx_{i,t}^2= \bv_{i} + \mb{\epsilon}_{i,t}^2; \bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1); \mb{\epsilon}_{i,t}^1 \overset{i.i.d.}{\sim} \mathbb{G}(0,0.5^2);\mb{\epsilon}_{i,t}^1 \overset{i.i.d.}{\sim} \mathbb{G}(0,2). \]
-We let the number of subjects $n$ to increase from $10$ to $200$, and for each subject we sample two observations. We generate measurements for both pipelines, and apply the two sample test procedure as described in Algorithm \ref{alg:1}. Under this data generation scheme, the true discriminability of pipeline $1$ is larger than that of pipeline $2$; therefore, rejecting the null hypothesis is preferred. For each value of $n$, we independently generate $100$ pairs of data sets and perform the two sample test. The fraction of times in which the null hypothesis is rejected with its standard error is shown in the bottom right panel of Figure \ref{fig:fc}. The test power quickly increases as the  number of subjects increases, and is close to $1$ with more than $100$ subjects.
+\[\bx_{i,t}^1= \bv_{i} + \mb{\epsilon}_{i,t}^1; \bx_{i,t}^2= \bv_{i} + \mb{\epsilon}_{i,t}^2; \bv_i \overset{i.i.d.}{\sim} \mathbb{G}(0,1); \mb{\epsilon}_{i,t}^1 \overset{i.i.d.}{\sim} \mathbb{G}(0,0.25);\mb{\epsilon}_{i,t}^1 \overset{i.i.d.}{\sim} \mathbb{G}(0,1). \]
+We let the number of subjects $n$ to increase from $10$ to $200$, and for each subject we sample two observations. We generate measurements for both pipelines, and apply the two sample test procedure as described in Algorithm \ref{alg:1}. Under this data generation scheme, the true discriminability of pipeline $1$ is larger than that of pipeline $2$; therefore, rejecting the null hypothesis is preferred. For each value of $n$, we independently generate $100$ pairs of data sets and perform the two sample test. The fraction of times in which the null hypothesis is rejected with its standard error is shown in the bottom right panel of Figure \ref{fig:fc}. The power of the test quickly increases as the  number of subjects increases, and is close to $1$ with more than $100$ subjects.
 
 
 \subsubsection{Parameter selection through discriminability  }
-In this simulation, we consider the task of projecting 2-dimensional observations linearly into 1-dimensional space. Like in the previous experiment, we assume independent additive noise. In addition to $\bx_{i,t}$, there is a binary class label $\by_{i}$ associated with subject $i$. The true physical property is Gaussian distributed conditioned on $\by_i$,
-\[\bv_i|\by_i=1 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \text{ and, } \bv_i|\by_i=0 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}-1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \]
+In this simulation, we consider the task of projecting 2-dimensional measurements linearly into 1-dimensional space. Like in the previous experiment, we assume independent additive noise. In addition to $\bx_{i,t}$, there is a binary class label $\by_{i}$ associated with subject $i$. The true physical property is Gaussian distributed conditioned on $\by_i$,
+\[\bv_i|\by_i=1 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) \text{ , and } \bv_i|\by_i=0 \overset{i.i.d.}{\sim} \mathbb{G}(\begin{bmatrix}-1\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 1\end{bmatrix}) . \]
 We consider two cases for the distribution $\mb{\epsilon}_{i,t}$. The first case is that $\mb{\epsilon}_{i,t}$ has larger variance in the first coordinate; the other case is that $\mb{\epsilon}_{i,t}$ has larger variance in the second coordinate, that is
 \[ \text{Case 1: } \mb{\epsilon}_{i,t} \sim \mathbb{G}(\begin{bmatrix}0\\0\end{bmatrix},\begin{bmatrix}2& 0\\0& 1\end{bmatrix}) \]
 \[ \text{Case 2: } \mb{\epsilon}_{i,t} \sim \mathbb{G}(\begin{bmatrix}0\\0\end{bmatrix},\begin{bmatrix}1& 0\\0& 4\end{bmatrix}) \]
@@ -210,7 +207,7 @@ The noise is assumed to be independent of $\bv_i$ and $\by_i$. The figure ~\ref{
 We sample $200$ subjects with $v_i$ from each class conditional distribution. Furthermore, $2$ measurements are sampled for each subject. We use both discriminability and principal component analysis (PCA) \cite{jolliffe2002principal} to find the optimal linear projection. After finding the projection, we estimate two class conditional distribution through a kernel density estimator \cite{silverman1986density}. The results of two cases are provided in two columns of figure ~\ref{fig:simu2}. In the first case, both methods find the optimal linear projection which separates two classes. However, in the second case only discriminability recovers the optimal projection. PCA finds linear projection with little class signal.
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{../Figs/simu2.png}
-	\caption{{\bf Finding the Oprimal Projection.} Linear projections are computed using PCA and optimizing discriminability. Physical properties $\bv_i$ of $200$ subjects are sampled from 2-D two class conditional Gaussian distribution. $2$ measurements are sampled for each subject with additive Gaussian noise. Noise could have large variance in x-coordinate or y-coordinate. The details of generating data can be found in simulations section. The results for two cases are shown in two columns. Maximizing discriminability yields separated samples which have Bayes optimal classification error.}
+	\caption{{\bf Finding the Oprimal Projection.} Linear projections are computed using PCA and optimizing discriminability. Physical properties $\bv_i$ of $200$ subjects are sampled from 2-D two class conditional Gaussian distribution. $2$ measurements are sampled for each subject with additive Gaussian noise. Noise could have either large variance in x-coordinate or y-coordinate. The details of generating data can be found in simulations section. The results for two cases are shown in two columns. Maximizing discriminability yields separated samples which have Bayes optimal classification error.}
 	\label{fig:simu2}
 \end{figure}
 
@@ -221,7 +218,7 @@ We sample $200$ subjects with $v_i$ from each class conditional distribution. Fu
 \subsubsection{Optimal discriminability yields optimal predictive accuracy}
 In this experiment, we are going to investigate the thresholding step in processing resting state functional magnetic resonance imaging (fMRI). In fMRI processing, time series is first extracted for each region of interest (ROI) of brain \cite{strother2006evaluating}. Then, a pairwise connectivity matrix is estimated through computing absolute Pearson correlation \cite{liang2012effects}. To remove noise and obtain a binary graph, the pairwise connectivity matrix needs to be thresholded by a value which lies in $[0,1]$ \cite{hampson2002detection,van2010exploring}. We would like to find the optimal value for the threshold. In addition to neuroimages, demographic information and five neuro factors \cite{costa1992revised} are also collected from each subject. We also want to find the threshold which leads to graphs with the best prediction performance.  
 
-HCP100 data set is used in this experiment \cite{van2012human}. It contains data from $461$ subjects with $4$ measurements per subject. We let the threshold vary from 0 to 1. For each value of the threshold, binary graphs is constructed by thresholding correlations. Then, the discriminability is computed with Euclidean distance. In addition, sex, age and the neuro factors are predicted using k-nearest neighbor \cite{vapnik1998statistical}. For comparison, another reliability statistics, namely image intraclass correlation coefficient is also computed which generalizes intraclass correlation coefficient for high dimensional observations \cite{shou2013quantifying}. The discriminability, I2C2, and prediction errors versus the values of threshold are shown in figure ~\ref{fig:hcp}. The threshold which maximizes discriminability is close to the thresholds yielding smallest predicting errors for three covariates. 
+HCP100 data set is used in this experiment \cite{van2012human}. It contains data from $461$ subjects with $4$ measurements per subject. We let the threshold vary from 0 to 1. For each value of the threshold, binary graphs is constructed by thresholding correlations. Then, the discriminability is computed with Euclidean distance. In addition, sex, age and the neuro factors are predicted using k-nearest neighbor \cite{vapnik1998statistical}. For comparison, another reliability statistics, namely image intraclass correlation coefficient (I2C2) is also computed which generalizes intraclass correlation coefficient for high dimensional observations \cite{shou2013quantifying}. The discriminability, I2C2, and prediction errors versus the values of threshold are shown in figure ~\ref{fig:hcp}. The threshold which maximizes discriminability is close to the thresholds yielding smallest predicting errors for three covariates. 
 
 
 
@@ -244,11 +241,11 @@ In this experiment, we are going to investigate the pre-processing options in ac
 		Nuisance Signal Regression & G for global signal regression , X for not \cite{fox2009global} \\ \hline
 	\end{tabular}
 \end{center}
-As an example, the best pipeline found is CFXSG which means the data is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, with scrubbing and with global signal regression. There are $4$ possible choices for atlas and $2$ possible choices for other options. This leaves us $64$ different combinations of options. We select $13$ test-retest fMRI data sets with the number of measurements ranging from $50$ to $300$. These data sets are pre-processed by the $64$ pipelines through the configurable pipeline for the analysis of connectomes (c-pac) \cite{sikka2014towards}. We also consider an extra rank conversion step which proves to be helpful in boosting discriminability. Rank conversion transforms a weighted undirected graph into a graph with rank weights. Specifically, in the previous experiment all edge weights are absolute correlations which lie in $[0,1]$. In rank conversion step, for each edge in a graph, its weight $w$ is replaced by the rank of $w$ among all edge weights. If we denote a graph by a node set and an edge weight set pair $(V,E)$ with $E=\{w_{i,j}\}$, rank conversion is a function
-\[(V,E) \rightarrow (V,E') \text{ , where } E'= \{\text{rank}(w_{i,j})\} \]
+As an example, the best pipeline found is CFXSG which means the data is pre-processed using CC200 atlas, registered with FSL, no frequency filtering, with scrubbing and with global signal regression. There are $4$ possible choices for atlas and $2$ possible choices for other options. This leaves us $64$ different combinations of options. We select $13$ test-retest fMRI data sets with the number of measurements ranging from $50$ to $300$. These data sets are pre-processed by the $64$ pipelines through the configurable pipeline for the analysis of connectomes (c-pac) \cite{sikka2014towards}. We also consider an extra rank conversion step which proves to be helpful in boosting discriminability. Rank conversion transforms a weighted undirected graph into a graph with rank weights. Specifically, in the previous experiment all edge weights are absolute correlations which lie in $[0,1]$. In rank conversion step, for each edge in a graph, its weight $w$ is replaced by the rank of $w$ among all edge weights. If we denote a graph by a node set and an edge weight set pair $(V,E)$ with $E=\{w_{i,j}\}$, rank conversion is a function maps $(V,E)$ to $(V,E')$, that is
+\[(V,E) \rightarrow (V,E') \text{ , where } E'= \{\text{rank}(w_{i,j})\} .\]
 The rank conversion is designed to improve signal to noise ratio by removing background noise. We carry out this step on the $13$ data sets pre-processed by $64$ pipelines and compare the difference in discriminability with and without rank conversion. It turns out that the rank conversion does help improving mean discriminability in all pipelines. When global signal regression is not performed, rank conversion significantly boosts discriminability. The Figure ~\ref{fig:pipes} shows the discriminability of rank fMRI graphs and the discriminability of raw fMRI graphs are provided in \ref{fig:raw} which is included in appendix. 
 
-There is notable variation in discriminability. The discriminability of $13$ data sets processed by $64$ pipelines vary from $0.732$ to $0.997$. The sample-size weighted mean discriminability of  $64$ pipelines vary from $0.868$ to $0.966$. CFXSG turns out to be the best pipeline with maximum mean discriminability. In Figure \ref{fig:pipes}, for each data set, we compare $CFXSG$ to all the other pipelines using the two sample test. We combine the p-values through Fisher's method \cite{fisher1925statistical}, then we order pipelines by the magnitude of their p-values and mean discriminability. Furthermore, we carried out a multi-factor analysis of variance test to study each option \cite{hair2009multivariate}. Specifically, we fix decisions for all options except one, and investigates whether there is significant difference in discriminability. It turns out that FSL, no frequency filtering, no scrubbing, global signal regression and rank conversion is better than their alternatives in terms of mean discriminability. However, fsl and no scrubbing is not statistical significantly better at level $0.05$. No frequency filtering, global signal regression and rank conversion is better than their alternatives at level $0.001$. Figure ~\ref{fig:decs} shows the distribution of paired difference in discriminability.
+There is notable variation in discriminability. The discriminability of $13$ data sets processed by $64$ pipelines vary from $0.732$ to $0.997$. The sample-size weighted mean discriminability of  $64$ pipelines vary from $0.868$ to $0.966$. CFXSG turns out to be the best pipeline with maximum mean discriminability. In Figure \ref{fig:pipes}, for each data set, we compare CFXSG to all the other pipelines using the two sample test. We combine the p-values by Fisher's method \cite{fisher1925statistical}, then we group pipelines by the magnitude of their p-values and order them by mean discriminability. Furthermore, we carried out a multi-factor analysis of variance test to study each option \cite{hair2009multivariate}. Specifically, we fix decisions for all options except one, and investigates whether there is significant difference in discriminability. It turns out that FSL, no frequency filtering, no scrubbing, global signal regression and rank conversion is better than their alternatives in terms of mean discriminability. However, fsl and no scrubbing is not statistical significantly better at level $0.05$. No frequency filtering, global signal regression and rank conversion is better than their alternatives at level $0.001$. Figure ~\ref{fig:decs} shows the distribution of paired difference in discriminability.
  
 \newpage
 \begin{figure}[H]
@@ -288,11 +285,11 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 
 \section{Discussion}
 
-\para{Summary} We propose a non-parametric statistics of discriminability which is define to be the probability that within subject distance is smaller than across subject distance.  We prove discriminability bounds Bayes prediction error. An estimator is designed to estimate the discriminability based on test-retest data set. We show the estimator is unbiased and converges to the discriminability asymptotically. Furthermore, we developed one sample and two sample tests for discriminability, which can be used to detect signal in real data set and compare discriminability of different processing pipelines. We apply the discriminability framework under various setups in neuroimaging processing. We find the best processing pipeline for fMRI pre-processing and look into options in DTI processing. Furthermore, fMRI and DTI are shown to have comparable discriminability.
+\para{Summary} We propose a non-parametric statistics of discriminability which is define to be the probability that within subject distance is smaller than across subject distance.  We prove discriminability bounds Bayes prediction error. An estimator is designed to estimate the discriminability based on test-retest data set. We show the estimator is unbiased and converges to the discriminability asymptotically. Furthermore, we developed one sample and two sample tests for discriminability, which can be used to detect subject signal in data set and compare discriminability of two processing pipelines. We apply the discriminability framework under various setups in neuroimaging processing. We find the best processing pipeline for fMRI pre-processing and look into options in DTI processing. Furthermore, fMRI and DTI are shown to have comparable discriminability.
 
 
 
-\para{Next Steps} From theoretical point of view, most of our theories require the noise to be additive and independent of subjects. The effects of subject specific noise on discriminability are left uninvestigated. As for applications, more experiments should be carried out to analyze processing options. In particular, we could investigate processing of DTI more thoroughly given more data sets. Also, the effect of the number of ROI on discriminability is still not determined. Second, metrics other than Euclidean distance could be studied. Third, a testing procedure could be developed for comparing discriminability of multiple data sets.
+\para{Next Steps} From the theoretical point of view, most of our theories require the noise to be additive and independent of subjects. The effects of subject specific noise on discriminability are left uninvestigated. As for applications, more experiments should be carried out to analyze processing options. In particular, we could investigate processing of DTI more thoroughly given more data sets. Also, the effect of the number of ROI on discriminability is still not determined. Second, metrics other than Euclidean distance could be studied. Third, a testing procedure could be developed for comparing discriminability of multiple data sets.
 
 
 
@@ -315,7 +312,7 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 \begin{proof}[Proof of Theorem 1]
 	Consider the additive noise setting, that is $\bx_{i,t}=\bv_{i} + \mb{\epsilon}_{i,t}$,  
 	\begin{eqnarray*}
-		& &\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''}) \\
+		& &\PP(\delta_{i,t,t'} < \delta_{i,i',t,t''}) \\
 		&=&\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|) \\
 		&=&\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\bv_{i}+\mb{\epsilon}_{i,t}-\bv_{i'}-\mb{\epsilon}_{i',t''}\|) \\
 		&\leq&\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\bv_{i}-\bv_{i'}\| + \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|) \\
@@ -324,56 +321,56 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 		& &\frac{1}{2}\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|< \|\bv_{i}-\bv_{i'}\||\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|>0) \\
 		&=&\frac{1}{2} + \frac{1}{2}\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|< \|\bv_{i}-\bv_{i'}\||\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\|>0) \\
 		&=& \frac{1}{2} + \frac{1}{2}\PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|< \|\bv_{i}-\bv_{i'}\|)\\
-		&=& 1 - \frac{1}{2} \PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|> \|\bv_{i}-\bv_{i'}\|)\\
+		&=& 1 - \frac{1}{2} \PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|> \|\bv_{i}-\bv_{i'}\|).\\
 	\end{eqnarray*}
-	To bound the probability above, we bound the $\|\bv_{i}-\bv_{i'}\|$ and $\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|$ separately. We start with the first term.
+	To bound the probability above, we bound the $\|\bv_{i}-\bv_{i'}\|$ and $\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|$ separately. We start with the first term
 	\begin{eqnarray*}
 		& &\EE(\|\bv_{i}-\bv_{i'}\|^2) \\
 		&=&\EE(\bv_{i}^T \bv_{i}+\bv_{i'}^T\bv_{i'} -2\bv_{i}^T \bv_{i'}) \\
-		&=&2\sigma_2^2
+		&=&2\sigma_2^2 .
 	\end{eqnarray*}
-	Here, $\sigma_2^2$ is the trace of covariance matrix of $\bv_{i}$. We can apply Markov's Inequality, 
-	\[、\PP(\|\bv_{i}-\bv_{i'}\| < t) \geq 1 - \frac{2 \sigma_2^2}{t^2} \]
+	Here, $\sigma_2^2$ is the trace of covariance matrix of $\bv_{i}$. We can apply Markov's Inequality
+	\[、\PP(\|\bv_{i}-\bv_{i'}\| < t) \geq 1 - \frac{2 \sigma_2^2}{t^2}. \]
 	Let $\sigma_1^2$ denote the trace of covariance matrix of ${\epsilon}_{i,t}$, and let $a$ and $b$ be two constants satisfy
-	\[\EE(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2) \geq a^2 \sigma_1^2\]
-	\[\frac{\EE^2(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2)}{\EE(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|)^4} \geq b \]
+	\[\EE(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2) \geq a^2 \sigma_1^2,\]
+	\[\frac{\EE^2(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2)}{\EE(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|)^4} \geq b. \]
 	Then, we can apply Paley-Zygmund Inequality \cite{paley1932some},
-	\[\PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2 > t^2 ) \geq b(1-\frac{t^2}{a^2 \sigma_1^2})^2 \]
-	Understand the fact that $\bv$s and $\mb{\epsilon}$s are independent, we can combine the two inequalities and get a bound on $\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''})$.
+	\[\PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2 > t^2 ) \geq b(1-\frac{t^2}{a^2 \sigma_1^2})^2 .\]
+	Understand the fact that $\bv$s and $\mb{\epsilon}$s are independent, we can combine the two inequalities and get a bound on $\PP(\delta_{i,t,t'} < \delta_{i,i',t,t''})$
 	\begin{eqnarray*}
-		& &\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''}) \\
+		& &\PP(\delta_{i,t,t'} < \delta_{i,i',t,t''}) \\
 		&=&\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|)  \\
 		&\leq& 1 - \frac{1}{2} \PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|> \|\bv_{i}-\bv_{i'}\|) \\
 		&\leq& 1 - \frac{1}{2}\PP(\big| \|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\|-\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i',t''}\| \big|^2 > t^2 )P(\|\bv_{i}-\bv_{i'}\|^2 < t^2) \\
-		&\leq& 1- \frac{1}{2}b(1-\frac{t^2}{a^2 \sigma_1^2})^2(1 - \frac{2 \sigma_2^2}{t^2})
+		&\leq& 1- \frac{1}{2}b(1-\frac{t^2}{a^2 \sigma_1^2})^2(1 - \frac{2 \sigma_2^2}{t^2}).
 	\end{eqnarray*}
 	Assume $a^2 \sigma_1^2 \geq 2 \sigma_2^2$ and set $t^2=\sqrt{2} a \sigma_1 \sigma_2$,
 	\begin{eqnarray*}
-		\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|) \leq  1- \frac{1}{2}b(1 - \frac{\sqrt{2} \sigma_2}{a\sigma_1})^3
+		\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|) \leq  1- \frac{1}{2}b(1 - \frac{\sqrt{2} \sigma_2}{a\sigma_1})^3.
 	\end{eqnarray*}
-	By definition, $D=\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|)$, we can have a bound on $\frac{ \sigma_2}{\sigma_1}$.
+	By definition, $D=\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|)$, we can have a bound on $\frac{ \sigma_2}{\sigma_1}$,
 	\begin{equation}
-	\frac{ \sigma_2}{\sigma_1} \geq\frac{a}{\sqrt{2}} (1-(\frac{2-2D}{b})^{1/3} )
+	\frac{ \sigma_2}{\sigma_1} \geq\frac{a}{\sqrt{2}} (1-(\frac{2-2D}{b})^{1/3} ).
 	\end{equation}	
-	To obtain a bound on Bayes error, we apply Devijver and Kittler's result \cite{devijver1982pattern},
-	\[L \leq \frac{2\pi_0\pi_1}{1+\pi_0\pi_1\Delta\mu^T\Sigma^{-1}\Delta\mu}\]
+	To obtain a bound on Bayes error, we apply Devijver and Kittler's result \cite{devijver1982pattern}, which is
+	\[L \leq \frac{2\pi_0\pi_1}{1+\pi_0\pi_1\Delta\mu^T\Sigma^{-1}\Delta\mu}.\]
 	Here, $\pi_0$ and $\pi_1$ are prior probabilities for two classes. $\Delta\mu$ is the difference between means of two classes. Since $\mb{\epsilon}$ is assumed to be independent of $\bx$ and $\by$,
-	\[\Delta\mu= \EE(\bx|\by=0)-\EE(\bx|\by=1)=\EE(\bv|\by=0)-\EE(\bv|\by=1)\]
+	\[\Delta\mu= \EE(\bx|\by=0)-\EE(\bx|\by=1)=\EE(\bv|\by=0)-\EE(\bv|\by=1).\]
 	$\Sigma$ is the weighted covariance matrix of $\bx$,
 	\begin{eqnarray*}
 		\Sigma &=& \pi_0\text{Var}(\bx|\by=0)+\pi_1\text{Var}(\bx|\by=1)\\
-		&=& \pi_0\text{Var}(\bv|\by=0)+\pi_1\text{Var}(\bv|\by=1)+\text{Var}(\mb{\epsilon}) \\ 
+		&=& \pi_0\text{Var}(\bv|\by=0)+\pi_1\text{Var}(\bv|\by=1)+\text{Var}(\mb{\epsilon}) .\\ 
 	\end{eqnarray*}
 	If we further assume $\text{Var}(\mb{\epsilon}) = \lambda \Sigma'$ where the trace of $\Sigma$ is $1$, then equation 6 implies $\lambda\leq\lambda_*$, where
-	\[\lambda_*=\frac{\sqrt{2}\sigma_2}{a(1-(\frac{2-2D}{b})^{1/3} )}\]
+	\[\lambda_*=\frac{\sqrt{2}\sigma_2}{a(1-(\frac{2-2D}{b})^{1/3} )}.\]
 	Hence, 	$\Sigma \leq \Sigma_*$ where
 	\begin{eqnarray*}
-		\Sigma_*&=& \pi_0\text{Var}(\bv|\by=0)+\pi_1\text{Var}(\bv|\by=1)+\lambda^*\Sigma'
+		\Sigma_*&=& \pi_0\text{Var}(\bv|\by=0)+\pi_1\text{Var}(\bv|\by=1)+\lambda^*\Sigma'.
 	\end{eqnarray*}
 	Therefore, $\Sigma^{-1} \geq \Sigma_*^{-1}$, and we have
 	\begin{eqnarray*}
 		L &\leq& \frac{2\pi_0\pi_1}{1+\pi_0\pi_1\Delta\mu^T\Sigma^{-1}\Delta\mu} \\
-		&\leq& \frac{2\pi_0\pi_1}{1+\pi_0\pi_1\Delta\mu^T\Sigma_*^{-1}\Delta\mu}
+		&\leq& \frac{2\pi_0\pi_1}{1+\pi_0\pi_1\Delta\mu^T\Sigma_*^{-1}\Delta\mu}.
 	\end{eqnarray*}
 \end{proof}
 
@@ -381,23 +378,23 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 
 \begin{proof}[Proof of Lemma 1]
 	By definition of $\hat{D}$,
-	\[\hat{D}= \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)}\]
-	The expectation of $\hat{D}_{i,t,t'}$ is actually $D$,
+	\[\hat{D}= \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)}.\]
+	Notice that the expectation of $\hat{D}_{i,t,t'}$ is actually $D$,
 	\begin{eqnarray*}  
 		& &\EE(\hat{D}_{i,t,t'}) \\
-		&=&\frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} 		    	 \EE(\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}) }{(n-1)s} \\
+		&=&\frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} 		    	 \EE(\mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \}) }{(n-1)s} \\
 		&=&\frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} 
-		     	\PP[\delta_{i,t,t'} \leq \delta_{i,i',t,t''}]}{(n-1)s} \\
+		     	\PP[\delta_{i,t,t'} < \delta_{i,i',t,t''}]}{(n-1)s} \\
 		&=& \frac{\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} 
 			D}{(n-1)s} \\
-		&=& D
+		&=& D .
 	\end{eqnarray*}
 	Therefore, we have
 	\begin{eqnarray*}
 		& &\EE(\hat{D})\\
 		&=&\frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} \EE(\hat{D}_{i,t,t'})}{ns(s-1)} \\
 		&=&\frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} D}{ns(s-1)} \\
-		&=& D
+		&=& D.
 	\end{eqnarray*}
 	This concludes that $\hat{D}$ is an unbiased estimator of discriminability $D$.
 \end{proof}
@@ -406,59 +403,59 @@ In this experiment, we want to compare discriminanility of fMRI and DTI data set
 	By definition of $\hat{D}$,
 	\begin{eqnarray*}  
 		\hat{D} &=&\frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s} \hat{D}_{i,t,t'}}{ns(s-1)}\\
-		&=& \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s}\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \} }{ns(s-1)(n-1)s}\\
-		&=& \frac{\sum\limits_{i,i',t,t',t''} \mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}  }{ns(s-1)(n-1)s}
+		&=& \frac{\sum\limits_{i=1}^{n} \sum\limits_{t=1}^{s}  \sum\limits_{t'\neq t}^{s}\sum\limits_{i' \neq i}^{n} \sum\limits_{t''=1}^{s} \mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \} }{ns(s-1)(n-1)s}\\
+		&=& \frac{\sum\limits_{i,i',t,t',t''} \mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \}  }{ns(s-1)(n-1)s} .
 	\end{eqnarray*}
-	In the last step, we simplify the sum, but keep in mind that $i\neq i'$ and $t \neq t'$. We show in the previous lemma that $\EE(\hat{D})=D$. To demonstrate that $\hat{D}$ converges to $D$ in probability, it is suffice to show that $\text{Var}(\hat{D}) \rightarrow 0$. Since then, by Chebyshev's inequality,
-	\[\PP[|\hat{D}-D| \geq \epsilon] \leq \frac{\text{Var}(\hat{D})}{\epsilon^2} \rightarrow 0\]
+	In the last sum above, we should keep in mind that $i\neq i'$ and $t \neq t'$. We show in the previous lemma that $\EE(\hat{D})=D$. To demonstrate that $\hat{D}$ converges to $D$ in probability, it is suffice to show that $\text{Var}(\hat{D}) \rightarrow 0$. Since then, by Chebyshev's inequality,
+	\[\PP[|\hat{D}-D| \geq \epsilon] \leq \frac{\text{Var}(\hat{D})}{\epsilon^2} \rightarrow 0 .\]
 	If we expand the variance of $R$, 
-	\[\text{Var}(\hat{D})= \frac{\sum\limits_{i,i',t,t',t''} \sum\limits_{j,j',r,r',r''} \text{Cov}(\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \},\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \})}{(ns(s-1)(n-1)s)^2} \]
-	There are $(ns(s-1)(n-1)s)^2$ covariance terms in the sum of nominator; however, most of them are actually $0$. $\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''}$ is a function of $\bx_{i,t}$, $\bx_{i,t'}$ and $\bx_{i',t''}$; therefore, is independent of any observations of subjects other than $i$ and $i'$. This implies $\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}$ is independent of $\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \}$ as long as $\{i,i'\} \cap \{j,j'\} = \emptyset$. As a consqeunce, there are $(4n-6)(s(s-1)s)=ns(s-1)(n-1)s-(n-2)s(s-1)(n-3)s$ combinations of $j,j',r,r',r''$ such that covariance between $\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \}$ and $\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \}$ maybe non-zero. Furthermore, the covariance must be less $\frac{1}{4}$ due to the fact that they are indicator random variables. Therefore, we have 
+	\[\text{Var}(\hat{D})= \frac{\sum\limits_{i,i',t,t',t''} \sum\limits_{j,j',r,r',r''} \text{Cov}(\mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \},\mathbb{I}\{\delta_{j,r,r'} < \delta_{j,j',r,r',r''} \})}{(ns(s-1)(n-1)s)^2} . \]
+	There are $(ns(s-1)(n-1)s)^2$ covariance terms in the sum of nominator; however, most of them are actually $0$. $\mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''}\}$ is a function of $\bx_{i,t}$, $\bx_{i,t'}$ and $\bx_{i',t''}$; therefore, is independent of any observations of subjects other than $i$ and $i'$. This implies $\mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \}$ is independent of $\mathbb{I}\{\delta_{j,r,r'} < \delta_{j,j',r,r''} \}$ as long as $\{i,i'\} \cap \{j,j'\} = \emptyset$. As a consqeunce, there are $(4n-6)(s(s-1)s)=ns(s-1)(n-1)s-(n-2)s(s-1)(n-3)s$ combinations of $j,j',r,r',r''$ such that covariance between $\mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \}$ and $\mathbb{I}\{\delta_{j,r,r'} < \delta_{j,j',r,r',r''} \}$ maybe non-zero. Furthermore, the covariance must be less $\frac{1}{4}$ due to the fact that they are indicator random variables. Therefore, we have 
 	\begin{eqnarray*} 
-		\text{Var}(\hat{D})&=& \frac{\sum\limits_{i,i',t,t',t''} \sum\limits_{j,j',r,r',r''} \text{Cov}(\mathbb{I}\{\delta_{i,t,t'} \leq \delta_{i,i',t,t''} \},\mathbb{I}\{\delta_{j,r,r'} \leq \delta_{j,j',r,r',r''} \})}{(ns(s-1)(n-1)s)^2} \\
+		\text{Var}(\hat{D})&=& \frac{\sum\limits_{i,i',t,t',t''} \sum\limits_{j,j',r,r',r''} \text{Cov}(\mathbb{I}\{\delta_{i,t,t'} < \delta_{i,i',t,t''} \},\mathbb{I}\{\delta_{j,r,r'} < \delta_{j,j',r,r',r''} \})}{(ns(s-1)(n-1)s)^2} \\
 		&\leq& \frac{\sum\limits_{i,i',t,t',t''}  (4n-6)(s(s-1)s)}{4(ns(s-1)(n-1)s)^2} \\
 		&=& \frac{ (4n-6)(s(s-1)s)}{4ns(s-1)(n-1)s} \\
 		&=& \frac{4n-6}{4n(n-1)} \\
-		&\leq& \frac{1}{n}  \\
-		&\rightarrow& 0 \text{ , as $n\rightarrow \infty$} 
+		&<& \frac{1}{n}  \\
+		&\rightarrow& 0 \text{ , as $n\rightarrow \infty$.} 
 	\end{eqnarray*}
 	As discussed before, this concludes that $\hat{D}$ converges to $D$ in probability. 
 \end{proof}
 
 
 \begin{proof}[Proof of Lemma 3]
-	Consider the additive noise setting, that is $\bx_{i,t}=\lambda \bv_{i} + \mb{\epsilon}_{i,t}$. We further assume  $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ have continuous distributions; in addition,  $\bv_{i} $ has spherical distribution. We will show that $D=0.5$ implies $\lambda = 0$, hence $\bx_{i,t} = \mb{\epsilon}_{i,t}$ which is independent of physical property $\bv_{i}$ and any phenotype $\by_{i}$. First, we rewrite the definition of discriminability.
+	Consider the additive noise setting, that is $\bx_{i,t}=\lambda \bv_{i} + \mb{\epsilon}_{i,t}$. We further assume  $\bv_{i}$ and $\mb{\epsilon}_{i,t}$ have continuous distributions, and $\bv_{i} $ has spherical distribution. We will show that $D=0.5$ implies $\lambda = 0$, hence $\bx_{i,t} = \mb{\epsilon}_{i,t}$. This implies $\bx_{i,t}$ is independent of physical property $\bv_{i}$ and hence,  any phenotype $\by_{i}$. First, we rewrite the definition of discriminability.
 	\begin{eqnarray*}
-		& &\PP(\delta_{i,t,t'} \leq \delta_{i,i',t,t''}) \\
+		& &\PP(\delta_{i,t,t'} < \delta_{i,i',t,t''}) \\
 		&=&\PP(\|\bx_{i,t}-\bx_{i,t'}\|<\|\bx_{i,t}-\bx_{i',t''}\|) \\
 		&=&\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\lambda \bv_{i}+\mb{\epsilon}_{i,t}-\lambda \bv_{i'} - \mb{\epsilon}_{i',t''}\|) \\
-		&=& \EE (\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\lambda \bv_{i} - \lambda \bv_{i'}+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|)|\|\lambda \bv_{i} - \lambda \bv_{i'} \|=v)
+		&=& \EE (\PP(\|\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}\| < \|\lambda \bv_{i} - \lambda \bv_{i'}+\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}\|)|\|\lambda \bv_{i} - \lambda \bv_{i'} \|=v).
 	\end{eqnarray*}
 	Let $\bA_1$, $\bA_2$ and $\bV$ denote the $\mb{\epsilon}_{i,t}-\mb{\epsilon}_{i,t'}$, $\mb{\epsilon}_{i,t} - \mb{\epsilon}_{i',t''}$ and $\lambda \bv_{i} - \lambda \bv_{i'}$ respectively. Due to the assumption that $\bv_{i}$ is spherically distributed, 
 	\[\PP(\| \bA_1 \| < \|\bA_2+\bV\||\|\bV \|=v) = \int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|) dS / Area(\mathbb{S}^{d-1}),\]
 	where $\mathbb{S}^{d-1}$ is the ball in $\mathbb{R}^{d}$ with radius $v$. We are going to show the expression above is greater than $0.5$ as long as $v > 0$. Therefore, $D=0.5$ implies $\lambda \bv_{i} - \lambda \bv_{i'}= 0$. Since $\bv_{i}$ is not constant, we have $\lambda = 0$. Due to symmetry in $\bA_1$ and $\bA_2$, we have
 	\begin{eqnarray*}
 		2\int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|)dS &=& \int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|)dS +  \int_{ \mathbb{S}^{d-1}} \PP(\| \bA_2 \| < \|\bA_1+t\|)dS \\
-		&=& \int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|) + \PP(\| \bA_2 \| < \|\bA_1+t\||) dS \\
-		&=& \int_{\mathbb{S}^{d-1}} \int_{} \II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||)d\PP(a_1,a_2) dS \\
-		&=&  \int_{} \int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||) dS d\PP(a_1,a_2)\\
+		&=& \int_{\mathbb{S}^{d-1}} \PP(\| \bA_1 \| < \|\bA_2+t\|) + \PP(\| \bA_2 \| < \|\bA_1+t\|) dS \\
+		&=& \int_{\mathbb{S}^{d-1}} \int_{} \II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\|)d\PP(a_1,a_2) dS \\
+		&=&  \int_{} \int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\|) dS d\PP(a_1,a_2).\\
 	\end{eqnarray*}
-	Let us consider the inner integral $\int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||) dS$ and denote its value by $V$, we are going to show it is greater than or equal to $Area(\mathbb{S}^{d-1})$ for any $a_1$ and $a_2$. First, let us project 
-	$t$ on the plane spanned by $a_1$ and $a_2$, there are three cases:
+	Let us consider the inner integral $\int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\|) dS$ and denote its value by $V$. Next, we show $V$ is greater than or equal to $Area(\mathbb{S}^{d-1})$ for any $a_1$ and $a_2$. First, let us consider the case that 
+	$t$ lies on the circle which is contained in the plane spanned by $a_1$ and $a_2$, there are three cases.
 	\begin{itemize}
-		\item[Case (1): ]$\|t\| \leq |\|a_1\| - \|a_2\||$, $V = Area(\mathbb{S}^{1})$
-		\item[Case (2): ]$ |\|a_1\| - \|a_2\|| < \|t\| \leq |\|a_1\| + \|a_2\||$, $V = Area(\mathbb{S}^{1})$
-		\item[Case (3): ]$\|t\| > |\|a_1\| + \|a_2\||$, $V =2 Area(\mathbb{S}^{1})$
+		\item[Case (1): ] If $\|t\| \leq |\|a_1\| - \|a_2\||$, then one of the two indicators holds for all $t$; hence, $V = Area(\mathbb{S}^{1})$.
+		\item[Case (2): ] If $ |\|a_1\| - \|a_2\|| < \|t\| \leq |\|a_1\| + \|a_2\||$, then due to symmetry $V = Area(\mathbb{S}^{1})$.
+		\item[Case (3): ] If $\|t\| > |\|a_1\| + \|a_2\||$, then both of the two indicators holds for all $t$; hence, $V =2 Area(\mathbb{S}^{1})$.
 	\end{itemize}
-	If we don't project $t$, it only adds positive norm to the left side of the inequality of $\II(\| a_1 \| < \|a_2+t\|$ and $\II(\| a_2 \| < \|a_1+t\||)$. Therefore, the three cases become
-		\begin{itemize}
-			\item[Case (1): ]$\|t\| \leq |\|a_1\| - \|a_2\||$, $V = Area(\mathbb{S}^{d-1})$
-			\item[Case (2): ]$ |\|a_1\| - \|a_2\|| < \|t\| \leq |\|a_1\| + \|a_2\||$, $V > Area(\mathbb{S}^{d-1})$
-			\item[Case (3): ]$\|t\| > |\|a_1\| + \|a_2\||$, $V =2 Area(\mathbb{S}^{d-1})$
-		\end{itemize}
-	This shows $V$ always greater than  $Area(\mathbb{S}^{d-1})$. $\bA_1$ and $\bA_2$ have positive mass at any open ball centered at origin, which makes case (3) happens with positive probability. As a consequence, 
+	If $t$ does not lie  in the plane spanned by $a_1$ and $a_2$, it only adds positive number to the right hand side of the inequalities: $\| a_1 \| < \|a_2+t\|$ and $\| a_2 \| < \|a_1+t\|$. Therefore, the three cases become
+	\begin{itemize}
+		\item[Case (1): ] If $\|t\| \leq |\|a_1\| - \|a_2\||$, then $V = Area(\mathbb{S}^{d-1})$.
+		\item[Case (2): ] If $|\|a_1\| - \|a_2\|| < \|t\| \leq |\|a_1\| + \|a_2\||$, then $V \geq Area(\mathbb{S}^{d-1})$.
+		\item[Case (3): ] If $\|t\| > |\|a_1\| + \|a_2\||$, then $V =2 Area(\mathbb{S}^{d-1})$.
+	\end{itemize}
+	This shows $V$ always greater than or equal to  $Area(\mathbb{S}^{d-1})$. Since $\bA_1$ and $\bA_2$ have positive mass at any open ball centered at origin, case (3) must happen with positive probability. As a consequence, 
 	\[\int_{} \int_{\mathbb{S}^{d-1}}\II(\| a_1 \| < \|a_2+t\|) + \II(\| a_2 \| < \|a_1+t\||) dS d\PP(a_1,a_2) >Area(\mathbb{S}^{d-1}) \]
-	This shows $\PP(\| \bA_1 \| < \|\bA_2+\bV\||\|\bV \|=v) > 0.5$. As discussed above, this concludes the proof.
+	This shows $\PP(\| \bA_1 \| < \|\bA_2+\bV\||\|\bV \|=v) > 0.5$ as long as $v \neq 0$. As discussed above, this concludes the proof of the lemma.
 \end{proof}
 
 \noindent\bf{Discriminability of Raw fMRI Graphs}
