@@ -100,6 +100,7 @@ The next theorem shows the relationship between Bayes classification error and d
 \begin{thm}	
 	There is a decreasing function $h$ which only depends on $\bv$ and $\by$, such that
 	\[\ell(\bpsi) \leq h(D(\bpsi)) .\]
+	\label{thm1}
 \end{thm}
 As a consequence, we expect the classification error to be small when the discriminability is large. An immediate corollary justifies using discriminability to select the optimal processing pipeline. 
 \begin{coro}	
@@ -114,8 +115,9 @@ It tells us for any distribution of $\by$, we have a tighter bound on Bayes erro
 \begin{figure}[H]
 	\includegraphics[width=\linewidth]{../Figs/flow_simu.png}
 	\caption{{\bf Decision Making Through Discriminability Framework.} The top panel shows the decision framework of discriminability. Test-retest data set is collected under experiment design options $/phi$ and processed by pipeline $\psi$. The pairwise distances of all measurements are computed using a metric $\delta(\cdot,\cdot)$. For each pair of measurements of the same subject, we estimate the probability of across subject distances being larger than the within subject distance. Discriminability is the mean of estimated probabilities. Select the option and pipeline with maximum discriminability. 
-	\newline {\bf Convergence of $\hat{D}$.} Distribution of difference between discriminability estimates and truth is shown in the bottom left panel. The physical property and noise are generated from standard Gaussian distribution as described in the simulation section. The black dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability.
-	\newline {\bf Discriminability Test Power.} One sample and two sample test power of discriminability with varying sample size is shown in the bottom right panel. The physical property and additive noise are generated from standard Gaussian distribution as described in the simulation section. At level of $0.05$, the power is estimated based on $100$ repeats. The power of two tests become close to $1$ with more than $100$ samples.}
+	\newline {\bf Convergence of $\hat{D}$.} Distribution of difference between discriminability estimates and truth is shown in the middle left panel. The physical property and noise are generated from standard Gaussian distribution as described in the simulation section. The black dots indicate the mean over $100$ repeats. As the number of subjects increases, the sample discriminability converges to the true population discriminability.
+	\newline {\bf Discriminability Test Power.} One sample and two sample test power of discriminability with varying sample size is shown in the middle right panel. The physical property and additive noise are generated from standard Gaussian distribution as described in the simulation section. At level of $0.05$, the power is estimated based on $100$ repeats. The power of two tests become close to $1$ with more than $100$ samples.
+	\newline {\bf Discriminability Bound Bayes Error.} Bayes error and theoretical bound based on Theorem \ref{thm1} are shown. Samples are generated from conditional Gaussian distribution with additive Gaussian noise.}
 	\label{fig:fc}
 \end{figure}
 
